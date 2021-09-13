@@ -7,12 +7,10 @@ from bs4 import BeautifulSoup
 from scapy.all import *
 import csv
 import html5lib
-import time
 import urllib.request
 import re
 import argparse
 import time
-import os
 
 
 
@@ -34,6 +32,9 @@ class Scraper():
         self._opener = AppURLopener()
     
     def getURL(self, contractAddress):
+        return "https://etherscan.io/txs?a=0x{}&f=5".format(contractAddress)
+        
+    def getURL2(self, contractAddress):
         return "https://etherscan.io/address/{}".format(contractAddress)
     
     def getAddress(self, fileName):
@@ -54,10 +55,10 @@ class Scraper():
             print("Scanning {}".format(r))
             for contract in f:
                 if contract not in contracts:
-                    contracts[self.getAddress(contract)] = 0
+                    contracts[self.getAddress(contract)] = {'author':0, 'time':0}
                     #contracts.append(os.path.join(r, contract))
         
-        with open('contractfiles.json', 'w') as outfile:
+        with open('authorinfo.json', 'w') as outfile:
             print("dumping json")
             json.dump(contracts, outfile, indent=4, sort_keys=True)
         
@@ -66,22 +67,28 @@ class Scraper():
         
         contractData = None
         
-        contractfilespath = rootFolder+"\\contractfiles.json"
-        contractfilespath2 = rootFolder+"\\contractfiles-2.json"
+        contractfilespath = rootFolder+"\\authorinfo.json"
         
         with open(contractfilespath) as data_file:
             contractData = json.load(data_file)
-            
-        for address, creator in contractData.items():
+        
+        contractIndex = 0
+        for address, data in contractData.items():
             try:
+                creator = data['author']
+                creationTime = data['time']
                 if not creator:
-                    print(address)
-                    c = self.getCreator(address)
-                    contractData[address]=c
+                    print("{} [{}/33k - {}%]".format(address, contractIndex, round(contractIndex/330, 2)))
+                    c, t = self.getCreationData(address)
+                    #print(c)
+                    #print(t)
+                    contractData[address]= {'author':c, 'time':t}
             except:
                 self.dumpCreatorData(contractfilespath, contractData)
                 return
                 
+            contractIndex+=1
+            
         self.dumpCreatorData(contractfilespath, contractData)
     
     def dumpCreatorData(self, contractfilespath, contractData):
@@ -89,23 +96,45 @@ class Scraper():
             print("dumping json")
             json.dump(contractData, outfile, indent=4, sort_keys=True)
 
-    def getCreator(self, address):
+    def getCreationData(self, address):
         time.sleep(0.8)
-        authorinfo = {}
-        outfilepath = rootFolder+"\\authorinfo.json"
         
         url = self.getURL(address)
         response = self._opener.open(url)
         
         pattern = "Contract\S*Creator:[\S\s]*0[xX][0-9a-fA-F]+"
         
-        body=str(response.read())
-        s = re.search(pattern, body)
-        #print(s)
-        rawCreator = re.search(self.hexPattern, s.group(0))
-        creator = rawCreator.group(0)
+        #body=str(response.read())
+        soup = BeautifulSoup(response.read(), 'html.parser')
         
-        return creator
+        if 'There are no matching entries' in soup.text:
+            url = self.getURL2(address)
+            response = self._opener.open(url)
+            soup = BeautifulSoup(response.read(), 'html.parser')
+            
+            x = soup.findAll('a', {'title' : 'Creator Address'})[0]
+            creator = x.attrs['href'].split('/')[2]
+            
+            #print(creator)
+            
+            return (creator, 0)
+        
+        tbody = soup.find_all('tbody')[0]
+        tds = tbody.find_all('td')
+        
+        ageTd = 0
+        i = 0
+        for td in tds:
+            if 'class' in td.attrs:
+                if td.attrs['class'][0] == 'showAge':
+                    ageTd = i
+            i+=1
+        
+        creationTime = tds[ageTd].find('span').attrs['title']
+        #print(creationTime)
+        creator = tds[ageTd+1].find('a').attrs['href'].split('/')[2]
+        #print(creator)
+        return (creator, creationTime)
 
 
 if __name__ == "__main__":
