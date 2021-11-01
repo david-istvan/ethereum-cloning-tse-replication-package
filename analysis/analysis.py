@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as plt
+from matplotlib import pyplot as plt
+import matplotlib.ticker as mtick
 from datetime import datetime
 
 observationNumber = 2
@@ -39,10 +40,10 @@ def observation2():
     
     plt.axvline(x=20, color='r')
     cumulativeClonePercentageAt20 = df2.iloc[(df2['cumulativeClusterPercentage']-20).abs().argsort()[:1]]['cumulativeClonePercentage'].values[0]
-    plt.axhline(y=cumulativeClonePercentageAt20, color='r')
     
-    plt.locator_params(axis="x", nbins=20)
-    plt.locator_params(axis="y", nbins=20)
+    print("Cumulative clone percentage at 20% cumulative cluster percentage: {}".format(cumulativeClonePercentageAt20))
+    
+    plt.axhline(y=cumulativeClonePercentageAt20, color='r')
     
     plt.show()
     
