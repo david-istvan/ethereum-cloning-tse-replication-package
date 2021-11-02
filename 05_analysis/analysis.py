@@ -5,7 +5,7 @@ import matplotlib.ticker as mtick
 from datetime import datetime
 import math
 
-observationNumber = 3
+observationNumber = 10
 
 data = pd.read_pickle("../04_staged_data/fulldata.p")
 
@@ -109,29 +109,14 @@ def observation9():
 def observation10():
     authorDf = pd.read_pickle("../04_staged_data/observation10data.p")
     
-        
-    
     #cluster = data[(data['type']=='type-3-2c') & (data['classid']=='7350')]
     #print(cluster.nclones.values[0] < 10)
-    print(authorDf.sort_values(by=['entropy'], ascending=False))
+    authorDf = authorDf.sort_values(by=['entropy'], ascending=False).reset_index(drop = True)
+    print(authorDf)
     print(authorDf['entropy'].sum())
     
-
-def getEntropy(cluster):
-    groupedCluster = cluster.groupby(['author']).size().reset_index(name="numContracts")    
-    n = groupedCluster['numContracts'].sum()
-    b = 2
-    
-    entropy = 0
-    
-    for index, row in groupedCluster.iterrows():
-        pxi = row.numContracts/n
-        subResult = row.numContracts * ((pxi*math.log(pxi, b)) /( math.log(n, b)))
-        entropy += subResult
-    
-    entropy = -1 * entropy
-    
-    return entropy
+    authorDf.plot()
+    plt.show()
     
 def observation11():
     pass    

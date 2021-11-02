@@ -75,10 +75,11 @@ def getEntropy(cluster):
     
     for index, row in groupedCluster.iterrows():
         pxi = row.numContracts/n
-        subResult = row.numContracts * ((pxi*math.log(pxi, b)) /( math.log(n, b)))
+        subResult = ((pxi*math.log(pxi, b)) /( math.log(n, b)))
         entropy += subResult
     
-    entropy = -1 * entropy
+    if entropy != 0:
+        entropy = -1 * entropy
     
     return entropy
         
