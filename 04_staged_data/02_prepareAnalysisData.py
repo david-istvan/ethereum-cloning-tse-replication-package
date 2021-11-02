@@ -49,7 +49,7 @@ def getNClones(contract, type):
 #### OBSERVATION 10 data ####
 
 def prepareObservation10():
-    authorDf = pd.DataFrame(columns = ['cluster', 'entropy'])
+    authorDf = pd.DataFrame(columns = ['cluster', 'entropy', 'size'])
 
     types = data['type'].unique()
     for type in types:
@@ -61,13 +61,13 @@ def prepareObservation10():
             if cluster.nclones.values[0] >= 10:
                 clusterid = str(type)+"--"+str(classid)
                 print("\t Calculating {}".format(clusterid))
-                entropy = getEntropy(cluster)
-                authorDf = authorDf.append({'cluster':clusterid, 'entropy':entropy}, ignore_index=True)
+                groupedCluster = cluster.groupby(['author']).size().reset_index(name="numContracts")    
+                entropy = getEntropy(groupedCluster)
+                authorDf = authorDf.append({'cluster':clusterid, 'entropy':entropy, 'size':groupedCluster['numContracts'].sum()}, ignore_index=True)
             
     authorDf.to_pickle('./observation10data.p')
 
-def getEntropy(cluster):
-    groupedCluster = cluster.groupby(['author']).size().reset_index(name="numContracts")    
+def getEntropy(groupedCluster):
     n = groupedCluster['numContracts'].sum()
     b = 2
     

@@ -5,7 +5,7 @@ import matplotlib.ticker as mtick
 from datetime import datetime
 import math
 
-observationNumber = 10
+observationNumber = 11
 
 data = pd.read_pickle("../04_staged_data/fulldata.p")
 
@@ -115,10 +115,30 @@ def observation10():
     print(authorDf)
     print(authorDf['entropy'].sum())
     
-    authorDf.plot()
+    authorDf['entropy'].plot()
     plt.show()
     
 def observation11():
-    pass    
+    authorDf = pd.read_pickle("../04_staged_data/observation10data.p")
+    
+    #cluster = data[(data['type']=='type-3-2c') & (data['classid']=='7350')]
+    #print(cluster.nclones.values[0] < 10)
+    authorDf = authorDf.sort_values(by=['entropy'], ascending=False).reset_index(drop = True)
+    print(authorDf)
+    
+    fig = plt.figure()
+    ax = plt.gca()
+    #ax.scatter(authorDf['size'], authorDf['entropy'], alpha=0.5)
+    hb = ax.hexbin(x = authorDf['size'], y = authorDf['entropy'], cmap ='Greys', ec="#555555", mincnt=1, gridsize=50) 
+    cb = fig.colorbar(hb, ax=ax)
+    cb.set_label('counts')
+    #ax.set_xscale('log')
+    
+    plt.axvline(x=authorDf['size'].median(), color='r')
+    plt.axhline(y=authorDf['entropy'].median(), color='r')
+    
+    
+    
+    plt.show()
 
 locals()["observation{}".format(observationNumber)]()
