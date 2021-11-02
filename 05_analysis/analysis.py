@@ -32,8 +32,6 @@ def observation2():
     
     print(df2)
     
-    #df2[['cumulativeClusterPercentage', 'cumulativeClonePercentage']].plot()
-    
     plt.figure()
     x = df2['cumulativeClusterPercentage']
     y = df2['cumulativeClonePercentage']
@@ -57,13 +55,9 @@ def getDate(tstring):
 def observation3():
     allcontracts = pd.read_pickle("../04_staged_data/observation3data.p")
     
-    print(allcontracts)
-    
     quarterlyClones = allcontracts.groupby(['quarter'])[['quarter', 't1', 't2', 't2c', 't3', 't32', 't32c']].sum().reset_index()
     
     print(quarterlyClones)
-    
-    #quarterlyClones.plot.bar(x='quarter', y='nclones', rot=0)
     
     labels = quarterlyClones['quarter']
     x = np.arange(len(labels))
@@ -77,7 +71,6 @@ def observation3():
     rects5 = ax.bar(x + 1.5*width, quarterlyClones['t32'], width, label='t32')
     rects6 = ax.bar(x + 2.5*width, quarterlyClones['t32c'], width, label='t32c')
 
-    # Add some text for labels, title and custom x-axis tick labels, etc.
     ax.set_ylabel('Number of new clones')
     ax.set_title('Quarter')
     ax.set_xticks(x)
@@ -116,7 +109,7 @@ def observation9():
 def observation10():
     authorDf = pd.read_pickle("../04_staged_data/observation10data.p")
     
-    
+        
     
     #cluster = data[(data['type']=='type-3-2c') & (data['classid']=='7350')]
     #print(cluster.nclones.values[0] < 10)
