@@ -3,8 +3,9 @@ import numpy as np
 from matplotlib import pyplot as plt
 import matplotlib.ticker as mtick
 from datetime import datetime
+import math
 
-observationNumber = 2
+observationNumber = 3
 
 data = pd.read_pickle("../fulldata/fulldata.p")
 
@@ -46,9 +47,53 @@ def observation2():
     plt.axhline(y=cumulativeClonePercentageAt20, color='r')
     
     plt.show()
+
+def getDate(tstring):
+    if(tstring!=0):
+        return datetime.strptime(tstring, '%Y-%m-%d %H:%M:%S')
+    return tstring
+        
     
 def observation3():
-    pass
+    allcontracts = pd.read_pickle("../data/observation3data-detailed.p")
+    
+    print(allcontracts)
+    
+    quarterlyClones = allcontracts.groupby(['quarter'])[['quarter', 't1', 't2', 't2c', 't3', 't32', 't32c']].sum().reset_index()
+    
+    print(quarterlyClones)
+    
+    #quarterlyClones.plot.bar(x='quarter', y='nclones', rot=0)
+    
+    labels = quarterlyClones['quarter']
+    x = np.arange(len(labels))
+    width = 0.1
+    
+    fig, ax = plt.subplots()
+    rects1 = ax.bar(x - 2.5*width, quarterlyClones['t1'], width, label='t1')
+    rects2 = ax.bar(x - 1.5*width, quarterlyClones['t2'], width, label='t2')
+    rects3 = ax.bar(x - 0.5*width, quarterlyClones['t2c'], width, label='t2c')
+    rects4 = ax.bar(x + 0.5*width, quarterlyClones['t3'], width, label='t3')
+    rects5 = ax.bar(x + 1.5*width, quarterlyClones['t32'], width, label='t32')
+    rects6 = ax.bar(x + 2.5*width, quarterlyClones['t32c'], width, label='t32c')
+
+    # Add some text for labels, title and custom x-axis tick labels, etc.
+    ax.set_ylabel('Number of new clones')
+    ax.set_title('Quarter')
+    ax.set_xticks(x)
+    ax.set_xticklabels(labels)
+    ax.legend()
+
+    ax.bar_label(rects1, padding=1)
+    ax.bar_label(rects2, padding=1)
+    ax.bar_label(rects3, padding=1)
+    ax.bar_label(rects4, padding=1)
+    ax.bar_label(rects5, padding=1)
+    ax.bar_label(rects6, padding=1)
+
+    fig.tight_layout()
+    
+    plt.show()
     
 def observation4():
     pass
@@ -69,9 +114,31 @@ def observation9():
     pass
     
 def observation10():
-    authorGroups = data.groupby(['author']).size().reset_index(name='counts').sort_values(by='counts', ascending=False)
-    print(len(authorGroups))
-    print(sum(authorGroups.counts))
+    authorDf = pd.read_pickle("../data/observation10data.p")
+    
+    
+    
+    #cluster = data[(data['type']=='type-3-2c') & (data['classid']=='7350')]
+    #print(cluster.nclones.values[0] < 10)
+    print(authorDf.sort_values(by=['entropy'], ascending=False))
+    print(authorDf['entropy'].sum())
+    
+
+def getEntropy(cluster):
+    groupedCluster = cluster.groupby(['author']).size().reset_index(name="numContracts")    
+    n = groupedCluster['numContracts'].sum()
+    b = 2
+    
+    entropy = 0
+    
+    for index, row in groupedCluster.iterrows():
+        pxi = row.numContracts/n
+        subResult = row.numContracts * ((pxi*math.log(pxi, b)) /( math.log(n, b)))
+        entropy += subResult
+    
+    entropy = -1 * entropy
+    
+    return entropy
     
 def observation11():
     pass    
