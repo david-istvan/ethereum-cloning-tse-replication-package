@@ -1,0 +1,236 @@
+<clones>
+<systeminfo processor="nicad6" system="source-code" granularity="functions-blind" threshold="0%" minlines="10" maxlines="2500" />
+<cloneinfo npcs="670211" npairs="18953494" />
+<runinfo ncompares="520493319" cputime="82656013" />
+<classinfo nclasses="9352" />
+
+<class classid="335" nclones="142" nlines="30" similarity="100">
+<source file="systems/source-code/1f/1f54a3b7b8c6b611dc5317b1d665c7a96c9943dc.sol" startline="549" endline="619" pcid="269047" />
+</class>
+
+<class classid="389" nclones="332" nlines="10" similarity="100">
+<source file="systems/source-code/23/235dcf36b309ea22d00903c28534e0e34a42e90b.sol" startline="820" endline="835" pcid="607347" />
+</class>
+
+<class classid="507" nclones="2" nlines="25" similarity="100">
+<source file="systems/source-code/95/95be22039da3114d17a38b9e7cd9b3576de83924.sol" startline="577" endline="614" pcid="6143" />
+<source file="systems/source-code/95/95be22039da3114d17a38b9e7cd9b3576de83924.sol" startline="617" endline="654" pcid="6144" />
+</class>
+
+<class classid="508" nclones="2" nlines="14" similarity="100">
+<source file="systems/source-code/95/95be22039da3114d17a38b9e7cd9b3576de83924.sol" startline="657" endline="678" pcid="6145" />
+<source file="systems/source-code/95/95be22039da3114d17a38b9e7cd9b3576de83924.sol" startline="681" endline="702" pcid="6146" />
+</class>
+
+<class classid="891" nclones="17" nlines="12" similarity="100">
+<source file="systems/source-code/aa/aa4898654357e503fbf9d761e7fc0b85ff3073e9.sol" startline="59" endline="71" pcid="481217" />
+</class>
+
+<class classid="977" nclones="49" nlines="10" similarity="100">
+<source file="systems/source-code/3d/3d97211e1387ec7a3ce27bac8b5d414869d96ab9.sol" startline="294" endline="307" pcid="61795" />
+</class>
+
+<class classid="1251" nclones="3" nlines="13" similarity="100">
+<source file="systems/source-code/31/311136948eb1e19205430b9546c9f47497144cb5.sol" startline="260" endline="274" pcid="366091" />
+</class>
+
+<class classid="1283" nclones="6" nlines="10" similarity="100">
+<source file="systems/source-code/68/683e3dfb9354f1a2e491ad23c57304b647f8d693.sol" startline="167" endline="180" pcid="23348" />
+</class>
+
+<class classid="1488" nclones="5" nlines="18" similarity="100">
+<source file="systems/source-code/dd/dda9bcd985b1169607546b52910a0269dff5baf1.sol" startline="471" endline="499" pcid="466023" />
+</class>
+
+<class classid="1491" nclones="3" nlines="32" similarity="100">
+<source file="systems/source-code/dd/dda9bcd985b1169607546b52910a0269dff5baf1.sol" startline="517" endline="555" pcid="466025" />
+</class>
+
+<class classid="1537" nclones="2" nlines="34" similarity="100">
+<source file="systems/source-code/3b/3bc5bd64fff1b1a4054732abf23d8b100d991031.sol" startline="242" endline="272" pcid="28569" />
+<source file="systems/source-code/80/80227caa0bb499cfe1b6cc24c5ce32fc50ea0fcb.sol" startline="242" endline="272" pcid="276547" />
+</class>
+
+<class classid="1672" nclones="3" nlines="11" similarity="100">
+<source file="systems/source-code/a9/a935a7d31c680344426bd5d3dc94fb65d1da3c31.sol" startline="776" endline="787" pcid="473733" />
+</class>
+
+<class classid="1750" nclones="2" nlines="12" similarity="100">
+<source file="systems/source-code/03/03e0f73a93993e5101362656af1162ed80fb54f2.sol" startline="1186" endline="1241" pcid="33804" />
+<source file="systems/source-code/ad/ad111a1d34045df921259ff91f8096eec1afd7a9.sol" startline="1089" endline="1145" pcid="122349" />
+</class>
+
+<class classid="2474" nclones="3" nlines="12" similarity="100">
+<source file="systems/source-code/4b/4b24f0c8230c06e0d7caf722ace3f22ba5b80c33.sol" startline="281" endline="312" pcid="246044" />
+</class>
+
+<class classid="2961" nclones="5" nlines="10" similarity="100">
+<source file="systems/source-code/b8/b8468310a919cef5f588d7d503ef417068b2f7b6.sol" startline="100" endline="112" pcid="459005" />
+</class>
+
+<class classid="3049" nclones="3" nlines="20" similarity="100">
+<source file="systems/source-code/0b/0ba0d4399c80fa14a25f91b1584ba59823b12c2a.sol" startline="73" endline="98" pcid="70470" />
+</class>
+
+<class classid="3072" nclones="2" nlines="24" similarity="100">
+<source file="systems/source-code/0b/0bc95951bb59d6fd063ce7ad5c3b3dcaace98132.sol" startline="252" endline="287" pcid="71312" />
+<source file="systems/source-code/72/720e794b39f31f0c2746f688c655c7a637f04db4.sol" startline="223" endline="258" pcid="320854" />
+</class>
+
+<class classid="3074" nclones="4" nlines="25" similarity="100">
+<source file="systems/source-code/0b/0bb622a8c564bdc98e8f40f23e5077cd4a8699ea.sol" startline="197" endline="237" pcid="71412" />
+</class>
+
+<class classid="3790" nclones="7" nlines="14" similarity="100">
+<source file="systems/source-code/24/24c902e7a920ca8176848a7c70ad04988a5c25cb.sol" startline="263" endline="274" pcid="602244" />
+</class>
+
+<class classid="4435" nclones="4" nlines="14" similarity="100">
+<source file="systems/source-code/10/103aad34f449e77210cd56f74fb853b599df332c.sol" startline="124" endline="140" pcid="298857" />
+</class>
+
+<class classid="4649" nclones="2" nlines="19" similarity="100">
+<source file="systems/source-code/d0/d02675f786cfd9e665d6d4c725e5ada529493063.sol" startline="353" endline="371" pcid="131347" />
+<source file="systems/source-code/d0/d02675f786cfd9e665d6d4c725e5ada529493063.sol" startline="377" endline="395" pcid="131349" />
+</class>
+
+<class classid="4906" nclones="2" nlines="11" similarity="100">
+<source file="systems/source-code/da/da4ecdd0792a71be43d52b4972bf99181abad4ae.sol" startline="531" endline="551" pcid="142561" />
+<source file="systems/source-code/e0/e0f3544280f784e82c7bacb1a7b50d4aaea55ad9.sol" startline="490" endline="510" pcid="566228" />
+</class>
+
+<class classid="5028" nclones="2" nlines="10" similarity="100">
+<source file="systems/source-code/a5/a51ff79a04954819e625831c6ff61293dcc54c4c.sol" startline="1179" endline="1196" pcid="150095" />
+<source file="systems/source-code/a5/a51ff79a04954819e625831c6ff61293dcc54c4c.sol" startline="1208" endline="1225" pcid="150096" />
+</class>
+
+<class classid="5081" nclones="3" nlines="12" similarity="100">
+<source file="systems/source-code/ca/ca53e73938b5a3c484331b50d9f67aa7c878ac76.sol" startline="752" endline="772" pcid="213065" />
+</class>
+
+<class classid="5232" nclones="4" nlines="10" similarity="100">
+<source file="systems/source-code/d6/d6b4f27f4d0227e8a8dc96ff29d47a7aa88a47d7.sol" startline="388" endline="405" pcid="158200" />
+</class>
+
+<class classid="5264" nclones="3" nlines="10" similarity="100">
+<source file="systems/source-code/21/21a0f01b9b3b7f8dafc62dceaca5c6c31d42d633.sol" startline="440" endline="461" pcid="310014" />
+</class>
+
+<class classid="5370" nclones="4" nlines="16" similarity="100">
+<source file="systems/source-code/38/38e2cfa5627b2fef3d0556638b13ea6bf6a5e34d.sol" startline="235" endline="252" pcid="344888" />
+</class>
+
+<class classid="5371" nclones="4" nlines="11" similarity="100">
+<source file="systems/source-code/38/38e2cfa5627b2fef3d0556638b13ea6bf6a5e34d.sol" startline="254" endline="267" pcid="344889" />
+</class>
+
+<class classid="5409" nclones="9" nlines="15" similarity="100">
+<source file="systems/source-code/24/24a7de87b3bd7298bbf8966fdf170c558d69ecc4.sol" startline="334" endline="348" pcid="603134" />
+</class>
+
+<class classid="5633" nclones="3" nlines="15" similarity="100">
+<source file="systems/source-code/f4/f4dfe5e127df0986b2ba2cc15e173eaec507713a.sol" startline="396" endline="411" pcid="178803" />
+</class>
+
+<class classid="6010" nclones="2" nlines="25" similarity="100">
+<source file="systems/source-code/f2/f28a521cc13f6698ddcf9b197608052632fc3ea3.sol" startline="155" endline="184" pcid="203480" />
+<source file="systems/source-code/83/839c52cb18b02f2af31ad50070d6a9ea71afdf79.sol" startline="155" endline="184" pcid="581383" />
+</class>
+
+<class classid="6011" nclones="2" nlines="10" similarity="100">
+<source file="systems/source-code/f2/f28a521cc13f6698ddcf9b197608052632fc3ea3.sol" startline="186" endline="198" pcid="203481" />
+<source file="systems/source-code/83/839c52cb18b02f2af31ad50070d6a9ea71afdf79.sol" startline="186" endline="198" pcid="581384" />
+</class>
+
+<class classid="6239" nclones="4" nlines="15" similarity="100">
+<source file="systems/source-code/e4/e4ff39460ba2662f5c9b0264b17f5985ec79cd06.sol" startline="77" endline="96" pcid="217215" />
+</class>
+
+<class classid="6376" nclones="4" nlines="20" similarity="100">
+<source file="systems/source-code/8b/8bf1e43e3ca6f5c25c380803154ae687d682ad32.sol" startline="271" endline="301" pcid="652422" />
+</class>
+
+<class classid="6377" nclones="4" nlines="18" similarity="100">
+<source file="systems/source-code/8b/8bf1e43e3ca6f5c25c380803154ae687d682ad32.sol" startline="305" endline="333" pcid="652423" />
+</class>
+
+<class classid="6573" nclones="3" nlines="13" similarity="100">
+<source file="systems/source-code/20/20d4ec1b92cc4570c74efd968d04660b8fcc0406.sol" startline="109" endline="123" pcid="237609" />
+</class>
+
+<class classid="6823" nclones="3" nlines="20" similarity="100">
+<source file="systems/source-code/7c/7c32db0645a259fae61353c1f891151a2e7f8c1e.sol" startline="330" endline="349" pcid="256826" />
+</class>
+
+<class classid="6950" nclones="3" nlines="18" similarity="100">
+<source file="systems/source-code/1f/1f37e131d1127de0e112fc96d5fa53ebe6f82177.sol" startline="97" endline="115" pcid="268617" />
+</class>
+
+<class classid="7146" nclones="3" nlines="12" similarity="100">
+<source file="systems/source-code/1d/1d968ef5f8b3d53fbe2980590e94c8901a8421a1.sol" startline="231" endline="242" pcid="623723" />
+</class>
+
+<class classid="7332" nclones="3" nlines="19" similarity="100">
+<source file="systems/source-code/c4/c43eae20ae38d1e11bab5b57178777096908dbd6.sol" startline="638" endline="664" pcid="511177" />
+</class>
+
+<class classid="7369" nclones="2" nlines="10" similarity="100">
+<source file="systems/source-code/19/19cf8481ea15427a98ba3cdd6d9e14690011ab10.sol" startline="203" endline="214" pcid="302721" />
+<source file="systems/source-code/19/19cf8481ea15427a98ba3cdd6d9e14690011ab10.sol" startline="215" endline="226" pcid="302722" />
+</class>
+
+<class classid="7424" nclones="2" nlines="17" similarity="100">
+<source file="systems/source-code/26/26fa4ab937bf885d06cfb3eabb89eeef9af1978a.sol" startline="216" endline="232" pcid="306022" />
+<source file="systems/source-code/43/43fcf330c317a07c0edc4eff3681f92af6283325.sol" startline="217" endline="233" pcid="331096" />
+</class>
+
+<class classid="7556" nclones="2" nlines="29" similarity="100">
+<source file="systems/source-code/75/752c4e4e90846c5673c3791b9809f71b7d4a638a.sol" startline="2012" endline="2065" pcid="314957" />
+<source file="systems/source-code/b8/b8bf73550f251562d308882e032225a700a7b9bc.sol" startline="2012" endline="2065" pcid="459316" />
+</class>
+
+<class classid="7894" nclones="2" nlines="21" similarity="100">
+<source file="systems/source-code/6e/6e94097454e55a5e90c71d41efcf36378d053dca.sol" startline="63" endline="86" pcid="350682" />
+<source file="systems/source-code/6e/6e94097454e55a5e90c71d41efcf36378d053dca.sol" startline="102" endline="125" pcid="350684" />
+</class>
+
+<class classid="7989" nclones="3" nlines="10" similarity="100">
+<source file="systems/source-code/40/4092678e4e78230f46a1534c0fbc8fa39780892b.sol" startline="191" endline="201" pcid="639419" />
+</class>
+
+<class classid="8011" nclones="2" nlines="22" similarity="100">
+<source file="systems/source-code/5d/5d818363b3f083d0262d5a213725636110e89f5d.sol" startline="201" endline="247" pcid="364073" />
+<source file="systems/source-code/ce/ce1055db80ab8e5d218bc4be427ce35a80622dcd.sol" startline="185" endline="231" pcid="564070" />
+</class>
+
+<class classid="8615" nclones="2" nlines="11" similarity="100">
+<source file="systems/source-code/0f/0f690a76ad438222ce694d84b2902b0ee2270e69.sol" startline="113" endline="131" pcid="433684" />
+<source file="systems/source-code/f9/f937b0e645f789aac4c75749fb291c9bc37a92b2.sol" startline="146" endline="164" pcid="527706" />
+</class>
+
+<class classid="8814" nclones="2" nlines="10" similarity="100">
+<source file="systems/source-code/b1/b117e420c331cdca76121a7c2d521d9c44931e10.sol" startline="1408" endline="1417" pcid="461952" />
+<source file="systems/source-code/b1/b117e420c331cdca76121a7c2d521d9c44931e10.sol" startline="1419" endline="1428" pcid="461953" />
+</class>
+
+<class classid="8821" nclones="2" nlines="17" similarity="100">
+<source file="systems/source-code/dd/dd9b54d1dd185f9302e24dd3ae9e652453f74705.sol" startline="156" endline="192" pcid="463716" />
+<source file="systems/source-code/cc/ccaf7b08a3af4a5ccb7226c7bcdde917764e2d13.sol" startline="156" endline="192" pcid="523275" />
+</class>
+
+<class classid="8835" nclones="2" nlines="11" similarity="100">
+<source file="systems/source-code/dc/dcb04b55b15121bc84a57edbd2ed328137b7534c.sol" startline="518" endline="528" pcid="467347" />
+<source file="systems/source-code/dc/dcb04b55b15121bc84a57edbd2ed328137b7534c.sol" startline="533" endline="543" pcid="467348" />
+</class>
+
+<class classid="8928" nclones="2" nlines="27" similarity="100">
+<source file="systems/source-code/db/db5e04dc9c94bc8310e8885c85a4d0666ccaecae.sol" startline="295" endline="323" pcid="487240" />
+<source file="systems/source-code/e6/e6101e8f83a0ab40fa228d6f4136a80d734055b3.sol" startline="303" endline="331" pcid="525003" />
+</class>
+
+<class classid="8939" nclones="2" nlines="15" similarity="100">
+<source file="systems/source-code/db/dbbd9e60fb406521c3c7da7172e46dedf8d238cb.sol" startline="483" endline="498" pcid="488995" />
+<source file="systems/source-code/78/781878427cf56c8ab7745ca02910a801503c6ecc.sol" startline="468" endline="483" pcid="650065" />
+</class>
+
+</clones>
