@@ -6,11 +6,12 @@ from datetime import datetime
 import time
 import math
 
-
+allObservations = [3, 10]
 observationsToPrepareDataFor = [10]
 
 data = pd.read_pickle("./fulldata.p")
 
+#### OBSERVATION 3 data ####
 
 def prepareObservation3():
     start_time = time.time()
@@ -44,6 +45,8 @@ def getNClones(contract, type):
     except KeyError:
         return 0
         
+
+#### OBSERVATION 10 data ####
 
 def prepareObservation10():
     authorDf = pd.DataFrame(columns = ['cluster', 'entropy'])
