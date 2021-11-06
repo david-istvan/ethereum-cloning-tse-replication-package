@@ -4,8 +4,10 @@ from matplotlib import pyplot as plt
 import matplotlib.ticker as mtick
 from datetime import datetime
 import math
+import seaborn as sns
 
-observationNumber = 11
+
+observationNumber = 2
 
 data = pd.read_pickle("../04_staged_data/fulldata.p")
 
@@ -42,6 +44,7 @@ def observation2():
     
     print("Cumulative clone percentage at 20% cumulative cluster percentage: {}".format(cumulativeClonePercentageAt20))
     
+
     plt.axhline(y=cumulativeClonePercentageAt20, color='r')
     
     plt.show()
@@ -56,37 +59,47 @@ def observation3():
     allcontracts = pd.read_pickle("../04_staged_data/observation3data.p")
     
     quarterlyClones = allcontracts.groupby(['quarter'])[['quarter', 't1', 't2', 't2c', 't3', 't32', 't32c']].sum().reset_index()
-    
-    print(quarterlyClones)
+
+    quarterlyClones['t1plus'] = quarterlyClones.apply(lambda row: row.t2+row.t2c+row.t3+row.t32+row.t32c, axis=1)
+    quarterlyClones['all'] = quarterlyClones.apply(lambda row: row.t1+row.t1plus, axis=1)
     
     labels = quarterlyClones['quarter']
     x = np.arange(len(labels))
-    width = 0.1
+    width = 0.4
     
-    fig, ax = plt.subplots()
-    rects1 = ax.bar(x - 2.5*width, quarterlyClones['t1'], width, label='t1')
-    rects2 = ax.bar(x - 1.5*width, quarterlyClones['t2'], width, label='t2')
-    rects3 = ax.bar(x - 0.5*width, quarterlyClones['t2c'], width, label='t2c')
-    rects4 = ax.bar(x + 0.5*width, quarterlyClones['t3'], width, label='t3')
-    rects5 = ax.bar(x + 1.5*width, quarterlyClones['t32'], width, label='t32')
-    rects6 = ax.bar(x + 2.5*width, quarterlyClones['t32c'], width, label='t32c')
+    fig, axs = plt.subplots(2)
+    
+    axs[0] = quarterlyClones[['all']].plot(kind='bar', ax=axs[0], width=width, rot=0)
+    axs[0].set_ylabel('Number of new clones')
+    axs[0].set_ylim([0, 30000])
+    axs[0].bar_label(axs[0].containers[0])
+    
+    colors = ['#911eb4', '#ffe119', '#e6194B', '#469990', '#42d4f4']
+    quarterlyT1plusClones100 = quarterlyClones[['t2', 't2c', 't3', 't32', 't32c', 'all']].apply(lambda x: round(x*100/x['all'], 0), axis=1)
+    quarterlyT1plusClones100 = quarterlyT1plusClones100[['t2', 't2c', 't3', 't32', 't32c']]
+    axs[1] = quarterlyT1plusClones100.plot(kind='bar', stacked = True, ax=axs[1], width=width, rot=0, color=colors)
+    axs[1].set_ylabel('Number of new non-type-1 clones')
+    axs[1].set_xlabel('Quarter')
+    axs[1].legend(('type-2b', 'type-2c', 'type-3', 'type-3b', 'type-3c'), loc='upper left')
+    
+    container = axs[1].containers[2]
+    labels = [int(v.get_height()) if v.get_height() > 0 else '' for v in container]
+    axs[1].bar_label(container, labels=labels, label_type='center', color='white')
 
-    ax.set_ylabel('Number of new clones')
-    ax.set_title('Quarter')
-    ax.set_xticks(x)
-    ax.set_xticklabels(labels)
-    ax.legend()
+    for ax in axs:
+        ax.set_xticks(x)
+        ax.set_xticklabels(labels)
+        ax.grid(axis='y')
+        ax.legend(loc='upper left')
 
-    ax.bar_label(rects1, padding=1)
-    ax.bar_label(rects2, padding=1)
-    ax.bar_label(rects3, padding=1)
-    ax.bar_label(rects4, padding=1)
-    ax.bar_label(rects5, padding=1)
-    ax.bar_label(rects6, padding=1)
-
-    fig.tight_layout()
+    figure = plt.gcf()
+    figure.set_size_inches(8, 6)
+    
+    plt.savefig('./figures/observation3.pdf')
     
     plt.show()
+    
+    
     
 def observation4():
     pass
@@ -128,16 +141,17 @@ def observation11():
     
     fig = plt.figure()
     ax = plt.gca()
-    #ax.scatter(authorDf['size'], authorDf['entropy'], alpha=0.5)
-    hb = ax.hexbin(x = authorDf['size'], y = authorDf['entropy'], cmap ='Greys', ec="#555555", mincnt=1, gridsize=50) 
-    cb = fig.colorbar(hb, ax=ax)
-    cb.set_label('counts')
-    #ax.set_xscale('log')
+    ax.scatter(authorDf['size'], authorDf['entropy'], alpha=0.2)
+    #hb = ax.hexbin(x = authorDf['size'], y = authorDf['entropy'], cmap ='Greys', ec="#555555", mincnt=1, gridsize=50) 
+    #cb = fig.colorbar(hb, ax=ax)
+    #cb.set_label('counts')
+    ax.set_xscale('log')
     
     plt.axvline(x=authorDf['size'].median(), color='r')
     plt.axhline(y=authorDf['entropy'].median(), color='r')
     
-    
+    x = authorDf['size']
+    y = authorDf['entropy']
     
     plt.show()
 
