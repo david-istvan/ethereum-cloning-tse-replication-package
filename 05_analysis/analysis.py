@@ -143,11 +143,7 @@ def observation9():
 def observation10():
     authorDf = pd.read_pickle("../04_staged_data/observation10data.p")
     
-    #cluster = data[(data['type']=='type-3-2c') & (data['classid']=='7350')]
-    #print(cluster.nclones.values[0] < 10)
     authorDf = authorDf.sort_values(by=['entropy'], ascending=False).reset_index(drop = True)
-    #print(authorDf)
-    #print(authorDf['entropy'].sum())
     
     nbins = int(round(len(authorDf['entropy'])/10,0))
     avg = authorDf['entropy'].mean()
@@ -173,23 +169,16 @@ def observation10():
 def observation11():
     authorDf = pd.read_pickle("../04_staged_data/observation10data.p")
     
-    #cluster = data[(data['type']=='type-3-2c') & (data['classid']=='7350')]
-    #print(cluster.nclones.values[0] < 10)
     authorDf = authorDf.sort_values(by=['entropy'], ascending=False).reset_index(drop = True)
     print(authorDf)
     
     fig = plt.figure()
     ax = plt.gca()
     ax.scatter(authorDf['size'], authorDf['entropy'], alpha=0.2)
-    #hb = ax.hexbin(x = authorDf['size'], y = authorDf['entropy'], cmap ='Greys', ec="#555555", mincnt=1, gridsize=50) 
-    #cb = fig.colorbar(hb, ax=ax)
-    #cb.set_label('counts')
     ax.set_xscale('log')
     
     plt.axvline(x=authorDf['size'].median(), color='r')
     plt.axhline(y=authorDf['entropy'].median(), color='r')
-    #plt.xticks(list(plt.xticks()[0]) + authorDf['size'].median())
-    #plt.gca().get_xticklabels()[3].set_color('red')
     plt.yticks(list([0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, round(authorDf['entropy'].median(),2), 0.8, 0.9, 1.0]))
     plt.gca().get_yticklabels()[7].set_color('red')
     ax.text(15.75, -0.1, str(int(authorDf['size'].median())), color='red')
