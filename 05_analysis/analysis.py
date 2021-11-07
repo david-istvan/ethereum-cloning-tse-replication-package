@@ -6,7 +6,7 @@ from datetime import datetime
 import math
 import seaborn as sns
 
-mode = 'all'
+mode = 1 #'all'
 
 data = pd.read_pickle("../04_staged_data/fulldata.p")
 
@@ -15,7 +15,11 @@ def showplt(plt):
         plt.show()
 
 def observation1():
-    pass
+    df1 = pd.read_pickle("../04_staged_data/observation1data.p")
+    
+    print(df1['sumlines'].sum())
+    
+    #TODO: Faizan - total number of lines in the corpus
 
 def observation2():
     df2 = data.drop_duplicates(['type', 'classid'])[['type', 'classid', 'nclones']].sort_values(by='nclones', ascending=False)
@@ -57,8 +61,13 @@ def observation2():
     
     plt.axvline(x=2.07, color='r')
     plt.axhline(y=50, color='r')
+    plt.gca().get_xticklabels()[1].set_color('r')
+    plt.gca().get_yticklabels()[5].set_color('r')
+    
     plt.axvline(x=20, color='r')
     plt.axhline(y=cumulativeClonePercentageAt20, color='r')
+    plt.gca().get_xticklabels()[3].set_color('red')
+    plt.gca().get_yticklabels()[10].set_color('red')
     
     
     plt.grid(axis='both')
@@ -68,13 +77,7 @@ def observation2():
     
     plt.savefig('./figures/observation2.pdf')
     
-    showplt(plt)
-
-def getDate(tstring):
-    if(tstring!=0):
-        return datetime.strptime(tstring, '%Y-%m-%d %H:%M:%S')
-    return tstring
-        
+    showplt(plt)        
     
 def observation3():
     allcontracts = pd.read_pickle("../04_staged_data/observation3data.p")
@@ -94,12 +97,13 @@ def observation3():
     axs[0].set_ylabel('Number of new clones')
     axs[0].set_ylim([0, 30000])
     axs[0].bar_label(axs[0].containers[0])
+    axs[0].legend(loc='upper left')
     
     colors = ['#911eb4', '#ffe119', '#e6194B', '#469990', '#42d4f4']
     quarterlyT1plusClones100 = quarterlyClones[['t2', 't2c', 't3', 't32', 't32c', 'all']].apply(lambda x: round(x*100/x['all'], 0), axis=1)
     quarterlyT1plusClones100 = quarterlyT1plusClones100[['t2', 't2c', 't3', 't32', 't32c']]
     axs[1] = quarterlyT1plusClones100.plot(kind='bar', stacked = True, ax=axs[1], width=width, rot=0, color=colors)
-    axs[1].set_ylabel('Number of new non-type-1 clones')
+    axs[1].set_ylabel('% of new non-type-1 clones')
     axs[1].set_xlabel('Quarter')
     axs[1].legend(('type-2b', 'type-2c', 'type-3', 'type-3b', 'type-3c'), loc='upper left')
     
@@ -111,7 +115,6 @@ def observation3():
         ax.set_xticks(x)
         ax.set_xticklabels(labels)
         ax.grid(axis='y')
-        ax.legend(loc='upper left')
 
     figure = plt.gcf()
     figure.set_size_inches(8, 6)
@@ -144,13 +147,23 @@ def observation10():
     #cluster = data[(data['type']=='type-3-2c') & (data['classid']=='7350')]
     #print(cluster.nclones.values[0] < 10)
     authorDf = authorDf.sort_values(by=['entropy'], ascending=False).reset_index(drop = True)
-    print(authorDf)
-    print(authorDf['entropy'].sum())
+    #print(authorDf)
+    #print(authorDf['entropy'].sum())
     
-    authorDf['entropy'].plot()
-    plt.xlabel('Cluster')
-    plt.ylabel('Entropy')
+    nbins = int(round(len(authorDf['entropy'])/10,0))
+    avg = authorDf['entropy'].mean()
     
+    plt.hist(authorDf['entropy'], bins=nbins)
+    plt.xlabel('Entropy')
+    plt.ylabel('Number of clusters')
+    
+    plt.axvline(x=authorDf['entropy'].mean(), color='r')
+    plt.axhline(y=authorDf['size'].median(), color='r')
+    plt.xticks(list([0.0, 0.1, 0.2, 0.3, 0.4, 0.5, round(authorDf['entropy'].mean(), 2), 0.7, 0.8, 0.9, 1.0]))
+    plt.gca().get_xticklabels()[6].set_color('red')
+    plt.yticks(list([0, 10, authorDf['size'].median(), 20, 30, 40, 50, 60, 70, 80]))
+    plt.gca().get_yticklabels()[2].set_color('red')
+
     figure = plt.gcf()
     figure.set_size_inches(8, 6)
     
@@ -176,6 +189,12 @@ def observation11():
     
     plt.axvline(x=authorDf['size'].median(), color='r')
     plt.axhline(y=authorDf['entropy'].median(), color='r')
+    #plt.xticks(list(plt.xticks()[0]) + authorDf['size'].median())
+    #plt.gca().get_xticklabels()[3].set_color('red')
+    plt.yticks(list([0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, round(authorDf['entropy'].median(),2), 0.8, 0.9, 1.0]))
+    plt.gca().get_yticklabels()[7].set_color('red')
+    ax.text(15.75, -0.1, str(int(authorDf['size'].median())), color='red')
+    
     
     plt.xlabel('Cluster size')
     plt.ylabel('Entropy')

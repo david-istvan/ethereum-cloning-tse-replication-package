@@ -6,12 +6,19 @@ from datetime import datetime
 import time
 import math
 
-allObservations = [3, 10]
-observationsToPrepareDataFor = [10]
+allObservations = [1, 3, 10]
+observationsToPrepareDataFor = [1]
 
 data = pd.read_pickle("./fulldata.p")
 
 #### OBSERVATION 3 data ####
+
+def prepareObservation1():
+    df = data.drop_duplicates(['type', 'classid'])[['type', 'classid', 'nclones', 'nlines']].sort_values(by='nclones', ascending=False)
+    df = df.reset_index(drop=True)
+    df['sumlines'] = df.apply(lambda row: row.nclones*row.nlines, axis=1)
+    
+    df.to_pickle('./observation1data.p')
 
 def prepareObservation3():
     start_time = time.time()
