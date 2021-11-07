@@ -6,10 +6,13 @@ from datetime import datetime
 import math
 import seaborn as sns
 
-
-observationNumber = 2
+mode = 'all'
 
 data = pd.read_pickle("../04_staged_data/fulldata.p")
+
+def showplt(plt):
+    if isinstance(mode, int):
+        plt.show()
 
 def observation1():
     pass
@@ -38,16 +41,34 @@ def observation2():
     x = df2['cumulativeClusterPercentage']
     y = df2['cumulativeClonePercentage']
     plt.plot(x,y)
+    plt.xlabel('Cumulative percentage of clusters')
+    plt.ylabel('Cumulative percentage of clones')
     
-    plt.axvline(x=20, color='r')
+    cumulativeClonePercentageAt2 = df2.iloc[(df2['cumulativeClusterPercentage']-2.07).abs().argsort()[:1]]['cumulativeClonePercentage'].values[0]
     cumulativeClonePercentageAt20 = df2.iloc[(df2['cumulativeClusterPercentage']-20).abs().argsort()[:1]]['cumulativeClonePercentage'].values[0]
-    
+ 
+    print("Cumulative clone percentage at 2.07% cumulative cluster percentage: {}".format(cumulativeClonePercentageAt2))
     print("Cumulative clone percentage at 20% cumulative cluster percentage: {}".format(cumulativeClonePercentageAt20))
     
-
+    plt.yticks(list([0, 10, 20, 30, 40, 50, 60, 80, 90, 100]) + [cumulativeClonePercentageAt20])
+    plt.ylim([-5, 105])
+    plt.xticks(list([0, 2.07, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]))
+    plt.xlim([-5, 105])
+    
+    plt.axvline(x=2.07, color='r')
+    plt.axhline(y=50, color='r')
+    plt.axvline(x=20, color='r')
     plt.axhline(y=cumulativeClonePercentageAt20, color='r')
     
-    plt.show()
+    
+    plt.grid(axis='both')
+    
+    figure = plt.gcf()
+    figure.set_size_inches(8, 6)
+    
+    plt.savefig('./figures/observation2.pdf')
+    
+    showplt(plt)
 
 def getDate(tstring):
     if(tstring!=0):
@@ -97,9 +118,7 @@ def observation3():
     
     plt.savefig('./figures/observation3.pdf')
     
-    plt.show()
-    
-    
+    showplt(plt)
     
 def observation4():
     pass
@@ -129,7 +148,15 @@ def observation10():
     print(authorDf['entropy'].sum())
     
     authorDf['entropy'].plot()
-    plt.show()
+    plt.xlabel('Cluster')
+    plt.ylabel('Entropy')
+    
+    figure = plt.gcf()
+    figure.set_size_inches(8, 6)
+    
+    plt.savefig('./figures/observation10.pdf')
+    
+    showplt(plt)
     
 def observation11():
     authorDf = pd.read_pickle("../04_staged_data/observation10data.p")
@@ -150,9 +177,20 @@ def observation11():
     plt.axvline(x=authorDf['size'].median(), color='r')
     plt.axhline(y=authorDf['entropy'].median(), color='r')
     
-    x = authorDf['size']
-    y = authorDf['entropy']
+    plt.xlabel('Cluster size')
+    plt.ylabel('Entropy')
     
-    plt.show()
+    figure = plt.gcf()
+    figure.set_size_inches(8, 6)
+    
+    plt.savefig('./figures/observation11.pdf')
+    
+    showplt(plt)
 
-locals()["observation{}".format(observationNumber)]()
+
+if mode == 'all':
+    for o in range(1, 12, 1):
+        locals()["observation{}".format(o)]()
+        plt.clf()
+else:
+    locals()["observation{}".format(mode)]()
