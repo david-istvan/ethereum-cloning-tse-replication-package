@@ -9,6 +9,7 @@ import seaborn as sns
 mode = 1 #'all'
 
 data = pd.read_pickle("../04_staged_data/fulldata.p")
+corpusLOC = 4004543
 
 def showplt(plt):
     if isinstance(mode, int):
@@ -17,9 +18,7 @@ def showplt(plt):
 def observation1():
     df1 = pd.read_pickle("../04_staged_data/observation1data.p")
     
-    print(df1['sumlines'].sum())
-    
-    #TODO: Faizan - total number of lines in the corpus
+    print(round(df1['sumlines'].sum()/corpusLOC, 4))
 
 def observation2():
     df2 = data.drop_duplicates(['type', 'classid'])[['type', 'classid', 'nclones']].sort_values(by='nclones', ascending=False)
