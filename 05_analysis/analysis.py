@@ -6,7 +6,7 @@ from datetime import datetime
 import math
 import seaborn as sns
 
-mode = 1 #'all'
+mode = 3 #'all'
 
 data = pd.read_pickle("../04_staged_data/fulldata.p")
 corpusLOC = 4004543
@@ -18,7 +18,53 @@ def showplt(plt):
 def observation1():
     df1 = pd.read_pickle("../04_staged_data/observation1data.p")
     
-    print(round(df1['sumlines'].sum()/corpusLOC, 4))
+    dfg = df1.groupby(['type'])['sumlines'].sum().reset_index(name ='sumlines')
+    dfgPerc = dfg.apply(lambda row: round((row.sumlines/corpusLOC)*100, 2), axis=1)
+
+    print(round(dfg['sumlines'].sum()/corpusLOC, 4))
+        
+    colors = ['#911eb4', '#ffe119', '#e6194B', '#469990', '#42d4f4']
+    
+    print(dfgPerc)
+    
+    ax = dfgPerc.plot.barh(x='type', rot=0)
+    #ax.set_yscale('log')
+    
+    plt.xlabel('Clone type')
+    plt.ylabel('Number of clusters')
+    """
+    plt.axvline(x=authorDf['entropy'].mean(), color='r')
+    plt.axhline(y=authorDf['size'].median(), color='r')
+    plt.xticks(list([0.0, 0.1, 0.2, 0.3, 0.4, 0.5, round(authorDf['entropy'].mean(), 2), 0.7, 0.8, 0.9, 1.0]))
+    plt.gca().get_xticklabels()[6].set_color('red')
+    plt.yticks(list([0, 10, authorDf['size'].median(), 20, 30, 40, 50, 60, 70, 80]))
+    plt.gca().get_yticklabels()[2].set_color('red')
+
+    figure = plt.gcf()
+    figure.set_size_inches(8, 6)
+    
+    plt.savefig('./figures/observation10.pdf')
+    
+    axs[1] = quarterlyT1plusClones100.plot(kind='bar', stacked = True, ax=axs[1], width=width, rot=0, color=colors)
+    axs[1].set_ylabel('% of new non-type-1 clones')
+    axs[1].set_xlabel('Quarter')
+    axs[1].legend(('type-2b', 'type-2c', 'type-3', 'type-3b', 'type-3c'), loc='upper left')
+    
+    container = axs[1].containers[2]
+    labels = [int(v.get_height()) if v.get_height() > 0 else '' for v in container]
+    axs[1].bar_label(container, labels=labels, label_type='center', color='white')
+
+    for ax in axs:
+        ax.set_xticks(x)
+        ax.set_xticklabels(labels)
+        ax.grid(axis='y')
+
+    figure = plt.gcf()
+    figure.set_size_inches(8, 6)
+    
+    plt.savefig('./figures/observation3.pdf')
+    """
+    showplt(plt)
 
 def observation2():
     df2 = data.drop_duplicates(['type', 'classid'])[['type', 'classid', 'nclones']].sort_values(by='nclones', ascending=False)
@@ -86,8 +132,8 @@ def observation3():
     quarterlyClones['t1plus'] = quarterlyClones.apply(lambda row: row.t2+row.t2c+row.t3+row.t32+row.t32c, axis=1)
     quarterlyClones['all'] = quarterlyClones.apply(lambda row: row.t1+row.t1plus, axis=1)
     
-    labels = quarterlyClones['quarter']
-    x = np.arange(len(labels))
+    qlabels = quarterlyClones['quarter']
+    x = np.arange(len(qlabels))
     width = 0.4
     
     fig, axs = plt.subplots(2)
@@ -97,6 +143,7 @@ def observation3():
     axs[0].set_ylim([0, 30000])
     axs[0].bar_label(axs[0].containers[0])
     axs[0].legend(loc='upper left')
+    
     
     colors = ['#911eb4', '#ffe119', '#e6194B', '#469990', '#42d4f4']
     quarterlyT1plusClones100 = quarterlyClones[['t2', 't2c', 't3', 't32', 't32c', 'all']].apply(lambda x: round(x*100/x['all'], 0), axis=1)
@@ -111,14 +158,15 @@ def observation3():
     axs[1].bar_label(container, labels=labels, label_type='center', color='white')
 
     for ax in axs:
-        ax.set_xticks(x)
-        ax.set_xticklabels(labels)
+        ax.set_xticklabels(qlabels)
         ax.grid(axis='y')
 
     figure = plt.gcf()
     figure.set_size_inches(8, 6)
     
     plt.savefig('./figures/observation3.pdf')
+    
+    print(quarterlyClones)
     
     showplt(plt)
     
