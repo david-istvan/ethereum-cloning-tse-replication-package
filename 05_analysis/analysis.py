@@ -6,7 +6,7 @@ from datetime import datetime
 import math
 import seaborn as sns
 
-mode = 3 #'all'
+mode = 1 #'all'
 
 data = pd.read_pickle("../04_staged_data/fulldata.p")
 corpusLOC = 4004543
@@ -16,54 +16,44 @@ def showplt(plt):
         plt.show()
 
 def observation1():
+    
     df1 = pd.read_pickle("../04_staged_data/observation1data.p")
     
     dfg = df1.groupby(['type'])['sumlines'].sum().reset_index(name ='sumlines')
-    dfgPerc = dfg.apply(lambda row: round((row.sumlines/corpusLOC)*100, 2), axis=1)
+    totalCloneNumber = dfg['sumlines'].sum()
+    totalClonePercentage = round((totalCloneNumber*100)/corpusLOC, 2)
+    print('Ratio of clones in the corpus: {}%.'.format(totalClonePercentage))
+    
+    groups = ['clone-free', 'type-1', 'type-3', 'other']
+    values = [ corpusLOC-totalCloneNumber, dfg[dfg['type']=='type-1']['sumlines'].values[0], dfg.loc[dfg['type']=='type-3']['sumlines'].values[0], dfg.loc[~dfg.type.isin(groups)].cumsum().agg({'sumlines': sum}).values[0]]
+    percValues = [round((x/corpusLOC)*100, 2) for x in values]
+    
+    colors = ['#1f77b4', '#fcba03', '#e6194B', '#03fcad'] #'#911eb4', '#ffe119',  '#469990', '#42d4f4'
 
-    print(round(dfg['sumlines'].sum()/corpusLOC, 4))
-        
-    colors = ['#911eb4', '#ffe119', '#e6194B', '#469990', '#42d4f4']
     
-    print(dfgPerc)
-    
-    ax = dfgPerc.plot.barh(x='type', rot=0)
-    #ax.set_yscale('log')
-    
-    plt.xlabel('Clone type')
-    plt.ylabel('Number of clusters')
-    """
-    plt.axvline(x=authorDf['entropy'].mean(), color='r')
-    plt.axhline(y=authorDf['size'].median(), color='r')
-    plt.xticks(list([0.0, 0.1, 0.2, 0.3, 0.4, 0.5, round(authorDf['entropy'].mean(), 2), 0.7, 0.8, 0.9, 1.0]))
-    plt.gca().get_xticklabels()[6].set_color('red')
-    plt.yticks(list([0, 10, authorDf['size'].median(), 20, 30, 40, 50, 60, 70, 80]))
-    plt.gca().get_yticklabels()[2].set_color('red')
+    fig, ax = plt.subplots(figsize=(6, 3), subplot_kw=dict(aspect="equal"))
 
+    wedges, texts = ax.pie(values, wedgeprops=dict(width=0.48), startangle=-40, colors=colors)
+
+    bbox_props = dict(boxstyle="square,pad=0.3", fc="w", ec="k", lw=0.72)
+    kw = dict(arrowprops=dict(arrowstyle="-"), bbox=bbox_props, zorder=0, va="center")
+    
+    for i, p in enumerate(wedges):
+        ang = (p.theta2 - p.theta1)/2. + p.theta1
+        y = np.sin(np.deg2rad(ang))
+        x = np.cos(np.deg2rad(ang))
+        horizontalalignment = {-1: "right", 1: "left"}[int(np.sign(x))]
+        connectionstyle = "angle,angleA=0,angleB={}".format(ang)
+        kw["arrowprops"].update({"connectionstyle": connectionstyle})
+        #ax.annotate("{} ({}%)".format(groups[i], round(((values[i]/corpusLOC)*100), 2)), xy=(x, y), xytext=(1*np.sign(x), 1.4*y), horizontalalignment=horizontalalignment, **kw)
+
+    ax.legend(["{} ({}%)".format(groups[i], round(((values[i]/corpusLOC)*100), 2)) for i in range(0,4)], loc='center', frameon=False)
+    
     figure = plt.gcf()
     figure.set_size_inches(8, 6)
     
-    plt.savefig('./figures/observation10.pdf')
-    
-    axs[1] = quarterlyT1plusClones100.plot(kind='bar', stacked = True, ax=axs[1], width=width, rot=0, color=colors)
-    axs[1].set_ylabel('% of new non-type-1 clones')
-    axs[1].set_xlabel('Quarter')
-    axs[1].legend(('type-2b', 'type-2c', 'type-3', 'type-3b', 'type-3c'), loc='upper left')
-    
-    container = axs[1].containers[2]
-    labels = [int(v.get_height()) if v.get_height() > 0 else '' for v in container]
-    axs[1].bar_label(container, labels=labels, label_type='center', color='white')
+    plt.savefig('./figures/observation1.pdf')
 
-    for ax in axs:
-        ax.set_xticks(x)
-        ax.set_xticklabels(labels)
-        ax.grid(axis='y')
-
-    figure = plt.gcf()
-    figure.set_size_inches(8, 6)
-    
-    plt.savefig('./figures/observation3.pdf')
-    """
     showplt(plt)
 
 def observation2():
