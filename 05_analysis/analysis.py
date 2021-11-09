@@ -6,7 +6,7 @@ from datetime import datetime
 import math
 import seaborn as sns
 
-mode = 1 #'all'
+mode = 5 #'all'
 
 data = pd.read_pickle("../04_staged_data/fulldata.p")
 corpusLOC = 4004543
@@ -24,13 +24,11 @@ def observation1():
     totalClonePercentage = round((totalCloneNumber*100)/corpusLOC, 2)
     print('Ratio of clones in the corpus: {}%.'.format(totalClonePercentage))
     
-    groups = ['clone-free', 'type-1', 'type-3', 'other']
-    values = [ corpusLOC-totalCloneNumber, dfg[dfg['type']=='type-1']['sumlines'].values[0], dfg.loc[dfg['type']=='type-3']['sumlines'].values[0], dfg.loc[~dfg.type.isin(groups)].cumsum().agg({'sumlines': sum}).values[0]]
-    percValues = [round((x/corpusLOC)*100, 2) for x in values]
+    groups = ['clone-free', 'cloned']
+    values = [corpusLOC-totalCloneNumber, totalCloneNumber]
     
-    colors = ['#1f77b4', '#fcba03', '#e6194B', '#03fcad'] #'#911eb4', '#ffe119',  '#469990', '#42d4f4'
+    colors = ['#1f77b4', '#ff0000'] #'#911eb4', '#ffe119',  '#469990', '#42d4f4'
 
-    
     fig, ax = plt.subplots(figsize=(6, 3), subplot_kw=dict(aspect="equal"))
 
     wedges, texts = ax.pie(values, wedgeprops=dict(width=0.48), startangle=-40, colors=colors)
@@ -47,7 +45,7 @@ def observation1():
         kw["arrowprops"].update({"connectionstyle": connectionstyle})
         #ax.annotate("{} ({}%)".format(groups[i], round(((values[i]/corpusLOC)*100), 2)), xy=(x, y), xytext=(1*np.sign(x), 1.4*y), horizontalalignment=horizontalalignment, **kw)
 
-    ax.legend(["{} ({}%)".format(groups[i], round(((values[i]/corpusLOC)*100), 2)) for i in range(0,4)], loc='center', frameon=False)
+    ax.legend(["{} ({}%)".format(groups[i], round(((values[i]/corpusLOC)*100), 2)) for i in range(0,2)], loc='center', frameon=False)
     
     figure = plt.gcf()
     figure.set_size_inches(8, 6)
@@ -161,10 +159,47 @@ def observation3():
     showplt(plt)
     
 def observation4():
-    pass
+    df1 = pd.read_pickle("../04_staged_data/observation1data.p")
+    
+    dfg = df1.groupby(['type'])['sumlines'].sum().reset_index(name ='sumlines')
+    totalCloneNumber = dfg['sumlines'].sum()
+    totalClonePercentage = round((totalCloneNumber*100)/corpusLOC, 2)
+    
+    groups = ['clone-free', 'type-1', 'type-3', 'other']
+    values = [corpusLOC-totalCloneNumber, dfg[dfg['type']=='type-1']['sumlines'].values[0], dfg.loc[dfg['type']=='type-3']['sumlines'].values[0], dfg.loc[~dfg.type.isin(groups)].sum().values[1]]
+    percValues = [round((x/corpusLOC)*100, 2) for x in values]
+    
+    colors = ['#1f77b4', '#fcba03', '#e6194B', '#03fcad'] #'#911eb4', '#ffe119',  '#469990', '#42d4f4'
+    
+    fig, ax = plt.subplots(figsize=(6, 3), subplot_kw=dict(aspect="equal"))
+
+    wedges, texts = ax.pie(values, wedgeprops=dict(width=0.48), startangle=-40, colors=colors)
+
+    bbox_props = dict(boxstyle="square,pad=0.3", fc="w", ec="k", lw=0.72)
+    kw = dict(arrowprops=dict(arrowstyle="-"), bbox=bbox_props, zorder=0, va="center")
+    
+    for i, p in enumerate(wedges):
+        ang = (p.theta2 - p.theta1)/2. + p.theta1
+        y = np.sin(np.deg2rad(ang))
+        x = np.cos(np.deg2rad(ang))
+        horizontalalignment = {-1: "right", 1: "left"}[int(np.sign(x))]
+        connectionstyle = "angle,angleA=0,angleB={}".format(ang)
+        kw["arrowprops"].update({"connectionstyle": connectionstyle})
+        #ax.annotate("{} ({}%)".format(groups[i], round(((values[i]/corpusLOC)*100), 2)), xy=(x, y), xytext=(1*np.sign(x), 1.4*y), horizontalalignment=horizontalalignment, **kw)
+
+    ax.legend(["{} ({}%)".format(groups[i], round(((values[i]/corpusLOC)*100), 2)) for i in range(0,4)], loc='center', frameon=False)
+    
+    figure = plt.gcf()
+    figure.set_size_inches(8, 6)
+    
+    plt.savefig('./figures/observation4.pdf')
+
+    showplt(plt)
+    
+    #TODO: code file length comparison
     
 def observation5():
-    pass
+    observation4()
     
 def observation6():
     pass
@@ -231,7 +266,15 @@ def observation11():
     plt.savefig('./figures/observation11.pdf')
     
     showplt(plt)
+    
+def observation12():
+    pass
 
+def observation13():
+    pass
+
+def observation14():
+    pass
 
 if mode == 'all':
     for o in range(1, 12, 1):
