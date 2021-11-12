@@ -7,11 +7,11 @@ import time
 import math
 
 allObservations = [1, 3, 10]
-observationsToPrepareDataFor = [1]
+observationsToPrepareDataFor = [14]
 
 data = pd.read_pickle("./fulldata.p")
 
-#### OBSERVATION 3 data ####
+#### OBSERVATION 1 and 4 data ####
 
 def prepareObservation1():
     df = data.drop_duplicates(['type', 'classid'])[['type', 'classid', 'nclones', 'nlines']].sort_values(by='nclones', ascending=False)
@@ -20,6 +20,8 @@ def prepareObservation1():
     
     df.to_pickle('./observation1data.p')
 
+#### OBSERVATION 3 data ####
+    
 def prepareObservation3():
     start_time = time.time()
     allcontracts = pd.read_json('../02_authordata/authorinfo.json').transpose()
@@ -53,7 +55,7 @@ def getNClones(contract, type):
         return 0
         
 
-#### OBSERVATION 10 data ####
+#### OBSERVATION 10 and 11 data ####
 
 def prepareObservation10():
     authorDf = pd.DataFrame(columns = ['cluster', 'entropy', 'size'])
@@ -89,6 +91,20 @@ def getEntropy(groupedCluster):
         entropy = -1 * entropy
     
     return entropy
-        
+
+#### OBSERVATION 14 data ####
+def prepareObservation14():
+    t1 = pd.read_csv('../00_rq3/result_csv/type-1.csv')
+    t2b = pd.read_csv('../00_rq3/result_csv/type-2b.csv')
+    t2c = pd.read_csv('../00_rq3/result_csv/type-2c.csv')
+    
+    pd.set_option('display.width', None)
+    pd.set_option('display.max_colwidth',1000)
+    
+    dx = pd.concat([t1, t2b, t2c])
+    dx = dx[dx['filename_y'].notnull()]['filename_y'].reset_index().apply(lambda row: row.filename_y.replace('"','').split('/')[-1], axis=1)
+
+    dx.to_pickle('./observation14data.p')
+    
 for o in observationsToPrepareDataFor:
     locals()["prepareObservation{}".format(o)]()

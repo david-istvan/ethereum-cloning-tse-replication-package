@@ -6,7 +6,7 @@ from datetime import datetime
 import math
 import seaborn as sns
 
-mode = 5 #'all'
+mode = 14 #'all'
 
 data = pd.read_pickle("../04_staged_data/fulldata.p")
 corpusLOC = 4004543
@@ -16,7 +16,6 @@ def showplt(plt):
         plt.show()
 
 def observation1():
-    
     df1 = pd.read_pickle("../04_staged_data/observation1data.p")
     
     dfg = df1.groupby(['type'])['sumlines'].sum().reset_index(name ='sumlines')
@@ -268,13 +267,61 @@ def observation11():
     showplt(plt)
     
 def observation12():
-    pass
-
+    t1 = pd.read_csv('../00_rq3/result_csv/type-1.csv')
+    t2b = pd.read_csv('../00_rq3/result_csv/type-2b.csv')
+    t2c = pd.read_csv('../00_rq3/result_csv/type-2c.csv')
+    
+    dx = pd.concat([t1, t2b, t2c])
+    print(dx)
+    filteredDx = (dx[dx['filename_y'].notnull()].drop_duplicates(subset=['filename_x']))
+    
+    print('Total len: {}.'.format(len(dx)))
+    print('Filtered len: {}.'.format(len(filteredDx)))
+    
+    
+    print('{}%'.format(round((len(filteredDx)/len(dx))*100, 2)))
+    
 def observation13():
-    pass
+    t1 = pd.read_csv('../00_rq3/result_csv/type-1.csv')
+    t2b = pd.read_csv('../00_rq3/result_csv/type-2b.csv')
+    t2c = pd.read_csv('../00_rq3/result_csv/type-2c.csv')
+    
+    dx = pd.concat([t1, t2b, t2c])
+    print(dx)
+    filteredDx = (dx[dx['filename_y'].notnull()])
+    
+    print('Total len: {}.'.format(len(dx)))
+    print('Filtered len: {}.'.format(len(filteredDx)))
+    
+    
+    print('{}%'.format(round((len(filteredDx)/len(dx))*100, 2)))
 
 def observation14():
-    pass
+    dx = pd.read_pickle("../04_staged_data/observation14data.p")
+    
+    sum = dx.value_counts().sum()
+    distinct = len(dx.unique())
+    
+    counts = dx.value_counts().rename_axis('contract').reset_index(name='count')
+    
+    print(counts)
+    counts['cumsum'] = counts['count'].cumsum()
+    
+    #counts.apply(lambda row: round((row['count'/sum)*100,2)).head(10)
+    
+    counts['perc'] = round((counts['count']/sum)*100, 2)
+    counts['cumulativePerc'] = round((counts['cumsum']/sum)*100, 2)
+    
+    
+    print(counts)
+    
+    print('Cumulative 80%:')
+    print(counts.head(counts[counts.cumulativePerc > 80].index[0]))
+    
+    print(len(counts))
+    
+    print('First 20:')
+    print(counts.head(int(len(counts)*0.2)))
 
 if mode == 'all':
     for o in range(1, 12, 1):
