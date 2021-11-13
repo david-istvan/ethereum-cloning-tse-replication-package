@@ -6,23 +6,22 @@ from datetime import datetime
 import math
 import seaborn as sns
 
-mode = 14 #'all'
+mode = 'all'
 
-data = pd.read_pickle("../04_staged_data/fulldata.p")
 corpusLOC = 4004543
 
-def showplt(plt):
-    if isinstance(mode, int):
-        plt.show()
-
 def observation1():
-    df1 = pd.read_pickle("../04_staged_data/observation1data.p")
+    df1 = pd.read_pickle("../04_staged_data/data_rq1.p")
     
     dfg = df1.groupby(['type'])['sumlines'].sum().reset_index(name ='sumlines')
     totalCloneNumber = dfg['sumlines'].sum()
     totalClonePercentage = round((totalCloneNumber*100)/corpusLOC, 2)
-    print('Ratio of clones in the corpus: {}%.'.format(totalClonePercentage))
+    report = [
+        'Ratio of clones in the corpus: {}%.'.format(totalClonePercentage)
+    ]
+    printTextReport('01', report)
     
+    ### Chart ###
     groups = ['clone-free', 'cloned']
     values = [corpusLOC-totalCloneNumber, totalCloneNumber]
     
@@ -49,29 +48,33 @@ def observation1():
     figure = plt.gcf()
     figure.set_size_inches(8, 6)
     
-    plt.savefig('./figures/observation1.pdf')
+    plt.savefig('./figures/observation01.pdf')
 
     showplt(plt)
 
 def observation2():
+    data = pd.read_pickle("../04_staged_data/clonesWithAuthors.p")
     df2 = data.drop_duplicates(['type', 'classid'])[['type', 'classid', 'nclones']].sort_values(by='nclones', ascending=False)
-    
-    print(df2)
     
     df2 = df2.reset_index(drop=True)
     
-    print(df2)
-    
     sumClusters = len(df2)
-    sumClones = df2['nclones'].sum()
-    
-    print("Number of clusters: {}.".format(sumClusters))
-    print("Sum of clones: {}.".format(sumClones))
+    sumClones = df2['nclones'].sum()    
     
     df2['cumulativeClusterPercentage'] = df2.apply(lambda row: round(((row.name+1)/sumClusters)*100, 4), axis=1)
     df2['cumulativeClonePercentage'] = round((df2.nclones.cumsum()/sumClones)*100, 4)
+    cumulativeClonePercentageAt2 = df2.iloc[(df2['cumulativeClusterPercentage']-2.07).abs().argsort()[:1]]['cumulativeClonePercentage'].values[0]
+    cumulativeClonePercentageAt20 = df2.iloc[(df2['cumulativeClusterPercentage']-20).abs().argsort()[:1]]['cumulativeClonePercentage'].values[0]
+
+    report = [
+        "Number of clusters: {}.".format(sumClusters),
+        "Sum of clones: {}.".format(sumClones),
+        "Cumulative clone percentage at 2.07% cumulative cluster percentage: {}".format(cumulativeClonePercentageAt2),
+        "Cumulative clone percentage at 20% cumulative cluster percentage: {}".format(cumulativeClonePercentageAt20)
+    ]
+    printTextReport('02', report)
     
-    print(df2)
+    ### Chart ###
     
     plt.figure()
     x = df2['cumulativeClusterPercentage']
@@ -79,12 +82,6 @@ def observation2():
     plt.plot(x,y)
     plt.xlabel('Cumulative percentage of clusters')
     plt.ylabel('Cumulative percentage of clones')
-    
-    cumulativeClonePercentageAt2 = df2.iloc[(df2['cumulativeClusterPercentage']-2.07).abs().argsort()[:1]]['cumulativeClonePercentage'].values[0]
-    cumulativeClonePercentageAt20 = df2.iloc[(df2['cumulativeClusterPercentage']-20).abs().argsort()[:1]]['cumulativeClonePercentage'].values[0]
- 
-    print("Cumulative clone percentage at 2.07% cumulative cluster percentage: {}".format(cumulativeClonePercentageAt2))
-    print("Cumulative clone percentage at 20% cumulative cluster percentage: {}".format(cumulativeClonePercentageAt20))
     
     plt.yticks(list([0, 10, 20, 30, 40, 50, 60, 80, 90, 100]) + [cumulativeClonePercentageAt20])
     plt.ylim([-5, 105])
@@ -107,7 +104,7 @@ def observation2():
     figure = plt.gcf()
     figure.set_size_inches(8, 6)
     
-    plt.savefig('./figures/observation2.pdf')
+    plt.savefig('./figures/observation02.pdf')
     
     showplt(plt)        
     
@@ -115,10 +112,18 @@ def observation3():
     allcontracts = pd.read_pickle("../04_staged_data/observation3data.p")
     
     quarterlyClones = allcontracts.groupby(['quarter'])[['quarter', 't1', 't2', 't2c', 't3', 't32', 't32c']].sum().reset_index()
-
-    quarterlyClones['t1plus'] = quarterlyClones.apply(lambda row: row.t2+row.t2c+row.t3+row.t32+row.t32c, axis=1)
-    quarterlyClones['all'] = quarterlyClones.apply(lambda row: row.t1+row.t1plus, axis=1)
+    quarterlyClones = quarterlyClones.rename(columns={'t1':'type-1', 't2':'type-2b', 't2c':'type-2c', 't3':'type-3', 't32':'type-3b', 't32c':'type-3c'})
     
+    quarterlyClones['t1plus'] = quarterlyClones.apply(lambda row: row['type-2b']+row['type-2c']+row['type-3']+row['type-3b']+row['type-3c'], axis=1)
+    quarterlyClones['all'] = quarterlyClones.apply(lambda row: row['type-1']+row.t1plus, axis=1)
+    
+    report = [
+        ('Quarterly clones', quarterlyClones)
+    ]
+    printHtmlReport('03', report)
+    
+    ### Chart ###
+
     qlabels = quarterlyClones['quarter']
     x = np.arange(len(qlabels))
     width = 0.4
@@ -133,8 +138,8 @@ def observation3():
     
     
     colors = ['#911eb4', '#ffe119', '#e6194B', '#469990', '#42d4f4']
-    quarterlyT1plusClones100 = quarterlyClones[['t2', 't2c', 't3', 't32', 't32c', 'all']].apply(lambda x: round(x*100/x['all'], 0), axis=1)
-    quarterlyT1plusClones100 = quarterlyT1plusClones100[['t2', 't2c', 't3', 't32', 't32c']]
+    quarterlyT1plusClones100 = quarterlyClones[['type-2b', 'type-2c', 'type-3', 'type-3b', 'type-3c', 'all']].apply(lambda x: round(x*100/x['all'], 0), axis=1)
+    quarterlyT1plusClones100 = quarterlyT1plusClones100[['type-2b', 'type-2c', 'type-3', 'type-3b', 'type-3c']]
     axs[1] = quarterlyT1plusClones100.plot(kind='bar', stacked = True, ax=axs[1], width=width, rot=0, color=colors)
     axs[1].set_ylabel('% of new non-type-1 clones')
     axs[1].set_xlabel('Quarter')
@@ -151,18 +156,18 @@ def observation3():
     figure = plt.gcf()
     figure.set_size_inches(8, 6)
     
-    plt.savefig('./figures/observation3.pdf')
-    
-    print(quarterlyClones)
+    plt.savefig('./figures/observation03.pdf')
     
     showplt(plt)
     
 def observation4():
-    df1 = pd.read_pickle("../04_staged_data/observation1data.p")
+    df1 = pd.read_pickle("../04_staged_data/data_rq1.p")
     
     dfg = df1.groupby(['type'])['sumlines'].sum().reset_index(name ='sumlines')
     totalCloneNumber = dfg['sumlines'].sum()
     totalClonePercentage = round((totalCloneNumber*100)/corpusLOC, 2)
+    
+    ### Chart ###
     
     groups = ['clone-free', 'type-1', 'type-3', 'other']
     values = [corpusLOC-totalCloneNumber, dfg[dfg['type']=='type-1']['sumlines'].values[0], dfg.loc[dfg['type']=='type-3']['sumlines'].values[0], dfg.loc[~dfg.type.isin(groups)].sum().values[1]]
@@ -191,14 +196,15 @@ def observation4():
     figure = plt.gcf()
     figure.set_size_inches(8, 6)
     
-    plt.savefig('./figures/observation4.pdf')
+    plt.savefig('./figures/observation04.pdf')
 
     showplt(plt)
     
     #TODO: code file length comparison
     
 def observation5():
-    observation4()
+    pass
+    #Same as observation4()
     
 def observation6():
     pass
@@ -213,9 +219,11 @@ def observation9():
     pass
     
 def observation10():
-    authorDf = pd.read_pickle("../04_staged_data/observation10data.p")
+    authorDf = pd.read_pickle("../04_staged_data/data_rq2.p")
     
     authorDf = authorDf.sort_values(by=['entropy'], ascending=False).reset_index(drop = True)
+    
+    ### Chart ###
     
     nbins = int(round(len(authorDf['entropy'])/10,0))
     avg = authorDf['entropy'].mean()
@@ -239,10 +247,11 @@ def observation10():
     showplt(plt)
     
 def observation11():
-    authorDf = pd.read_pickle("../04_staged_data/observation10data.p")
+    authorDf = pd.read_pickle("../04_staged_data/data_rq2.p")
     
     authorDf = authorDf.sort_values(by=['entropy'], ascending=False).reset_index(drop = True)
-    print(authorDf)
+    
+    ### Chart ###
     
     fig = plt.figure()
     ax = plt.gca()
@@ -267,64 +276,82 @@ def observation11():
     showplt(plt)
     
 def observation12():
-    t1 = pd.read_csv('../00_rq3/result_csv/type-1.csv')
-    t2b = pd.read_csv('../00_rq3/result_csv/type-2b.csv')
-    t2c = pd.read_csv('../00_rq3/result_csv/type-2c.csv')
+    df = pd.read_pickle("../04_staged_data/data_rq3.p")
     
-    dx = pd.concat([t1, t2b, t2c])
-    print(dx)
-    filteredDx = (dx[dx['filename_y'].notnull()].drop_duplicates(subset=['filename_x']))
+    uniqueContractsWithIdenticalOZBlock = (df[df['filename_y'].notnull()].drop_duplicates(subset=['filename_x']))
     
-    print('Total len: {}.'.format(len(dx)))
-    print('Filtered len: {}.'.format(len(filteredDx)))
+    report = [
+        'Total number of contracts: {}.'.format(len(df)),
+        'Number of distinct contracts with an OpenZeppelin record associated: {}.'.format(len(uniqueContractsWithIdenticalOZBlock)),
+        'Percentage ratio: {}%'.format(round((len(uniqueContractsWithIdenticalOZBlock)/len(df))*100, 2))
+    ]
     
-    
-    print('{}%'.format(round((len(filteredDx)/len(dx))*100, 2)))
+    printTextReport(12, report)
     
 def observation13():
-    t1 = pd.read_csv('../00_rq3/result_csv/type-1.csv')
-    t2b = pd.read_csv('../00_rq3/result_csv/type-2b.csv')
-    t2c = pd.read_csv('../00_rq3/result_csv/type-2c.csv')
+    df = pd.read_pickle("../04_staged_data/data_rq3.p")
     
-    dx = pd.concat([t1, t2b, t2c])
-    print(dx)
-    filteredDx = (dx[dx['filename_y'].notnull()])
+    openZeppelinRecords = (df[df['filename_y'].notnull()])
     
-    print('Total len: {}.'.format(len(dx)))
-    print('Filtered len: {}.'.format(len(filteredDx)))
+    report = [
+        'Total number of contracts: {}.'.format(len(df)),
+        'Number of distinct OpenZeppelin records: {}.'.format(len(openZeppelinRecords)),
+        '{}%'.format(round((len(openZeppelinRecords)/len(df))*100, 2))
+    ]
     
-    
-    print('{}%'.format(round((len(filteredDx)/len(dx))*100, 2)))
+    printTextReport(13, report)
+
 
 def observation14():
-    dx = pd.read_pickle("../04_staged_data/observation14data.p")
+    df = pd.read_pickle("../04_staged_data/data_rq3.p")
     
-    sum = dx.value_counts().sum()
-    distinct = len(dx.unique())
+    ozFiles = df[df['filename_y'].notnull()]['filename_y'].reset_index().apply(lambda row: row.filename_y.replace('"','').split('/')[-1], axis=1)
     
-    counts = dx.value_counts().rename_axis('contract').reset_index(name='count')
+    totalOZFiles = ozFiles.value_counts().sum()
+    uniqueOZFileNames = len(ozFiles.unique())
     
-    print(counts)
-    counts['cumsum'] = counts['count'].cumsum()
+    ozCounts = ozFiles.value_counts().rename_axis('contract').reset_index(name='count')
     
-    #counts.apply(lambda row: round((row['count'/sum)*100,2)).head(10)
+    ozCounts['cumulativeSum'] = ozCounts['count'].cumsum()
+    ozCounts['perc'] = round((ozCounts['count']/totalOZFiles)*100, 2)
+    ozCounts['cumulativePerc'] = round((ozCounts['cumulativeSum']/totalOZFiles)*100, 2)
     
-    counts['perc'] = round((counts['count']/sum)*100, 2)
-    counts['cumulativePerc'] = round((counts['cumsum']/sum)*100, 2)
+    report = [
+        ('Head 10:', ozCounts.head(10)),
+        ('Cumulative 80%:', ozCounts.head(ozCounts[ozCounts.cumulativePerc > 80].index[0])),
+        ('First 20:', ozCounts.head(int(len(ozCounts)*0.2)))
+    ]
     
-    
-    print(counts)
-    
-    print('Cumulative 80%:')
-    print(counts.head(counts[counts.cumulativePerc > 80].index[0]))
-    
-    print(len(counts))
-    
-    print('First 20:')
-    print(counts.head(int(len(counts)*0.2)))
+    printHtmlReport(14, report)
 
+########################## HELPER METHODS ##########################
+def showplt(plt):
+    if isinstance(mode, int):
+        plt.show()
+        
+def printTextReport(observationNumber, reports):
+    f = open('./figures/observation{}.txt'.format(observationNumber), 'w')
+    for r in reports:
+        f.write(r+'\n')
+        if mode != 'all':
+            print(r)
+    f.close()
+    
+def printHtmlReport(observationNumber, reports):
+    f = open('./figures/observation{}.html'.format(observationNumber), 'w')
+    for title, df in reports:
+        f.write('<h2>{}</h2>'.format(title))
+        f.write(df.to_html())
+        if mode != 'all':
+            print(title)
+            print(df)
+            print('\n')
+    f.close()
+
+############################### MAIN ###############################
 if mode == 'all':
-    for o in range(1, 12, 1):
+    for o in range(1, 15, 1):
+        print('Analyzing observation {}.'.format(o))
         locals()["observation{}".format(o)]()
         plt.clf()
 else:

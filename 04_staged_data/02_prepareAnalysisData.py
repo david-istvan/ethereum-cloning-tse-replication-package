@@ -6,21 +6,16 @@ from datetime import datetime
 import time
 import math
 
-allObservations = [1, 3, 10]
-observationsToPrepareDataFor = [14]
+dataToPrepare = ['RQ1', 'RQ2', 'RQ3']
 
-data = pd.read_pickle("./fulldata.p")
+data = pd.read_pickle("./clonesWithAuthors.p")
 
-#### OBSERVATION 1 and 4 data ####
-
-def prepareObservation1():
+def prepareRQ1():
     df = data.drop_duplicates(['type', 'classid'])[['type', 'classid', 'nclones', 'nlines']].sort_values(by='nclones', ascending=False)
     df = df.reset_index(drop=True)
     df['sumlines'] = df.apply(lambda row: row.nclones*row.nlines, axis=1)
     
-    df.to_pickle('./observation1data.p')
-
-#### OBSERVATION 3 data ####
+    df.to_pickle('./data_rq1.p')
     
 def prepareObservation3():
     start_time = time.time()
@@ -55,9 +50,7 @@ def getNClones(contract, type):
         return 0
         
 
-#### OBSERVATION 10 and 11 data ####
-
-def prepareObservation10():
+def prepareRQ2():
     authorDf = pd.DataFrame(columns = ['cluster', 'entropy', 'size'])
 
     types = data['type'].unique()
@@ -74,7 +67,7 @@ def prepareObservation10():
                 entropy = getEntropy(groupedCluster)
                 authorDf = authorDf.append({'cluster':clusterid, 'entropy':entropy, 'size':groupedCluster['numContracts'].sum()}, ignore_index=True)
             
-    authorDf.to_pickle('./observation10data.p')
+    authorDf.to_pickle('./data_rq2.p')
 
 def getEntropy(groupedCluster):
     n = groupedCluster['numContracts'].sum()
@@ -92,19 +85,14 @@ def getEntropy(groupedCluster):
     
     return entropy
 
-#### OBSERVATION 14 data ####
-def prepareObservation14():
-    t1 = pd.read_csv('../00_rq3/result_csv/type-1.csv')
-    t2b = pd.read_csv('../00_rq3/result_csv/type-2b.csv')
-    t2c = pd.read_csv('../00_rq3/result_csv/type-2c.csv')
-    
-    pd.set_option('display.width', None)
-    pd.set_option('display.max_colwidth',1000)
-    
-    dx = pd.concat([t1, t2b, t2c])
-    dx = dx[dx['filename_y'].notnull()]['filename_y'].reset_index().apply(lambda row: row.filename_y.replace('"','').split('/')[-1], axis=1)
+def prepareRQ3():
+    t1 = pd.read_csv('../03_clones/rq3/type-1.csv')
+    t2b = pd.read_csv('../03_clones/rq3/type-2b.csv')
+    t2c = pd.read_csv('../03_clones/rq3/type-2c.csv')
 
-    dx.to_pickle('./observation14data.p')
+    df = pd.concat([t1, t2b, t2c])
+
+    df.to_pickle('./data_rq3.p')
     
-for o in observationsToPrepareDataFor:
-    locals()["prepareObservation{}".format(o)]()
+for d in dataToPrepare:
+    locals()["prepare{}".format(d)]()
