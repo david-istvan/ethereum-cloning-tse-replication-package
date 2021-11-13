@@ -5,9 +5,10 @@ import matplotlib.ticker as mtick
 from datetime import datetime
 import math
 import seaborn as sns
+import shutil
+import os
 
 mode = 'all'
-
 corpusLOC = 4004543
 
 def observation1():
@@ -48,8 +49,7 @@ def observation1():
     figure = plt.gcf()
     figure.set_size_inches(8, 6)
     
-    plt.savefig('./figures/observation01.pdf')
-
+    savefig('01')
     showplt(plt)
 
 def observation2():
@@ -104,8 +104,7 @@ def observation2():
     figure = plt.gcf()
     figure.set_size_inches(8, 6)
     
-    plt.savefig('./figures/observation02.pdf')
-    
+    savefig('02')
     showplt(plt)        
     
 def observation3():
@@ -156,8 +155,7 @@ def observation3():
     figure = plt.gcf()
     figure.set_size_inches(8, 6)
     
-    plt.savefig('./figures/observation03.pdf')
-    
+    savefig('03')
     showplt(plt)
     
 def observation4():
@@ -196,8 +194,7 @@ def observation4():
     figure = plt.gcf()
     figure.set_size_inches(8, 6)
     
-    plt.savefig('./figures/observation04.pdf')
-
+    savefig('04')
     showplt(plt)
     
     #TODO: code file length comparison
@@ -242,8 +239,7 @@ def observation10():
     figure = plt.gcf()
     figure.set_size_inches(8, 6)
     
-    plt.savefig('./figures/observation10.pdf')
-    
+    savefig('10')
     showplt(plt)
     
 def observation11():
@@ -271,8 +267,7 @@ def observation11():
     figure = plt.gcf()
     figure.set_size_inches(8, 6)
     
-    plt.savefig('./figures/observation11.pdf')
-    
+    savefig('11')
     showplt(plt)
     
 def observation12():
@@ -329,8 +324,11 @@ def showplt(plt):
     if isinstance(mode, int):
         plt.show()
         
+def savefig(observationNumber):
+    plt.savefig('./results/observation{}.pdf'.format(observationNumber))
+        
 def printTextReport(observationNumber, reports):
-    f = open('./figures/observation{}.txt'.format(observationNumber), 'w')
+    f = open('./results/observation{}.txt'.format(observationNumber), 'w')
     for r in reports:
         f.write(r+'\n')
         if mode != 'all':
@@ -338,7 +336,7 @@ def printTextReport(observationNumber, reports):
     f.close()
     
 def printHtmlReport(observationNumber, reports):
-    f = open('./figures/observation{}.html'.format(observationNumber), 'w')
+    f = open('./results/observation{}.html'.format(observationNumber), 'w')
     for title, df in reports:
         f.write('<h2>{}</h2>'.format(title))
         f.write(df.to_html())
@@ -349,6 +347,11 @@ def printHtmlReport(observationNumber, reports):
     f.close()
 
 ############################### MAIN ###############################
+resultsPath = 'results'
+if os.path.exists(resultsPath) and os.path.isdir(resultsPath):
+    shutil.rmtree(resultsPath)
+os.mkdir(resultsPath)
+    
 if mode == 'all':
     for o in range(1, 15, 1):
         print('Analyzing observation {}.'.format(o))
