@@ -20,7 +20,8 @@
 1. Clone this repository.
 2. Run `python 01_mergeFullData.py` in the `/04_staged_data` folder.
 3. Run `python 02_prepareAnalysisData.py` in the `/04_staged_data` folder.
-   1. List the observation IDs in `observationsToPrepareDataFor` to prepare the data for. Use `observationsToPrepareDataFor = allObservations` to generate data for all observations. (Might run for hours.)
+   1. List the observation IDs in `observationsToPrepareDataFor` to prepare the data for. Use `observationsToPrepareDataFor = allObservations` to generate data for all observations.
+   2. `prepareObservation3()` (producing `data_observation3.p`) is an especially time-consuming script and might run for up to an hour.
 
 ### Reproducing the clone analysis
 
