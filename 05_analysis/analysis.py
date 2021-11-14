@@ -268,38 +268,48 @@ def observation11():
     
 def observation12():
     t1 = pd.read_csv('../00_rq3/result_csv/type-1.csv')
-    t2b = pd.read_csv('../00_rq3/result_csv/type-2b.csv')
-    t2c = pd.read_csv('../00_rq3/result_csv/type-2c.csv')
+    # t2b = pd.read_csv('../00_rq3/result_csv/type-2b.csv')
+    # t2c = pd.read_csv('../00_rq3/result_csv/type-2c.csv')
     
-    dx = pd.concat([t1, t2b, t2c])
+    # dx = pd.concat([t1, t2b, t2c])
+    dx = t1
     print(dx)
-    filteredDx = (dx[dx['filename_y'].notnull()].drop_duplicates(subset=['filename_x']))
-    
-    print('Total len: {}.'.format(len(dx)))
+    # import pdb
+    # pdb.set_trace()
+    filteredDx = (dx[dx['startline_y'].notnull()].drop_duplicates(subset=['filename_x']))
+    unique_contracts = dx.drop_duplicates(subset=['filename_x'])
+
+    print('Total len: {}.'.format(len(unique_contracts)))
     print('Filtered len: {}.'.format(len(filteredDx)))
     
-    
-    print('{}%'.format(round((len(filteredDx)/len(dx))*100, 2)))
+    print('{}%'.format(round((len(filteredDx)/len(unique_contracts))*100, 2)))
     
 def observation13():
     t1 = pd.read_csv('../00_rq3/result_csv/type-1.csv')
-    t2b = pd.read_csv('../00_rq3/result_csv/type-2b.csv')
-    t2c = pd.read_csv('../00_rq3/result_csv/type-2c.csv')
+    # t2b = pd.read_csv('../00_rq3/result_csv/type-2b.csv')
+    # t2c = pd.read_csv('../00_rq3/result_csv/type-2c.csv')
     
-    dx = pd.concat([t1, t2b, t2c])
-    print(dx)
-    filteredDx = (dx[dx['filename_y'].notnull()])
+    # dx = pd.concat([t1, t2b, t2c])
+    dx = t1
+    filteredDx = (dx[dx['filename_y'].notnull()]).drop_duplicates(subset=['filename_x', 'startline_x', 'endline_x'])
     
-    print('Total len: {}.'.format(len(dx)))
+
+    t1 = pd.read_csv('../00_rq3/corpus_contracts.csv')
+    print('Total len: {}.'.format(len(t1)))
     print('Filtered len: {}.'.format(len(filteredDx)))
     
-    
-    print('{}%'.format(round((len(filteredDx)/len(dx))*100, 2)))
+    print('{}%'.format(round((len(filteredDx)/len(t1))*100, 2)))
 
 def observation14():
-    dx = pd.read_pickle("../04_staged_data/observation14data.p")
-    
+    # dx = pd.read_pickle("../04_staged_data/observation14data.p")
+    t1 = pd.read_csv('../00_rq3/result_csv/type-1.csv').filename_y.apply(lambda x:'/'.join(x.split('/')[4:]) if not pd.isna(x) else x)
+    dx = t1
+
+    sum = dx
+    # print(dx)
     sum = dx.value_counts().sum()
+
+    print(sum)
     distinct = len(dx.unique())
     
     counts = dx.value_counts().rename_axis('contract').reset_index(name='count')
@@ -307,7 +317,7 @@ def observation14():
     print(counts)
     counts['cumsum'] = counts['count'].cumsum()
     
-    #counts.apply(lambda row: round((row['count'/sum)*100,2)).head(10)
+    # #counts.apply(lambda row: round((row['count'/sum)*100,2)).head(10)
     
     counts['perc'] = round((counts['count']/sum)*100, 2)
     counts['cumulativePerc'] = round((counts['cumsum']/sum)*100, 2)
