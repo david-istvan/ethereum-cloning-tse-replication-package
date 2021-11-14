@@ -8,6 +8,7 @@
 * `/03_clones` - Results of the clone analysis by the [NiCad extension](https://github.com/eff-kay/nicad6) developed for this study.
 * `/04_staged_data` - Prepared and staged data for analysis.
 * `/05_analysis` - Analysis of data.
+* `/06_results` - Results.
 
 ### Reproduction of analysis results
 
