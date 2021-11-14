@@ -10,7 +10,7 @@
 * `/05_analysis` - Analysis of data.
 * `/06_results` - Results.
 
-### Reproduction of analysis results
+### Reproduction of the analysis results
 
 1. Clone this repository.
 2. Run `python analysis.py` the `/05_analysis` folder.
