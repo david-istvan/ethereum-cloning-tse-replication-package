@@ -109,7 +109,7 @@ def observation2():
     showplt(plt)        
     
 def observation3():
-    allcontracts = pd.read_pickle("../04_staged_data/observation3data.p")
+    allcontracts = pd.read_pickle("../04_staged_data/data_observation3.p")
     
     quarterlyClones = allcontracts.groupby(['quarter'])[['quarter', 't1', 't2', 't2c', 't3', 't32', 't32c']].sum().reset_index()
     quarterlyClones = quarterlyClones.rename(columns={'t1':'type-1', 't2':'type-2b', 't2c':'type-2c', 't3':'type-3', 't32':'type-3b', 't32c':'type-3c'})

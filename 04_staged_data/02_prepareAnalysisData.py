@@ -35,7 +35,7 @@ def prepareObservation3():
     
     allcontracts = allcontracts.sort_values(by=['time'], ascending=True)
     
-    allcontracts.to_pickle('./observation3data.p')
+    allcontracts.to_pickle('./data_observation3.p')
     print("---Execution took %s seconds ---" % (time.time() - start_time))
     
 def getDate(tstring):
