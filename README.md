@@ -15,7 +15,7 @@
 1. Clone this repository.
 2. Run `python analysis.py` the `/05_analysis` folder.
 
-### Reproducing the pre-staged data (in `/04_staged_data`)
+### Reproducing the pre-staged data (`/04_staged_data`)
 
 1. Clone this repository.
 2. Run `python 01_mergeFullData.py` in the `/04_staged_data` folder.
@@ -23,6 +23,6 @@
    1. List the observation IDs in `observationsToPrepareDataFor` to prepare the data for. Use `observationsToPrepareDataFor = allObservations` to generate data for all observations.
    2. `prepareObservation3()` (producing `data_observation3.p`) is an especially time-consuming script and might run for up to an hour.
 
-### Reproducing the clone analysis (in `/03_clones`)
+### Reproducing the clone analysis (`/03_clones`)
 
 Refer to the [NiCad extension](https://github.com/eff-kay/nicad6) developed for this study.
