@@ -302,7 +302,7 @@ def observation13():
 
 def observation14():
     df = pd.read_csv('../03_clones/rq3/type-1.csv') 
-    ozFiles = df.filename_y.apply(lambda x:'/'.join(x.split('/')[4:]) if not pd.isna(x) else x)
+    ozFiles = df.filename_y.apply(lambda x: x.replace('"','').split('/')[-1] if not pd.isna(x) else x)
     
     totalOZFiles = ozFiles.value_counts().sum()
     uniqueOZFileNames = len(ozFiles.unique())
