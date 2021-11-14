@@ -1,0 +1,3 @@
+Total number of contracts: 32339.
+Number of distinct contracts with an OpenZeppelin record associated: 11810.
+Percentage ratio: 36.52%.
