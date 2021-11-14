@@ -1,10 +1,10 @@
-import pandas as pd
-import numpy as np
-from matplotlib import pyplot as plt
-import matplotlib.ticker as mtick
-from datetime import datetime
-import time
 import math
+import pandas as pd
+import time
+
+from datetime import datetime
+from matplotlib import pyplot as plt
+
 
 dataToPrepare = ['RQ1', 'RQ2', 'RQ3']
 

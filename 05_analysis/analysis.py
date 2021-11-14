@@ -1,16 +1,17 @@
-import pandas as pd
 import numpy as np
-from matplotlib import pyplot as plt
-import matplotlib.ticker as mtick
-from datetime import datetime
-import math
-import seaborn as sns
-import shutil
 import os
+import pandas as pd
+import shutil
+from matplotlib import pyplot as plt
+
 
 mode = 'all'
 resultsPath = '../06_results'
 corpusLOC = 4004543
+
+def observation0():
+    data = pd.read_pickle("../04_staged_data/clonesWithAuthors.p")
+    print(data)
 
 def observation1():
     df1 = pd.read_pickle("../04_staged_data/data_rq1.p")

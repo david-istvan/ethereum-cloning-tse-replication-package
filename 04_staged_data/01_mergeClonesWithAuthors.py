@@ -1,4 +1,5 @@
 import pandas as pd
+
 from datetime import datetime
 
 data = pd.read_pickle("../03_clones/rq1-rq2/clones.p")
@@ -29,5 +30,7 @@ data['author'] = data.apply(lambda row: getAuthor(getContract(row.file)), axis=1
 data['creationdate'] = data.apply(lambda row: getDate(getContract(row.file)), axis=1)
 
 data = data[['type', 'classid', 'nclones', 'nlines', 'similarity', 'startline', 'endline', 'file', 'author', 'creationdate']]
+
+#TODO: join txnumbers to this df
 
 data.to_pickle('./clonesWithAuthors.p')
