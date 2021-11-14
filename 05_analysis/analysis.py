@@ -9,6 +9,7 @@ import shutil
 import os
 
 mode = 'all'
+resultsPath = '../06_results'
 corpusLOC = 4004543
 
 def observation1():
@@ -271,8 +272,7 @@ def observation11():
     showplt(plt)
     
 def observation12():
-    # df = pd.read_pickle("../04_staged_data/data_rq3.p")
-    df = pd.read_csv('../00_rq3/result_csv/type-1.csv')
+    df = pd.read_csv('../03_clones/rq3/type-1.csv')
 
     uniqueContractsWithIdenticalOZBlock = (df[df['startline_y'].notnull()].drop_duplicates(subset=['filename_x']))
     unique_contracts = df.drop_duplicates(subset=['filename_x'])
@@ -280,33 +280,29 @@ def observation12():
     report = [
         'Total number of contracts: {}.'.format(len(unique_contracts)),
         'Number of distinct contracts with an OpenZeppelin record associated: {}.'.format(len(uniqueContractsWithIdenticalOZBlock)),
-        'Percentage ratio: {}%'.format(round((len(uniqueContractsWithIdenticalOZBlock)/len(unique_contracts))*100, 2))
+        'Percentage ratio: {}%.'.format(round((len(uniqueContractsWithIdenticalOZBlock)/len(unique_contracts))*100, 2))
     ]
     
     printTextReport(12, report)
     
 def observation13():
-    # df = pd.read_pickle("../04_staged_data/data_rq3.p")
-    df = pd.read_csv('../00_rq3/result_csv/type-1.csv') 
-    all_corpus_contracts = pd.read_csv('../00_rq3/corpus_contracts.csv')
+    df = pd.read_csv('../03_clones/rq3/type-1.csv') 
+    all_corpus_contracts = pd.read_csv('../03_clones/rq3/corpus_contracts.csv')
 
     openZeppelinRecords = (df[df['filename_y'].notnull()]).drop_duplicates(subset=['filename_x', 'startline_x', 'endline_x'])
     
     report = [
         'Total number of contracts: {}.'.format(len(all_corpus_contracts)),
         'Number of distinct OpenZeppelin records: {}.'.format(len(openZeppelinRecords)),
-        '{}%'.format(round((len(openZeppelinRecords)/len(all_corpus_contracts))*100, 2))
+        'Percentage ratio: {}%.'.format(round((len(openZeppelinRecords)/len(all_corpus_contracts))*100, 2))
     ]
     
     printTextReport(13, report)
 
 
 def observation14():
-    # df = pd.read_pickle("../04_staged_data/data_rq3.p")
-    df = pd.read_csv('../00_rq3/result_csv/type-1.csv') 
+    df = pd.read_csv('../03_clones/rq3/type-1.csv') 
     ozFiles = df.filename_y.apply(lambda x:'/'.join(x.split('/')[4:]) if not pd.isna(x) else x)
-    
-    # ozFiles = df[df['filename_y'].notnull()]['filename_y'].reset_index().apply(lambda row: row.filename_y.replace('"','').split('/')[-1], axis=1)
     
     totalOZFiles = ozFiles.value_counts().sum()
     uniqueOZFileNames = len(ozFiles.unique())
@@ -318,9 +314,9 @@ def observation14():
     ozCounts['cumulativePerc'] = round((ozCounts['cumulativeSum']/totalOZFiles)*100, 2)
     
     report = [
-        ('Head 10:', ozCounts.head(10)),
-        ('Cumulative 80%:', ozCounts.head(ozCounts[ozCounts.cumulativePerc > 80].index[0])),
-        ('First 20:', ozCounts.head(int(len(ozCounts)*0.2)))
+        ('Head 10', ozCounts.head(10)),
+        ('Cumulative 80%', ozCounts.head(ozCounts[ozCounts.cumulativePerc > 80].index[0])),
+        ('First 20', ozCounts.head(int(len(ozCounts)*0.2)))
     ]
     
     printHtmlReport(14, report)
@@ -331,10 +327,10 @@ def showplt(plt):
         plt.show()
         
 def savefig(observationNumber):
-    plt.savefig('./results/observation{}.pdf'.format(observationNumber))
+    plt.savefig('{}/observation{}.pdf'.format(resultsPath, observationNumber))
         
 def printTextReport(observationNumber, reports):
-    f = open('./results/observation{}.txt'.format(observationNumber), 'w')
+    f = open('{}/observation{}.txt'.format(resultsPath, observationNumber), 'w')
     for r in reports:
         f.write(r+'\n')
         if mode != 'all':
@@ -342,7 +338,7 @@ def printTextReport(observationNumber, reports):
     f.close()
     
 def printHtmlReport(observationNumber, reports):
-    f = open('./results/observation{}.html'.format(observationNumber), 'w')
+    f = open('{}/observation{}.html'.format(resultsPath, observationNumber), 'w')
     for title, df in reports:
         f.write('<h2>{}</h2>'.format(title))
         f.write(df.to_html())
@@ -353,7 +349,7 @@ def printHtmlReport(observationNumber, reports):
     f.close()
 
 ############################### MAIN ###############################
-resultsPath = 'results'
+
 if os.path.exists(resultsPath) and os.path.isdir(resultsPath):
     shutil.rmtree(resultsPath)
 os.mkdir(resultsPath)
