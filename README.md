@@ -13,13 +13,13 @@
 ### Reproduction of analysis results
 
 1. Clone this repository.
-2. Run the analysis script.
+2. Run `python analysis.py` the `/05_analysis` folder.
 
 ### Reproducing the pre-staged data
 
 1. Clone this repository.
-2. Run the `/04_staged_data/01_mergeFullData.py` script.
-3. Run the `/04_staged_data/02_prepareAnalysisData.py` script.
+2. Run `python 01_mergeFullData.py` in the `/04_staged_data` folder.
+3. Run `python 02_prepareAnalysisData.py` in the `/04_staged_data` folder.
    1. List the observation IDs in `observationsToPrepareDataFor` to prepare the data for. Use `observationsToPrepareDataFor = allObservations` to generate data for all observations. (Might run for hours.)
 
 ### Reproducing the clone analysis
