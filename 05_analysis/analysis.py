@@ -271,36 +271,42 @@ def observation11():
     showplt(plt)
     
 def observation12():
-    df = pd.read_pickle("../04_staged_data/data_rq3.p")
-    
-    uniqueContractsWithIdenticalOZBlock = (df[df['filename_y'].notnull()].drop_duplicates(subset=['filename_x']))
-    
+    # df = pd.read_pickle("../04_staged_data/data_rq3.p")
+    df = pd.read_csv('../00_rq3/result_csv/type-1.csv')
+
+    uniqueContractsWithIdenticalOZBlock = (df[df['startline_y'].notnull()].drop_duplicates(subset=['filename_x']))
+    unique_contracts = df.drop_duplicates(subset=['filename_x'])
+
     report = [
-        'Total number of contracts: {}.'.format(len(df)),
+        'Total number of contracts: {}.'.format(len(unique_contracts)),
         'Number of distinct contracts with an OpenZeppelin record associated: {}.'.format(len(uniqueContractsWithIdenticalOZBlock)),
-        'Percentage ratio: {}%'.format(round((len(uniqueContractsWithIdenticalOZBlock)/len(df))*100, 2))
+        'Percentage ratio: {}%'.format(round((len(uniqueContractsWithIdenticalOZBlock)/len(unique_contracts))*100, 2))
     ]
     
     printTextReport(12, report)
     
 def observation13():
-    df = pd.read_pickle("../04_staged_data/data_rq3.p")
-    
-    openZeppelinRecords = (df[df['filename_y'].notnull()])
+    # df = pd.read_pickle("../04_staged_data/data_rq3.p")
+    df = pd.read_csv('../00_rq3/result_csv/type-1.csv') 
+    all_corpus_contracts = pd.read_csv('../00_rq3/corpus_contracts.csv')
+
+    openZeppelinRecords = (df[df['filename_y'].notnull()]).drop_duplicates(subset=['filename_x', 'startline_x', 'endline_x'])
     
     report = [
-        'Total number of contracts: {}.'.format(len(df)),
+        'Total number of contracts: {}.'.format(len(all_corpus_contracts)),
         'Number of distinct OpenZeppelin records: {}.'.format(len(openZeppelinRecords)),
-        '{}%'.format(round((len(openZeppelinRecords)/len(df))*100, 2))
+        '{}%'.format(round((len(openZeppelinRecords)/len(all_corpus_contracts))*100, 2))
     ]
     
     printTextReport(13, report)
 
 
 def observation14():
-    df = pd.read_pickle("../04_staged_data/data_rq3.p")
+    # df = pd.read_pickle("../04_staged_data/data_rq3.p")
+    df = pd.read_csv('../00_rq3/result_csv/type-1.csv') 
+    ozFiles = df.filename_y.apply(lambda x:'/'.join(x.split('/')[4:]) if not pd.isna(x) else x)
     
-    ozFiles = df[df['filename_y'].notnull()]['filename_y'].reset_index().apply(lambda row: row.filename_y.replace('"','').split('/')[-1], axis=1)
+    # ozFiles = df[df['filename_y'].notnull()]['filename_y'].reset_index().apply(lambda row: row.filename_y.replace('"','').split('/')[-1], axis=1)
     
     totalOZFiles = ozFiles.value_counts().sum()
     uniqueOZFileNames = len(ozFiles.unique())

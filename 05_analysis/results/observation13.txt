@@ -1,3 +1,0 @@
-Total number of contracts: 807695.
-Number of distinct OpenZeppelin records: 453293.
-56.12%
