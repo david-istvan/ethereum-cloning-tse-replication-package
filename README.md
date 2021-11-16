@@ -4,7 +4,7 @@
 ### Contents
 
 * `/01_corpus` - Corpus of verified smart contracts used in this study.
-* `/02_authordata` - Author information of the contracts of the corpus.
+* `/02_metadata` - Metadata about the authors, creation date and transactions of the contracts in the corpus.
 * `/03_clones` - Results of the clone analysis by the [NiCad extension](https://github.com/eff-kay/nicad6) developed for this study.
 * `/04_staged_data` - Prepared and staged data for analysis.
 * `/05_analysis` - Analysis of data.
