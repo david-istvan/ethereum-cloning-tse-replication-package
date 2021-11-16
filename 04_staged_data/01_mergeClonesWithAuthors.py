@@ -3,7 +3,7 @@ import pandas as pd
 from datetime import datetime
 
 data = pd.read_pickle("../03_clones/rq1-rq2/clones.p")
-authors = pd.read_json('../02_authorinfo/authorinfo.json').transpose()
+authors = pd.read_json('../02_metadata/authorinfo.json').transpose()
 
 def getAuthor(contract):
     try:

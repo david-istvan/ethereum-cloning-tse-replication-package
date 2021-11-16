@@ -19,7 +19,7 @@ def prepareRQ1():
     
 def prepareObservation3():
     start_time = time.time()
-    allcontracts = pd.read_json('../02_authordata/authorinfo.json').transpose()
+    allcontracts = pd.read_json('../02_metadata/authorinfo.json').transpose()
     allcontracts = allcontracts.loc[allcontracts['time'] != 0]
     
     allcontracts['time'] = allcontracts.apply(lambda row: getDate(row.time), axis=1)
