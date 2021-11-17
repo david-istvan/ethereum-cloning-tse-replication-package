@@ -1,4 +1,5 @@
 import math
+import numpy as np
 import pandas as pd
 import time
 
@@ -6,7 +7,7 @@ from datetime import datetime
 from matplotlib import pyplot as plt
 
 
-dataToPrepare = ['RQ1', 'RQ2', 'RQ3']
+dataToPrepare = ['Observation8', 'RQ1', 'RQ2', 'RQ3']
 
 data = pd.read_pickle("./clonesWithAuthors.p")
 
@@ -85,6 +86,28 @@ def getEntropy(groupedCluster):
     
     return entropy
 
+def prepareObservation8():
+    df = pd.read_pickle("../04_staged_data/clonesWithAuthors.p")
+    df = df[df['nclones'] >= 10].reset_index(drop=True)
+    
+    giniDf = df[['classid', 'type', 'similarity', 'nclones']].drop_duplicates(['type', 'classid']).reset_index(drop=True)
+    
+    giniDf['gini'] = giniDf.apply(lambda x: gini(x.name, df.loc[(df['classid']==x['classid']) & (df['type']==x['type'])]['txnumber'].tolist()), axis=1)
+    
+    #giniDf['classid'] = giniDf.apply(lambda row: row.name, axis=1)
+    
+    giniDf.to_pickle('./gini.p')
+
+def gini(rowid, x):
+    print('Gini for {}.'.format(rowid))
+    # Mean absolute difference
+    mad = np.abs(np.subtract.outer(x, x)).mean()
+    # Relative mean absolute difference
+    rmad = mad/np.mean(x)
+    # Gini coefficient
+    g = 0.5 * rmad
+    return round(g, 3)
+    
 def prepareRQ3():
     t1 = pd.read_csv('../03_clones/rq3/type-1.csv')
     t2b = pd.read_csv('../03_clones/rq3/type-2b.csv')

@@ -3,9 +3,11 @@ import os
 import pandas as pd
 import shutil
 from matplotlib import pyplot as plt
+from scipy.ndimage.filters import gaussian_filter
+from statistics import mean, stdev, median
 
 
-mode = 'all'
+mode = 8 #'all'
 resultsPath = '../06_results'
 corpusLOC = 4004543
 
@@ -119,7 +121,7 @@ def observation3():
     quarterlyClones['all'] = quarterlyClones.apply(lambda row: row['type-1']+row.t1plus, axis=1)
     
     report = [
-        ('Quarterly clones', quarterlyClones)
+        ('Quarterly clones', quarterlyClones, '')
     ]
     printHtmlReport('03', report)
     
@@ -212,7 +214,73 @@ def observation7():
     pass
     
 def observation8():
-    pass
+    df = pd.read_pickle("../04_staged_data/gini.p")
+    
+    df['type'] = df['type'].replace(to_replace='type-2', value='type-2b')
+    df['type'] = df['type'].replace(to_replace='type-3-2', value='type-3b')
+    df['type'] = df['type'].replace(to_replace='type-3-2c', value='type-3c')
+    
+    df['nclonesperc'] = df.apply(lambda row: round((row['nclones']/(df['nclones'].max())),2), axis=1)
+    df = df.sort_values(by=['nclonesperc'])
+    
+    
+    #HEXBIN CHART
+    fig = plt.figure()
+    ax = plt.gca()
+    
+    x = df['nclonesperc']
+    y = df['gini']
+    hb = ax.hexbin(x, y, gridsize = 35, cmap ='binary', edgecolor='gray', mincnt=1)
+    
+    plt.axvline(x=round(df['nclones'].median()/df['nclones'].max(), 2), color='r')
+    plt.axhline(y=df['gini'].median(), color='r')
+    plt.yticks(list([0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, round(df['gini'].median(),2), 0.9, 1.0]))
+    plt.gca().get_yticklabels()[9].set_color('red')
+    ax.text(15.75, -0.1, str(int(df['nclones'].median())), color='red')
+
+    plt.xlabel('Normaized cluster size')
+    plt.ylabel('Gini-coefficient')
+    
+    cb = fig.colorbar(hb, ax=ax)
+    cb.set_label('Count')
+    
+    fig.set_size_inches(8, 6)
+    
+    savefig('08-1')
+    showplt(plt)
+    
+    #BOX PLOT
+    
+    bp = df.boxplot(column=['gini'], by='type', patch_artist = True, return_type='both', medianprops=dict(linewidth=1, color='black'), whiskerprops=dict(linewidth=1, color='black'))
+    #, , '#42d4f4'
+    colors = ['#1f77b4', '#ffe119', '#e6194B', '#469990']
+    
+    for row_key, (ax,row) in bp.iteritems():
+        ax.set_xlabel('')
+        for i,box in enumerate(row['boxes']):
+            box.set(color=colors[i], linewidth=2)
+            
+    plt.xlabel('Clone type')
+    plt.ylabel('Gini-coefficient')
+            
+    savefig('08-2')
+    showplt(plt)
+    
+    
+    reportDf = df[['type']]
+    reportDf = reportDf.drop_duplicates().reset_index(drop=True)
+    reportDf['median'] = reportDf.apply(lambda row: median(df.loc[(df['type']==row['type'])]['gini']), axis=1)
+    #reportDf['mean'] = reportDf.apply(lambda row: mean(df.loc[(df['type']==row['type'])]['gini']), axis=1)
+    #reportDf['stdev'] = reportDf.apply(lambda row: stdev(df.loc[(df['type']==row['type']['gini'])]), axis=1)
+    
+    reportDf = reportDf.sort_values(by=['type']).reset_index(drop=True)
+    
+    report = [
+        ('Median Gini-coefficients', reportDf[['type', 'median']], 'G=0.85 roughly equals to a cluster of 10 contracts with nine contracts having 1 transaction, and one transaction having 250.<br/>G=0.75 roughly equals to a cluster of 10 contracts with nine contracts having 1 transaction, and one transaction having 50.<br/>')
+    ]
+    
+    printHtmlReport('08-3', report)
+    
     
 def observation9():
     pass
@@ -249,22 +317,34 @@ def observation11():
     
     authorDf = authorDf.sort_values(by=['entropy'], ascending=False).reset_index(drop = True)
     
+    authorDf['sizeperc'] = authorDf.apply(lambda row: round((row['size']/(authorDf['size'].max())),2), axis=1)
+    authorDf = authorDf.sort_values(by=['sizeperc'])
+    
     ### Chart ###
     
     fig = plt.figure()
     ax = plt.gca()
-    ax.scatter(authorDf['size'], authorDf['entropy'], alpha=0.2)
-    ax.set_xscale('log')
     
-    plt.axvline(x=authorDf['size'].median(), color='r')
+    x = authorDf['sizeperc'] #np.random.randn(8873)
+    y = authorDf['entropy'] #np.random.randn(8873)
+    hb = ax.hexbin(x, y, gridsize = 35, cmap ='binary', edgecolor='gray', mincnt=1)
+    
+    #ax.scatter(authorDf['sizeperc'], authorDf['entropy'], alpha=0.2)
+    #ax.set_xscale('log')
+    
+    plt.axvline(x=authorDf['size'].median()/authorDf['size'].max(), color='r')
     plt.axhline(y=authorDf['entropy'].median(), color='r')
     plt.yticks(list([0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, round(authorDf['entropy'].median(),2), 0.8, 0.9, 1.0]))
     plt.gca().get_yticklabels()[7].set_color('red')
-    ax.text(15.75, -0.1, str(int(authorDf['size'].median())), color='red')
+    #ax.text(15.75, -0.1, str(int(authorDf['sizeperc'].median())), color='red')
     
     
-    plt.xlabel('Cluster size')
+    
+    plt.xlabel('Normalized cluster size')
     plt.ylabel('Entropy')
+    
+    cb = fig.colorbar(hb, ax=ax)
+    cb.set_label('Count')
     
     figure = plt.gcf()
     figure.set_size_inches(8, 6)
@@ -315,9 +395,9 @@ def observation14():
     ozCounts['cumulativePerc'] = round((ozCounts['cumulativeSum']/totalOZFiles)*100, 2)
     
     report = [
-        ('Head 10', ozCounts.head(10)),
-        ('Cumulative 80%', ozCounts.head(ozCounts[ozCounts.cumulativePerc > 80].index[0])),
-        ('First 20', ozCounts.head(int(len(ozCounts)*0.2)))
+        ('Head 10', ozCounts.head(10), ''),
+        ('Cumulative 80%', ozCounts.head(ozCounts[ozCounts.cumulativePerc > 80].index[0]), ''),
+        ('First 20', ozCounts.head(int(len(ozCounts)*0.2)), '')
     ]
     
     printHtmlReport(14, report)
@@ -340,22 +420,27 @@ def printTextReport(observationNumber, reports):
     
 def printHtmlReport(observationNumber, reports):
     f = open('{}/observation{}.html'.format(resultsPath, observationNumber), 'w')
-    for title, df in reports:
+    for title, df, comment in reports:
         f.write('<h2>{}</h2>'.format(title))
         f.write(df.to_html())
+        f.write('<p>{}</p>'.format(comment))
         if mode != 'all':
             print(title)
             print(df)
+            print(comment)
             print('\n')
     f.close()
 
 ############################### MAIN ###############################
 
-if os.path.exists(resultsPath) and os.path.isdir(resultsPath):
-    shutil.rmtree(resultsPath)
-os.mkdir(resultsPath)
+if not os.path.exists(resultsPath):
+    os.mkdir(resultsPath)
     
 if mode == 'all':
+    if os.path.exists(resultsPath) and os.path.isdir(resultsPath):
+        shutil.rmtree(resultsPath)
+    os.mkdir(resultsPath)
+    
     for o in range(1, 15, 1):
         print('Analyzing observation {}.'.format(o))
         locals()["observation{}".format(o)]()
