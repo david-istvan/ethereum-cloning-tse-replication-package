@@ -7,7 +7,7 @@ from datetime import datetime
 from matplotlib import pyplot as plt
 
 
-dataToPrepare = ['Observation8', 'RQ1', 'RQ2', 'RQ3']
+dataToPrepare = ['Observation9']
 
 data = pd.read_pickle("./clonesWithAuthors.p")
 
@@ -107,6 +107,19 @@ def gini(rowid, x):
     # Gini coefficient
     g = 0.5 * rmad
     return round(g, 3)
+    
+def prepareObservation9():
+    df = pd.read_pickle("../04_staged_data/clonesWithAuthors.p")
+    
+    df['clusterid'] = df.apply(lambda row: row['type']+'-'+row['classid'], axis=1)
+    
+    clusterids = df['clusterid'].unique()
+    
+    rankDf = df[['clusterid', 'type', 'nclones']].drop_duplicates().reset_index(drop=True)
+
+    rankDf['topTxCreationRank'] = rankDf.apply(lambda x: (df[df['clusterid'] == x['clusterid']].sort_values(by='creationdate').reset_index(drop=True))['txnumber'].idxmax()+1, axis=1)
+    
+    rankDf.to_pickle('./creationrank.p')
     
 def prepareRQ3():
     t1 = pd.read_csv('../03_clones/rq3/type-1.csv')

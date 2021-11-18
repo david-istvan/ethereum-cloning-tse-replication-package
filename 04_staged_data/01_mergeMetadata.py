@@ -36,6 +36,6 @@ data['author'] = data.apply(lambda row: getAuthor(getContract(row.file)), axis=1
 data['creationdate'] = data.apply(lambda row: getDate(getContract(row.file)), axis=1)
 data['txnumber'] = data.apply(lambda row: transactions.loc[getContract(row.file)], axis=1)
 
-data = data[['type', 'classid', 'nclones', 'nlines', 'similarity', 'startline', 'endline', 'file', 'author', 'creationdate', 'txnumber']]
+data = data[['type', 'classid', 'nclones', 'nlines', 'similarity', 'startline', 'endline', 'file', 'author', 'creationdate', 'txnumber']].reset_index(drop=True)
 
 data.to_pickle('./clonesWithAuthors.p')

@@ -5,9 +5,10 @@ import shutil
 from matplotlib import pyplot as plt
 from scipy.ndimage.filters import gaussian_filter
 from statistics import mean, stdev, median
+import seaborn as sns
 
 
-mode = 8 #'all'
+mode = 'all'
 resultsPath = '../06_results'
 corpusLOC = 4004543
 
@@ -251,27 +252,32 @@ def observation8():
     
     #BOX PLOT
     
-    bp = df.boxplot(column=['gini'], by='type', patch_artist = True, return_type='both', medianprops=dict(linewidth=1, color='black'), whiskerprops=dict(linewidth=1, color='black'))
+    fig, axs = plt.subplots(nrows=1, ncols=2, figsize=(8, 6), gridspec_kw={'width_ratios': [4, 3]})
+    
+    bp1 = df.boxplot(column=['gini'], by='type', patch_artist = True, return_type='both', medianprops=dict(linewidth=1, color='black'), whiskerprops=dict(linewidth=1, color='black'), ax=axs[0])
     #, , '#42d4f4'
     colors = ['#1f77b4', '#ffe119', '#e6194B', '#469990']
     
-    for row_key, (ax,row) in bp.iteritems():
+    for row_key, (ax,row) in bp1.iteritems():
         ax.set_xlabel('')
         for i,box in enumerate(row['boxes']):
             box.set(color=colors[i], linewidth=2)
-            
-    plt.xlabel('Clone type')
-    plt.ylabel('Gini-coefficient')
+    
+    bp2 = df.boxplot(column=['gini'], patch_artist = True, return_type='both', boxprops=dict(facecolor='#aaaaaa', color='#aaaaaa'), medianprops=dict(linewidth=1, color='black'), whiskerprops=dict(linewidth=1, color='black'), ax=axs[1])
+    
+    axs[0].set_title('')
+    axs[1].set_title('')
+    fig.suptitle('')
+    
+    axs[0].set_ylabel('Gini-coefficient')
+    axs[1].set_xticklabels(['Overall'])
             
     savefig('08-2')
     showplt(plt)
     
-    
     reportDf = df[['type']]
     reportDf = reportDf.drop_duplicates().reset_index(drop=True)
     reportDf['median'] = reportDf.apply(lambda row: median(df.loc[(df['type']==row['type'])]['gini']), axis=1)
-    #reportDf['mean'] = reportDf.apply(lambda row: mean(df.loc[(df['type']==row['type'])]['gini']), axis=1)
-    #reportDf['stdev'] = reportDf.apply(lambda row: stdev(df.loc[(df['type']==row['type']['gini'])]), axis=1)
     
     reportDf = reportDf.sort_values(by=['type']).reset_index(drop=True)
     
@@ -283,7 +289,58 @@ def observation8():
     
     
 def observation9():
-    pass
+    df = pd.read_pickle("../04_staged_data/creationrank.p")
+    
+    df['type'] = df['type'].replace(to_replace='type-2', value='type-2b')
+    df['type'] = df['type'].replace(to_replace='type-3-2', value='type-3b')
+    df['type'] = df['type'].replace(to_replace='type-3-2c', value='type-3c')
+    
+    df = df[df['nclones'] >= 10].reset_index(drop=True)
+
+    df['rankPercentage'] = df.apply(lambda row: round((row['topTxCreationRank']/row['nclones'])*100, 2), axis=1)
+    df = df.sort_values(by='rankPercentage').reset_index(drop=True)
+    
+    report = [
+        '[OVERALL] Median of rank percentage: {}.'.format(median(df['rankPercentage'])),
+        '[OVERALL] Median of rank: {}.'.format(median(df['topTxCreationRank'])),
+        '[TYPE-1] Median of rank percentage: {}.'.format(median(df[df['type']=='type-1']['rankPercentage'])),
+        '[TYPE-1] Median of rank: {}.'.format(median(df[df['type']=='type-1']['topTxCreationRank'])),
+        '[TYPE-2C] Median of rank percentage: {}.'.format(median(df[df['type']=='type-2c']['rankPercentage'])),
+        '[TYPE-2C] Median of rank: {}.'.format(median(df[df['type']=='type-2c']['topTxCreationRank'])),
+        '[TYPE-3] Median of rank percentage: {}.'.format(median(df[df['type']=='type-3']['rankPercentage'])),
+        '[TYPE-3] Median of rank: {}.'.format(median(df[df['type']=='type-3']['topTxCreationRank'])),
+        '[TYPE-3B] Median of rank percentage: {}.'.format(median(df[df['type']=='type-3b']['rankPercentage'])),
+        '[TYPE-3B] Median of rank: {}.'.format(median(df[df['type']=='type-3b']['topTxCreationRank'])),
+    ]
+    printTextReport('09', report)
+    
+    
+    
+    #BOX PLOT
+    
+    fig, axs = plt.subplots(nrows=1, ncols=2, figsize=(8, 6), gridspec_kw={'width_ratios': [4, 3]})
+    
+    bp1 = df.boxplot(column=['rankPercentage'], by='type', patch_artist = True, return_type='both', medianprops=dict(linewidth=1, color='black'), whiskerprops=dict(linewidth=1, color='black'), ax=axs[0])
+    #, , '#42d4f4'
+    colors = ['#1f77b4', '#ffe119', '#e6194B', '#469990']#, '#aaaaaa']
+    
+    for row_key, (ax,row) in bp1.iteritems():
+        ax.set_xlabel('')
+        for i,box in enumerate(row['boxes']):
+            box.set(color=colors[i], linewidth=2)
+    
+    bp2 = df.boxplot(column=['rankPercentage'], patch_artist = True, return_type='both', boxprops=dict(facecolor='#aaaaaa', color='#aaaaaa'), medianprops=dict(linewidth=1, color='black'), whiskerprops=dict(linewidth=1, color='black'), ax=axs[1])
+    
+    axs[0].set_title('')
+    axs[1].set_title('')
+    fig.suptitle('')
+    
+    axs[0].set_ylabel('Rank percentage')
+    axs[1].set_xticklabels(['Overall'])
+    
+    savefig('09-1')
+    showplt(plt)
+    
     
 def observation10():
     authorDf = pd.read_pickle("../04_staged_data/data_rq2.p")
@@ -408,6 +465,7 @@ def showplt(plt):
         plt.show()
         
 def savefig(observationNumber):
+    plt.gcf().tight_layout()
     plt.savefig('{}/observation{}.pdf'.format(resultsPath, observationNumber))
         
 def printTextReport(observationNumber, reports):
