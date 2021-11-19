@@ -10,13 +10,15 @@ import seaborn as sns
 import scipy.stats as stats
 from cliffsDelta import cliffsDelta
 
-mode = '4b'#'all'
+mode = 0#'all'
 resultsPath = '../06_results'
 corpusLOC = 4004543
 
 def observation0():
     data = pd.read_pickle("../04_staged_data/clonesWithAuthors.p")
-    print(data)
+    print('Min: {}.'.format(min(data['filelength'])))
+    print('Max: {}.'.format(max(data['filelength'])))
+    print('Mean: {}.'.format(mean(data['filelength'])))
 
 def observation1():
     df1 = pd.read_pickle("../04_staged_data/data_rq1.p")
