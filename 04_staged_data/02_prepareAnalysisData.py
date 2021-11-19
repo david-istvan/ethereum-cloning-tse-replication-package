@@ -7,7 +7,7 @@ from datetime import datetime
 from matplotlib import pyplot as plt
 
 
-dataToPrepare = ['Observation9']
+dataToPrepare = ['Observation8', 'Observation9', 'RQ1', 'RQ2', 'RQ3']
 
 data = pd.read_pickle("./clonesWithAuthors.p")
 

@@ -6,6 +6,8 @@ from datetime import datetime
 data = pd.read_pickle("../03_clones/rq1-rq2/clones.p")
 authors = pd.read_json('../02_metadata/authorinfo.json').transpose()
 transactions = pd.read_json('../02_metadata/transactioninfo.json', typ='series')
+filelength = pd.read_json('../02_metadata/filelength.json', typ='series')
+
 """
 data['type'] = data['type'].replace(to_replace='type-2', value='type-2b')
 data['type'] = data['type'].replace(to_replace='type-3-2', value='type-3b')
@@ -35,7 +37,8 @@ def getContract(fileseries):
 data['author'] = data.apply(lambda row: getAuthor(getContract(row.file)), axis=1)
 data['creationdate'] = data.apply(lambda row: getDate(getContract(row.file)), axis=1)
 data['txnumber'] = data.apply(lambda row: transactions.loc[getContract(row.file)], axis=1)
+data['filelength'] = data.apply(lambda row: filelength[getContract(row.file)], axis=1)
 
-data = data[['type', 'classid', 'nclones', 'nlines', 'similarity', 'startline', 'endline', 'file', 'author', 'creationdate', 'txnumber']].reset_index(drop=True)
+data = data[['type', 'classid', 'nclones', 'nlines', 'similarity', 'startline', 'endline', 'file', 'author', 'creationdate', 'filelength', 'txnumber']].reset_index(drop=True)
 
 data.to_pickle('./clonesWithAuthors.p')

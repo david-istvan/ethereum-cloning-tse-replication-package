@@ -5,10 +5,12 @@ import shutil
 from matplotlib import pyplot as plt
 from scipy.ndimage.filters import gaussian_filter
 from statistics import mean, stdev, median
+from numpy import std, sqrt
 import seaborn as sns
+import scipy.stats as stats
+from cliffsDelta import cliffsDelta
 
-
-mode = 'all'
+mode = '4b'#'all'
 resultsPath = '../06_results'
 corpusLOC = 4004543
 
@@ -162,8 +164,12 @@ def observation3():
     
     savefig('03')
     showplt(plt)
-    
+
 def observation4():
+    observation4a()
+    observation4b()
+    
+def observation4a():
     df1 = pd.read_pickle("../04_staged_data/data_rq1.p")
     
     dfg = df1.groupby(['type'])['sumlines'].sum().reset_index(name ='sumlines')
@@ -202,7 +208,36 @@ def observation4():
     savefig('04')
     showplt(plt)
     
-    #TODO: code file length comparison
+def observation4b():
+    df = pd.read_pickle("../04_staged_data/clonesWithAuthors.p")
+
+    df['type'] = df['type'].replace(to_replace='type-2', value='type-2b')
+    df['type'] = df['type'].replace(to_replace='type-3-2', value='type-3b')
+    df['type'] = df['type'].replace(to_replace='type-3-2c', value='type-3c')
+    
+    types = df['type'].unique()
+    
+    report = []
+    
+    report.append('Mann-Whitney between type-1 and others: {}.'.format(stats.mannwhitneyu(x=df[df['type']=='type-1']['filelength'], y=df[df['type']!='type-1']['filelength'], alternative = 'two-sided')[1]))
+    es = cliffsDelta(df[df['type']=='type-1']['filelength'], df[df['type']!='type-1']['filelength'])
+    if(es[1] != 'negligible'):
+        report.append('\tEffect size: {} ({}).'.format(es[0], es[1]))
+    
+    dataFrames = []
+    for type in types:
+        dataFrames.append(df[df['type']==type])
+    
+    for i in range(0, len(dataFrames)):
+        for j in range(i+1, len(dataFrames)):
+            mwu = stats.mannwhitneyu(x=dataFrames[i]['filelength'], y=dataFrames[j]['filelength'], alternative = 'two-sided')
+            if mwu[1] < 0.05:
+                es = cliffsDelta(dataFrames[i]['filelength'], dataFrames[j]['filelength'])
+                if(es[1] != 'negligible'):
+                    report.append('Mann-Whitney between {} and {}: {}.'.format(dataFrames[i].iloc[0]['type'], dataFrames[j].iloc[0]['type'], mwu[1]))
+                    report.append('\tEffect size: {} ({}).'.format(es[0], es[1]))
+    
+    printTextReport('04-b', report)
     
 def observation5():
     pass
