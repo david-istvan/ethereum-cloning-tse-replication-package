@@ -10,7 +10,7 @@ import seaborn as sns
 import scipy.stats as stats
 from cliffsDelta import cliffsDelta
 
-mode = 0#'all'
+mode = 8 #'all'
 resultsPath = '../06_results'
 corpusLOC = 4004543
 
@@ -89,13 +89,19 @@ def observation2():
     x = df2['cumulativeClusterPercentage']
     y = df2['cumulativeClonePercentage']
     plt.plot(x,y)
-    plt.xlabel('Cumulative percentage of clusters')
-    plt.ylabel('Cumulative percentage of clones')
+    plt.xlabel('Cumulative % of clusters', fontsize=20)
+    plt.ylabel('Cumulative % of clones', fontsize=20)
     
     plt.yticks(list([0, 10, 20, 30, 40, 50, 60, 80, 90, 100]) + [cumulativeClonePercentageAt20])
     plt.ylim([-5, 105])
     plt.xticks(list([0, 2.07, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100]))
     plt.xlim([-5, 105])
+	
+    ax = plt.gca()
+    
+    labels=ax.get_xticklabels()+ax.get_yticklabels()
+    for label in labels:
+        label.set_fontsize(14)
     
     plt.axvline(x=2.07, color='r')
     plt.axhline(y=50, color='r')
@@ -110,11 +116,18 @@ def observation2():
     
     plt.grid(axis='both')
     
+    plt.rcParams.update({'font.size': 12})
+    
     figure = plt.gcf()
-    figure.set_size_inches(8, 6)
+    
+    figure.set_size_inches(8, 4)
     
     savefig('02')
     showplt(plt)        
+
+def shortenQuarter(quarter):
+    year, q = quarter.split('.')
+    return '{}/{}'.format(year.replace('20', ''), q)
     
 def observation3():
     allcontracts = pd.read_pickle("../04_staged_data/data_observation3.p")
@@ -124,6 +137,8 @@ def observation3():
     
     quarterlyClones['t1plus'] = quarterlyClones.apply(lambda row: row['type-2b']+row['type-2c']+row['type-3']+row['type-3b']+row['type-3c'], axis=1)
     quarterlyClones['all'] = quarterlyClones.apply(lambda row: row['type-1']+row.t1plus, axis=1)
+    
+    quarterlyClones['quarter'] = quarterlyClones.apply(lambda row: shortenQuarter(row['quarter']), axis=1)
     
     report = [
         ('Quarterly clones', quarterlyClones, '')
@@ -139,27 +154,30 @@ def observation3():
     fig, axs = plt.subplots(2)
     
     axs[0] = quarterlyClones[['all']].plot(kind='bar', ax=axs[0], width=width, rot=0)
-    axs[0].set_ylabel('Number of new clones')
+    axs[0].set_ylabel('Number of new clones', fontsize=15)
     axs[0].set_ylim([0, 30000])
-    axs[0].bar_label(axs[0].containers[0])
-    axs[0].legend(loc='upper left')
-    
+    axs[0].bar_label(axs[0].containers[0], fontsize=14)
+    axs[0].legend(loc='upper left', fontsize=14)
     
     colors = ['#911eb4', '#ffe119', '#e6194B', '#469990', '#42d4f4']
     quarterlyT1plusClones100 = quarterlyClones[['type-2b', 'type-2c', 'type-3', 'type-3b', 'type-3c', 'all']].apply(lambda x: round(x*100/x['all'], 0), axis=1)
     quarterlyT1plusClones100 = quarterlyT1plusClones100[['type-2b', 'type-2c', 'type-3', 'type-3b', 'type-3c']]
     axs[1] = quarterlyT1plusClones100.plot(kind='bar', stacked = True, ax=axs[1], width=width, rot=0, color=colors)
-    axs[1].set_ylabel('% of new non-type-1 clones')
-    axs[1].set_xlabel('Quarter')
-    axs[1].legend(('type-2b', 'type-2c', 'type-3', 'type-3b', 'type-3c'), loc='upper left')
+    axs[1].set_ylabel('% of new non-type-1 clones', fontsize=15)
+    axs[1].set_xlabel('Quarter', fontsize=20)
+    axs[1].legend(('type-2b', 'type-2c', 'type-3', 'type-3b', 'type-3c'), loc='upper left', fontsize=14)
     
     container = axs[1].containers[2]
     labels = [int(v.get_height()) if v.get_height() > 0 else '' for v in container]
-    axs[1].bar_label(container, labels=labels, label_type='center', color='white')
+    axs[1].bar_label(container, labels=labels, label_type='center', color='white', fontsize=14)
 
     for ax in axs:
         ax.set_xticklabels(qlabels)
         ax.grid(axis='y')
+        
+        labels=ax.get_xticklabels()+ax.get_yticklabels()
+        for label in labels:
+            label.set_fontsize(13)
 
     figure = plt.gcf()
     figure.set_size_inches(8, 6)
@@ -178,7 +196,23 @@ def observation4a():
     totalCloneNumber = dfg['sumlines'].sum()
     totalClonePercentage = round((totalCloneNumber*100)/corpusLOC, 2)
     
+    dfg2 = dfg
+    dfg2 = dfg.append({'type' : 'clone-free', 'sumlines' : corpusLOC - dfg2['sumlines'].sum()}, ignore_index=True)
+    dfg2['ratio'] = dfg2.apply(lambda row: round((row['sumlines']*100)/corpusLOC, 2), axis=1)
+    dfg2 = dfg2.sort_values(by = 'sumlines', ascending = False)
+    print(dfg2)
+    
+    print(dfg2)
+    #dfg2 = dfg.append({'type' : 'clone-free', 'sumlines' : corpusLOC}, ignore_index=True).sort_values(by = 'sumlines', ascending = False)
+    
+    report = [
+        ('Clone proportions', dfg2, '')
+    ]
+    
+    printHtmlReport('04-a1', report)
+    
     ### Chart ###
+    
     
     groups = ['clone-free', 'type-1', 'type-3', 'other']
     values = [corpusLOC-totalCloneNumber, dfg[dfg['type']=='type-1']['sumlines'].values[0], dfg.loc[dfg['type']=='type-3']['sumlines'].values[0], dfg.loc[~dfg.type.isin(groups)].sum().values[1]]
@@ -204,10 +238,20 @@ def observation4a():
 
     ax.legend(["{} ({}%)".format(groups[i], round(((values[i]/corpusLOC)*100), 2)) for i in range(0,4)], loc='center', frameon=False)
     
+    
+    """
+    
+    dfg = dfg.append({'type' : 'clone-free', 'sumlines' : corpusLOC}, ignore_index=True).sort_values(by = 'sumlines', ascending = False)
+    
+    print(dfg)
+    
+    dfg[['sumlines']].T.plot.barh(stacked=True, )
+    """
+    
     figure = plt.gcf()
     figure.set_size_inches(8, 6)
     
-    savefig('04')
+    savefig('04-a2')
     showplt(plt)
     
 def observation4b():
@@ -254,6 +298,8 @@ def observation7():
 def observation8():
     df = pd.read_pickle("../04_staged_data/gini.p")
     
+    print(df)
+    
     df['type'] = df['type'].replace(to_replace='type-2', value='type-2b')
     df['type'] = df['type'].replace(to_replace='type-3-2', value='type-3b')
     df['type'] = df['type'].replace(to_replace='type-3-2c', value='type-3c')
@@ -274,13 +320,18 @@ def observation8():
     plt.axhline(y=df['gini'].median(), color='r')
     plt.yticks(list([0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, round(df['gini'].median(),2), 0.9, 1.0]))
     plt.gca().get_yticklabels()[9].set_color('red')
-    ax.text(15.75, -0.1, str(int(df['nclones'].median())), color='red')
+    ax.text(15.75, -0.1, str(int(df['nclones'].median())), color='red', fontsize=16)
 
-    plt.xlabel('Normaized cluster size')
-    plt.ylabel('Gini-coefficient')
+    plt.xlabel('Normalized cluster size', fontsize=16)
+    plt.ylabel('Gini-coefficient', fontsize=16)
+    
+    labels=ax.get_xticklabels()+ax.get_yticklabels()
+    for label in labels:
+        label.set_fontsize(16)
     
     cb = fig.colorbar(hb, ax=ax)
-    cb.set_label('Count')
+    cb.set_label('Count', fontsize=16)
+    cb.ax.tick_params(labelsize=16)
     
     fig.set_size_inches(8, 6)
     
@@ -293,12 +344,13 @@ def observation8():
     
     bp1 = df.boxplot(column=['gini'], by='type', patch_artist = True, return_type='both', medianprops=dict(linewidth=1, color='black'), whiskerprops=dict(linewidth=1, color='black'), ax=axs[0])
     #, , '#42d4f4'
-    colors = ['#1f77b4', '#ffe119', '#e6194B', '#469990']
+    # colors = ['#1f77b4', '#ffe119', '#e6194B', '#469990']
     
     for row_key, (ax,row) in bp1.iteritems():
         ax.set_xlabel('')
         for i,box in enumerate(row['boxes']):
-            box.set(color=colors[i], linewidth=2)
+            #box.set(color=colors[i], linewidth=2)'#aaaaaa'
+            box.set(color='#aaaaaa', linewidth=2)
     
     bp2 = df.boxplot(column=['gini'], patch_artist = True, return_type='both', boxprops=dict(facecolor='#aaaaaa', color='#aaaaaa'), medianprops=dict(linewidth=1, color='black'), whiskerprops=dict(linewidth=1, color='black'), ax=axs[1])
     
@@ -306,9 +358,16 @@ def observation8():
     axs[1].set_title('')
     fig.suptitle('')
     
-    axs[0].set_ylabel('Gini-coefficient')
+    axs[0].set_ylabel('Gini-coefficient', fontsize=16)
     axs[1].set_xticklabels(['Overall'])
-            
+    
+    for ax in axs:
+        labels=ax.get_xticklabels()+ax.get_yticklabels()
+        for label in labels:
+            label.set_fontsize(16)
+
+    fig.set_size_inches(8, 4)
+    
     savefig('08-2')
     showplt(plt)
     
@@ -317,6 +376,8 @@ def observation8():
     reportDf['median'] = reportDf.apply(lambda row: median(df.loc[(df['type']==row['type'])]['gini']), axis=1)
     
     reportDf = reportDf.sort_values(by=['type']).reset_index(drop=True)
+    
+    reportDf = reportDf.append({'type' : 'overall', 'median' : median(df['gini'])}, ignore_index = True)
     
     report = [
         ('Median Gini-coefficients', reportDf[['type', 'median']], 'G=0.85 roughly equals to a cluster of 10 contracts with nine contracts having 1 transaction, and one transaction having 250.<br/>G=0.75 roughly equals to a cluster of 10 contracts with nine contracts having 1 transaction, and one transaction having 50.<br/>')
@@ -364,7 +425,8 @@ def observation9():
     for row_key, (ax,row) in bp1.iteritems():
         ax.set_xlabel('')
         for i,box in enumerate(row['boxes']):
-            box.set(color=colors[i], linewidth=2)
+            #box.set(color=colors[i], linewidth=2)
+            box.set(color='#aaaaaa', linewidth=2)
     
     bp2 = df.boxplot(column=['rankPercentage'], patch_artist = True, return_type='both', boxprops=dict(facecolor='#aaaaaa', color='#aaaaaa'), medianprops=dict(linewidth=1, color='black'), whiskerprops=dict(linewidth=1, color='black'), ax=axs[1])
     
@@ -372,8 +434,15 @@ def observation9():
     axs[1].set_title('')
     fig.suptitle('')
     
-    axs[0].set_ylabel('Rank percentage')
+    axs[0].set_ylabel('Rank percentage', fontsize=16)
     axs[1].set_xticklabels(['Overall'])
+    
+    for ax in axs:
+        labels=ax.get_xticklabels()+ax.get_yticklabels()
+        for label in labels:
+            label.set_fontsize(16)
+
+    fig.set_size_inches(8, 4)
     
     savefig('09-1')
     showplt(plt)
@@ -409,6 +478,11 @@ def observation10():
 def observation11():
     authorDf = pd.read_pickle("../04_staged_data/data_rq2.p")
     
+    authorDf = authorDf[authorDf['size']>=10]
+    #authorDf = authorDf[authorDf['entropy']>0]
+    
+    print(authorDf)
+    
     authorDf = authorDf.sort_values(by=['entropy'], ascending=False).reset_index(drop = True)
     
     authorDf['sizeperc'] = authorDf.apply(lambda row: round((row['size']/(authorDf['size'].max())),2), axis=1)
@@ -434,11 +508,16 @@ def observation11():
     
     
     
-    plt.xlabel('Normalized cluster size')
-    plt.ylabel('Entropy')
+    plt.xlabel('Normalized cluster size', fontsize=16)
+    plt.ylabel('Entropy', fontsize=16)
+    
+    labels=ax.get_xticklabels()+ax.get_yticklabels()
+    for label in labels:
+        label.set_fontsize(16)
     
     cb = fig.colorbar(hb, ax=ax)
-    cb.set_label('Count')
+    cb.set_label('Count', fontsize=16)
+    cb.ax.tick_params(labelsize=16)
     
     figure = plt.gcf()
     figure.set_size_inches(8, 6)
