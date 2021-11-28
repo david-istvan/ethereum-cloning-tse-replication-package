@@ -10,15 +10,13 @@ import seaborn as sns
 import scipy.stats as stats
 from cliffsDelta import cliffsDelta
 
-mode = 8 #'all'
+mode = 0 #'all'
 resultsPath = '../06_results'
 corpusLOC = 4004543
 
 def observation0():
     data = pd.read_pickle("../04_staged_data/clonesWithAuthors.p")
-    print('Min: {}.'.format(min(data['filelength'])))
-    print('Max: {}.'.format(max(data['filelength'])))
-    print('Mean: {}.'.format(mean(data['filelength'])))
+    print(data)
 
 def observation1():
     df1 = pd.read_pickle("../04_staged_data/data_rq1.p")
@@ -132,10 +130,13 @@ def shortenQuarter(quarter):
 def observation3():
     allcontracts = pd.read_pickle("../04_staged_data/data_observation3.p")
     
-    quarterlyClones = allcontracts.groupby(['quarter'])[['quarter', 't1', 't2', 't2c', 't3', 't32', 't32c']].sum().reset_index()
+    print(allcontracts)
+    
+    quarterlyClones = allcontracts.groupby(['quarter'])[['quarter', 't1', 't2', 't2c', 't3', 't32', 't32c', 'filelength']].sum().reset_index()
     quarterlyClones = quarterlyClones.rename(columns={'t1':'type-1', 't2':'type-2b', 't2c':'type-2c', 't3':'type-3', 't32':'type-3b', 't32c':'type-3c'})
     
     quarterlyClones['t1plus'] = quarterlyClones.apply(lambda row: row['type-2b']+row['type-2c']+row['type-3']+row['type-3b']+row['type-3c'], axis=1)
+    quarterlyClones['t1t3plus'] = quarterlyClones.apply(lambda row: row['type-2b']+row['type-2c']+row['type-3b']+row['type-3c'], axis=1)
     quarterlyClones['all'] = quarterlyClones.apply(lambda row: row['type-1']+row.t1plus, axis=1)
     
     quarterlyClones['quarter'] = quarterlyClones.apply(lambda row: shortenQuarter(row['quarter']), axis=1)
@@ -153,23 +154,24 @@ def observation3():
     
     fig, axs = plt.subplots(2)
     
-    axs[0] = quarterlyClones[['all']].plot(kind='bar', ax=axs[0], width=width, rot=0)
+    axs[0] = quarterlyClones[['all']].plot(kind='bar', ax=axs[0], width=width, rot=0, color='#777777')
     axs[0].set_ylabel('Number of new clones', fontsize=15)
     axs[0].set_ylim([0, 30000])
     axs[0].bar_label(axs[0].containers[0], fontsize=14)
     axs[0].legend(loc='upper left', fontsize=14)
     
-    colors = ['#911eb4', '#ffe119', '#e6194B', '#469990', '#42d4f4']
-    quarterlyT1plusClones100 = quarterlyClones[['type-2b', 'type-2c', 'type-3', 'type-3b', 'type-3c', 'all']].apply(lambda x: round(x*100/x['all'], 0), axis=1)
-    quarterlyT1plusClones100 = quarterlyT1plusClones100[['type-2b', 'type-2c', 'type-3', 'type-3b', 'type-3c']]
+    #colors = ['#911eb4', '#ffe119', '#e6194B', '#469990', '#42d4f4']
+    colors = ['#aaaaaa', '#555555']
+    quarterlyT1plusClones100 = quarterlyClones[['type-3', 't1t3plus', 'all']].apply(lambda x: round(x*100/x['all'], 0), axis=1)
+    quarterlyT1plusClones100 = quarterlyT1plusClones100[['type-3', 't1t3plus']]
     axs[1] = quarterlyT1plusClones100.plot(kind='bar', stacked = True, ax=axs[1], width=width, rot=0, color=colors)
     axs[1].set_ylabel('% of new non-type-1 clones', fontsize=15)
     axs[1].set_xlabel('Quarter', fontsize=20)
-    axs[1].legend(('type-2b', 'type-2c', 'type-3', 'type-3b', 'type-3c'), loc='upper left', fontsize=14)
+    axs[1].legend(('type-3', 'other'), loc='upper left', fontsize=14)
     
-    container = axs[1].containers[2]
+    container = axs[1].containers[0]
     labels = [int(v.get_height()) if v.get_height() > 0 else '' for v in container]
-    axs[1].bar_label(container, labels=labels, label_type='center', color='white', fontsize=14)
+    axs[1].bar_label(container, labels=labels, label_type='center', color='black', fontsize=14)
 
     for ax in axs:
         ax.set_xticklabels(qlabels)
@@ -191,6 +193,8 @@ def observation4():
     
 def observation4a():
     df1 = pd.read_pickle("../04_staged_data/data_rq1.p")
+    
+    print(df1)
     
     dfg = df1.groupby(['type'])['sumlines'].sum().reset_index(name ='sumlines')
     totalCloneNumber = dfg['sumlines'].sum()
@@ -500,6 +504,9 @@ def observation11():
     #ax.scatter(authorDf['sizeperc'], authorDf['entropy'], alpha=0.2)
     #ax.set_xscale('log')
     
+    print(authorDf['size'].median()/authorDf['size'].max())
+    print(authorDf['entropy'].median())
+    
     plt.axvline(x=authorDf['size'].median()/authorDf['size'].max(), color='r')
     plt.axhline(y=authorDf['entropy'].median(), color='r')
     plt.yticks(list([0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, round(authorDf['entropy'].median(),2), 0.8, 0.9, 1.0]))
@@ -546,7 +553,7 @@ def observation13():
     openZeppelinRecords = (df[df['filename_y'].notnull()]).drop_duplicates(subset=['filename_x', 'startline_x', 'endline_x'])
     
     report = [
-        'Total number of contracts: {}.'.format(len(all_corpus_contracts)),
+        'Total number of code blocks: {}.'.format(len(all_corpus_contracts)),
         'Number of distinct OpenZeppelin records: {}.'.format(len(openZeppelinRecords)),
         'Percentage ratio: {}%.'.format(round((len(openZeppelinRecords)/len(all_corpus_contracts))*100, 2))
     ]

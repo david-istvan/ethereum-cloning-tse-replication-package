@@ -7,8 +7,7 @@ from datetime import datetime
 from matplotlib import pyplot as plt
 
 
-#dataToPrepare = ['Observation8', 'Observation9', 'RQ1', 'RQ2', 'RQ3']
-dataToPrepare = ['RQ2']
+dataToPrepare = ['RQ1', 'RQ2', 'RQ3', 'Observation3', 'Observation8', 'Observation9']
 
 data = pd.read_pickle("./clonesWithAuthors.p")
 
@@ -35,6 +34,9 @@ def prepareObservation3():
     
     allcontracts['nclones'] =  allcontracts.apply(lambda row: row.t1+row.t2+row.t2c+row.t3+row.t32+row.t32c, axis=1)
     
+    filelength = pd.read_json('../02_metadata/filelength.json', typ='series')
+    allcontracts['filelength'] = allcontracts.apply(lambda row: filelength[row.name], axis=1)
+    
     allcontracts = allcontracts.sort_values(by=['time'], ascending=True)
     
     allcontracts.to_pickle('./data_observation3.p')
@@ -47,7 +49,9 @@ def getDate(tstring):
     
 def getNClones(contract, type):
     try:
-        return len(data[(data['file'].str.contains(contract)) & (data['type'] == type)])
+        df = data[(data['file'].str.contains(contract)) & (data['type'] == type)]
+        nclones = len(df)
+        return nclones
     except KeyError:
         return 0
         
