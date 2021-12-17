@@ -3,6 +3,7 @@ import os
 import pandas as pd
 import shutil
 from matplotlib import pyplot as plt
+import matplotlib.ticker as ticker
 from scipy.ndimage.filters import gaussian_filter
 from statistics import mean, stdev, median
 from numpy import std, sqrt
@@ -10,7 +11,7 @@ import seaborn as sns
 import scipy.stats as stats
 from cliffsDelta import cliffsDelta
 
-mode = 0 #'all'
+mode = 3 #'all'
 resultsPath = '../06_results'
 corpusLOC = 4004543
 
@@ -132,7 +133,7 @@ def observation3():
     
     print(allcontracts)
     
-    quarterlyClones = allcontracts.groupby(['quarter'])[['quarter', 't1', 't2', 't2c', 't3', 't32', 't32c', 'filelength']].sum().reset_index()
+    quarterlyClones = allcontracts.groupby(['quarter'])[['quarter', 't1', 't2', 't2c', 't3', 't32', 't32c']].sum().reset_index()
     quarterlyClones = quarterlyClones.rename(columns={'t1':'type-1', 't2':'type-2b', 't2c':'type-2c', 't3':'type-3', 't32':'type-3b', 't32c':'type-3c'})
     
     quarterlyClones['t1plus'] = quarterlyClones.apply(lambda row: row['type-2b']+row['type-2c']+row['type-3']+row['type-3b']+row['type-3c'], axis=1)
@@ -156,6 +157,7 @@ def observation3():
     
     axs[0] = quarterlyClones[['all']].plot(kind='bar', ax=axs[0], width=width, rot=0, color='#777777')
     axs[0].set_ylabel('Number of new clones', fontsize=15)
+    #axs[0].set_xlabel('Quarter', fontsize=20)
     axs[0].set_ylim([0, 30000])
     axs[0].bar_label(axs[0].containers[0], fontsize=14)
     axs[0].legend(loc='upper left', fontsize=14)
@@ -165,7 +167,7 @@ def observation3():
     quarterlyT1plusClones100 = quarterlyClones[['type-3', 't1t3plus', 'all']].apply(lambda x: round(x*100/x['all'], 0), axis=1)
     quarterlyT1plusClones100 = quarterlyT1plusClones100[['type-3', 't1t3plus']]
     axs[1] = quarterlyT1plusClones100.plot(kind='bar', stacked = True, ax=axs[1], width=width, rot=0, color=colors)
-    axs[1].set_ylabel('% of new non-type-1 clones', fontsize=15)
+    axs[1].set_ylabel('% of new non-Type-1 clones', fontsize=15)
     axs[1].set_xlabel('Quarter', fontsize=20)
     axs[1].legend(('type-3', 'other'), loc='upper left', fontsize=14)
     
@@ -511,6 +513,9 @@ def observation11():
     plt.axhline(y=authorDf['entropy'].median(), color='r')
     plt.yticks(list([0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, round(authorDf['entropy'].median(),2), 0.8, 0.9, 1.0]))
     plt.gca().get_yticklabels()[7].set_color('red')
+    plt.xticks(list([0.00579, 0.2, 0.4, 0.6, 0.8, 1]))
+    plt.gca().get_xticklabels()[0].set_color('red')
+    ax.xaxis.set_major_formatter(ticker.FormatStrFormatter('%g'))
     #ax.text(15.75, -0.1, str(int(authorDf['sizeperc'].median())), color='red')
     
     
@@ -523,7 +528,7 @@ def observation11():
         label.set_fontsize(16)
     
     cb = fig.colorbar(hb, ax=ax)
-    cb.set_label('Count', fontsize=16)
+    cb.set_label('Number of contracts', fontsize=16)
     cb.ax.tick_params(labelsize=16)
     
     figure = plt.gcf()
