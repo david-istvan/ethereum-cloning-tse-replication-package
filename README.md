@@ -6,7 +6,7 @@ This paper is an extended replication of the paper [_Code cloning in smart contr
 
 ### Contents
 
-* `/01_corpus` - Corpus of verified smart contracts used in this study.
+* `/01_corpus` - Corpus of verified smart contracts used in this study. Identical to the corpus of the original study, available from its [replication package](https://github.com/SAILResearch/suppmaterial-18-masanari-smart_contract_cloning).
 * `/02_metadata` - Metadata about the authors, creation date and transactions of the contracts in the corpus.
 * `/03_clones` - Results of the clone analysis by the [NiCad extension](https://github.com/eff-kay/nicad6) developed for this study.
 * `/04_staged_data` - Prepared and staged data for analysis.
