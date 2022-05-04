@@ -1,0 +1,3 @@
+Mean (authors): 32.42332896461337.
+Standard deviation (authors): 134.22881834955422.
+Median size: 17.0

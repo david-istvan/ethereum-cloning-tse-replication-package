@@ -1,3 +1,3 @@
-Total number of contracts: 163756.
+Total number of code blocks: 163756.
 Number of distinct OpenZeppelin records: 43128.
 Percentage ratio: 26.34%.
