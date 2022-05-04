@@ -22,32 +22,6 @@ class Analysis():
     def __init__(self):
         if not os.path.exists(resultsPath):
             os.mkdir(resultsPath)
-
-    def observation0(self):
-        #dfnew = pd.read_pickle("../04_staged_data/data_observation3.p")
-        #dfold = pd.read_pickle("../04_staged_data/data_observation3.old.p")
-        
-        allcontractsOld = pd.read_json('../02_metadata/authorinfo.old.json').transpose()
-        print(len(allcontractsOld))
-        allcontractsOld = allcontractsOld.loc[allcontractsOld['time'] != 0]
-        print(len(allcontractsOld))
-        allcontractsOld = allcontractsOld.sort_values('time')
-        
-        allcontractsNew = pd.read_json('../02_metadata/authorinfo.new.json').transpose()
-        allcontractsNew= allcontractsNew.loc[allcontractsNew['time'] != 0]
-        allcontractsNew = allcontractsNew.sort_values('time')
-        
-        """
-        allcontractsNewest = pd.read_json('../02_metadata/authorinfo.newest.json').transpose()
-        allcontractsNewest= allcontractsNewest.loc[allcontractsNewest['time'] != 0]
-        allcontractsNewest = allcontractsNewest.sort_values('time')
-        """
-        
-        print(allcontractsOld)
-        print(allcontractsNew)
-        #print(allcontractsNewest)
-        
-        
             
     def observation1(self):
         df1 = pd.read_pickle("../04_staged_data/data_rq1.p")
