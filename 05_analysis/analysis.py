@@ -149,6 +149,8 @@ class Analysis():
         self.observation3a(quarterlyClones)
         plt.clf()
         self.observation3b(quarterlyClones)
+        plt.clf()
+        self.observation3c(quarterlyClones)
         
     def observation3a(self, quarterlyClones):
         report = [
@@ -206,9 +208,10 @@ class Analysis():
         
         labels = list(map(lambda n: '{}M'.format(round(n/1000000, 1)) if n>1000000 else ('{}k'.format(round(n/1000, 1)) if n>1000 else n), quarterlyClones['filelength']))
         
-        ax.set_ylabel('Number of new cloned lines of code', fontsize=15)
-        ax.set_ylim([0, 3800000])
+        ax.set_ylabel('Number of new cloned lines of code (log scale)', fontsize=15)
         ax.bar_label(ax.containers[0], labels=labels, fontsize=12)
+        ax.get_legend().remove()
+        ax.set_yscale('log')
 
         ax.set_xticklabels(qlabels)
         ax.grid(axis='y')
@@ -222,6 +225,59 @@ class Analysis():
         figure.set_size_inches(8, 6)
         
         self.savefig('03b')
+        
+    def observation3c(self, quarterlyClones):
+        report = [
+            ('Quarterly clones', quarterlyClones, '')
+        ]
+        self.printHtmlReport('03', report)
+        
+        ### Chart ###
+        qlabels = quarterlyClones['quarter']
+        x = np.arange(len(qlabels))
+        width = 0.4
+        
+        fig, axs = plt.subplots(3)
+        
+        axs[0] = quarterlyClones[['all']].plot(kind='bar', ax=axs[0], width=width, rot=0, color='#777777')
+        axs[0].set_ylabel('Number of new clones', fontsize=15)
+        axs[0].set_ylim([0, 30000])
+        axs[0].bar_label(axs[0].containers[0], fontsize=14)
+        axs[0].legend(loc='upper left', fontsize=14)
+        
+        colors = ['#aaaaaa', '#555555']
+        quarterlyT1plusClones100 = quarterlyClones[['type-3', 't1t3plus', 'all']].apply(lambda x: round(x*100/x['all'], 0), axis=1)
+        quarterlyT1plusClones100 = quarterlyT1plusClones100[['type-3', 't1t3plus']]
+        axs[1] = quarterlyT1plusClones100.plot(kind='bar', stacked = True, ax=axs[1], width=width, rot=0, color=colors)
+        axs[1].set_ylabel('% of new non-Type-1 clones', fontsize=15)
+        axs[1].legend(('type-3', 'other'), loc='upper left', fontsize=14)
+        
+        container = axs[1].containers[0]
+        labels = [int(v.get_height()) if v.get_height() > 0 else '' for v in container]
+        axs[1].bar_label(container, labels=labels, label_type='center', color='black', fontsize=14)
+        
+        axs[2] = quarterlyClones[['filelength']].plot(kind='bar', ax=axs[2], width=width, rot=0, color='#777777')
+        axs[2].set_ylabel('New cloned LOC (log scale)', fontsize=14, labelpad=23)
+        labels = list(map(lambda n: '{}M'.format(round(n/1000000, 1)) if n>1000000 else ('{}k'.format(round(n/1000, 1)) if n>1000 else n), quarterlyClones['filelength']))
+        axs[2].bar_label(axs[2].containers[0], labels=labels, fontsize=12)
+        axs[2].get_legend().remove()
+        axs[2].set_yscale('log')
+        
+        axs[2].set_xlabel('Quarter', fontsize=20)
+        
+        for ax in axs:
+            ax.set_xticklabels(qlabels)
+            ax.grid(axis='y')
+            
+            labels=ax.get_xticklabels()+ax.get_yticklabels()
+            for label in labels:
+                label.set_fontsize(13)
+
+        figure = plt.gcf()
+        figure.set_size_inches(8, 9)
+        
+        
+        self.savefig('03c')
         
     def observation4(self):
         self.observation4a()
