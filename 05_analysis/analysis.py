@@ -163,8 +163,8 @@ class Analysis():
     def observation3(self):
         allcontracts = pd.read_pickle("../04_staged_data/data_observation3.p")
         
-        #quarterlyClones = allcontracts.groupby(['quarter'])[['quarter', 't1', 't2', 't2c', 't3', 't32', 't32c', 'filelength']].sum().reset_index()
-        quarterlyClones = allcontracts.groupby(['quarter'])[['quarter', 't1', 't2', 't2c', 't3', 't32', 't32c']].sum().reset_index()
+        quarterlyClones = allcontracts.groupby(['quarter'])[['quarter', 't1', 't2', 't2c', 't3', 't32', 't32c', 'filelength']].sum().reset_index()
+        #quarterlyClones = allcontracts.groupby(['quarter'])[['quarter', 't1', 't2', 't2c', 't3', 't32', 't32c']].sum().reset_index()
         quarterlyClones = quarterlyClones.rename(columns={'t1':'type-1', 't2':'type-2b', 't2c':'type-2c', 't3':'type-3', 't32':'type-3b', 't32c':'type-3c'})
         
         quarterlyClones['t1plus'] = quarterlyClones.apply(lambda row: row['type-2b']+row['type-2c']+row['type-3']+row['type-3b']+row['type-3c'], axis=1)
@@ -649,6 +649,7 @@ class Analysis():
     def runAll(self):
         print("Running analysis for all observations.\n")
         for observationId in range(1, 15):
+            plt.clf()
             self.runOne(observationId)
     
     def runOne(self, observationId):
