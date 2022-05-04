@@ -138,7 +138,6 @@ class Analysis():
         allcontracts = pd.read_pickle("../04_staged_data/data_observation3.p")
         
         quarterlyClones = allcontracts.groupby(['quarter'])[['quarter', 't1', 't2', 't2c', 't3', 't32', 't32c', 'filelength']].sum().reset_index()
-        #quarterlyClones = allcontracts.groupby(['quarter'])[['quarter', 't1', 't2', 't2c', 't3', 't32', 't32c']].sum().reset_index()
         quarterlyClones = quarterlyClones.rename(columns={'t1':'type-1', 't2':'type-2b', 't2c':'type-2c', 't3':'type-3', 't32':'type-3b', 't32c':'type-3c'})
         
         quarterlyClones['t1plus'] = quarterlyClones.apply(lambda row: row['type-2b']+row['type-2c']+row['type-3']+row['type-3b']+row['type-3c'], axis=1)
@@ -147,6 +146,11 @@ class Analysis():
         
         quarterlyClones['quarter'] = quarterlyClones.apply(lambda row: self.shortenQuarter(row['quarter']), axis=1)
         
+        self.observation3a(quarterlyClones)
+        plt.clf()
+        self.observation3b(quarterlyClones)
+        
+    def observation3a(self, quarterlyClones):
         report = [
             ('Quarterly clones', quarterlyClones, '')
         ]
@@ -189,7 +193,36 @@ class Analysis():
         figure.set_size_inches(8, 6)
         
         self.savefig('03')
+    
+    def observation3b(self, quarterlyClones):
+        ### Chart ###
+        qlabels = quarterlyClones['quarter']
+        x = np.arange(len(qlabels))
+        width = 0.4
+        
+        plt.figure()
+        
+        ax = quarterlyClones[['filelength']].plot(kind='bar', width=width, rot=0, color='#777777')
+        
+        labels = list(map(lambda n: '{}M'.format(round(n/1000000, 1)) if n>1000000 else ('{}k'.format(round(n/1000, 1)) if n>1000 else n), quarterlyClones['filelength']))
+        
+        ax.set_ylabel('Number of new cloned lines of code', fontsize=15)
+        ax.set_ylim([0, 3800000])
+        ax.bar_label(ax.containers[0], labels=labels, fontsize=12)
 
+        ax.set_xticklabels(qlabels)
+        ax.grid(axis='y')
+        
+        labels=ax.get_xticklabels()+ax.get_yticklabels()
+        for label in labels:
+            label.set_fontsize(13)
+
+        
+        figure = plt.gcf()
+        figure.set_size_inches(8, 6)
+        
+        self.savefig('03b')
+        
     def observation4(self):
         self.observation4a()
         plt.clf()
