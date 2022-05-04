@@ -17,6 +17,8 @@ This paper is an extended replication of the paper [_Code cloning in smart contr
 
 1. Clone this repository.
 2. Run `python analysis.py` the `/05_analysis` folder.
+   1. Run `python analysis.py -o [observationId]` to run the analysis of a specific observation.
+   2. Use the `-s` flag to stash the folder of the previous analyses.
 
 ### Reproducing the pre-staged data (`/04_staged_data`)
 
@@ -24,7 +26,7 @@ This paper is an extended replication of the paper [_Code cloning in smart contr
 2. Run `python 01_mergeMetadata.py` in the `/04_staged_data` folder.
 3. Run `python 02_prepareAnalysisData.py` in the `/04_staged_data` folder.
    1. List the observation IDs in `observationsToPrepareDataFor` to prepare the data for. Use `observationsToPrepareDataFor = allObservations` to generate data for all observations.
-   2. `prepareObservation3()` (producing `data_observation3.p`) is an especially time-consuming script and might run for up to an hour.
+   2. `prepareObservation3()` (producing `data_observation3.p`) is an especially time-consuming script and might run for up to 2.5 hours.
 
 ### Reproducing the clone analysis (`/03_clones`)
 
