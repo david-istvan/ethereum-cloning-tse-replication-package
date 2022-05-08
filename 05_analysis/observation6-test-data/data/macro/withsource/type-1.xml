@@ -1,0 +1,45 @@
+<clones>
+<systeminfo processor="nicad6" system="source-code" granularity="functions" threshold="0%" minlines="10" maxlines="2500"/>
+<cloneinfo npcs="670211" npairs="18514133"/>
+<runinfo ncompares="520637852" cputime="79652400"/>
+<classinfo nclasses="9590"/>
+
+<class classid="1" nclones="46" nlines="11" similarity="100">
+<source file="systems/source-code/61/61064912b20c0cc0af50384c0f17f148f4857f96.sol" startline="87" endline="102" pcid="2">
+function participate() payable {
+if(msg.value < participationFee)
+throw;
+else if (now >= deadlineParticipation)
+throw;
+else if (participated[msg.sender])
+throw;
+else if (msg.sender!=tx.origin) //contract could decline money sending or have an expensive fallback function, only wallets should be able to participate
+throw;
+else {
+participants.push(msg.sender);
+participated[msg.sender]=true;
+//if the winners list is smaller than the prize list, push the candidate
+if(winners.length < prizeWinners.length) winners.push(msg.sender);
+}
+}
+</source>
+<source file="systems/source-code/44/44671765322ff2cd5b21223280bbcef9d092f430.sol" startline="87" endline="102" pcid="324049">
+function participate() payable {
+if(msg.value < participationFee)
+throw;
+else if (now >= deadlineParticipation)
+throw;
+else if (participated[msg.sender])
+throw;
+else if (msg.sender!=tx.origin) //contract could decline money sending or have an expensive fallback function, only wallets should be able to participate
+throw;
+else {
+participants.push(msg.sender);
+participated[msg.sender]=true;
+//if the winners list is smaller than the prize list, push the candidate
+if(winners.length < prizeWinners.length) winners.push(msg.sender);
+}
+}
+</source>
+</class>
+</clones>
