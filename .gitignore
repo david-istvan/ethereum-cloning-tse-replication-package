@@ -1,3 +1,4 @@
 /tmp/*
 /backup/*
 */*.pyc
+*.DS_Store
