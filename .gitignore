@@ -3,8 +3,6 @@
 */*.pyc
 *.DS_Store
 */*__pycache__
-
-
 # specific files
 05_analysis/data
 05_analysis/data.zip
