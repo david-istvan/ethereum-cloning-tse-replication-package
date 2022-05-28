@@ -737,7 +737,7 @@ class Analysis():
             'Percentage ratio: {}%.'.format(round((len(uniqueContractsWithIdenticalOZBlock)/len(unique_contracts))*100, 2))
         ]
         
-        self.printTextReport(122, report)
+        self.printTextReport(12, report)
 
     def observation12b(self):
         df = pd.read_csv('../03_clones/rq3/type-1_functions.csv')
@@ -767,7 +767,7 @@ class Analysis():
     def observation13(self):
         df = pd.read_csv('../03_clones/rq3/type-1.csv') 
 
-        all_corpus_contracts = pd.read_csv('../03_clones/rq3/corpus_functions.csv')
+        all_corpus_contracts = pd.read_csv('../03_clones/rq3/corpus_contracts.csv')
 
         openZeppelinRecords = (df[df['filename_y'].notnull()]).drop_duplicates(subset=['filename_x', 'startline_x', 'endline_x'])
         
@@ -873,8 +873,8 @@ class Analysis():
             
     def printTextReport(self, observationNumber, reports:list):
         f = open('{}/observation{}.txt'.format(resultsPath, observationNumber), 'w')
-        reports = pformat(reports)
-        f.write(reports)
+        for r in reports:
+            f.write(r+'\n')
         f.close()
         
     def printHtmlReport(self, observationNumber, reports:list, functions=False):
@@ -884,7 +884,7 @@ class Analysis():
                 cutoff = cutoff_report.min_lines
                 report = cutoff_report.report
                 f.write(f'<h1> Min_lines: {cutoff}</h1>')
-                f.write('<div style="display:flex">')
+                f.write('<div>')
                 for title, df, comment in report:
                     f.write('<div style="margin-right:20px">')
                     f.write('<h2>{}</h2>'.format(title))
@@ -893,7 +893,7 @@ class Analysis():
                     f.write('</div>')
                 f.write('</div>')
         else:
-            f.write('<div style="display:flex">')
+            f.write('<div>')
             for title, df, comment in reports:
                 f.write('<div style="margin-right:20px">')
                 f.write('<h2>{}</h2>'.format(title))
