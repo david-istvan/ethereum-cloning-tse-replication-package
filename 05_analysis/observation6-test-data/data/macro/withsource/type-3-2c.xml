@@ -1,0 +1,7 @@
+<clones>
+<systeminfo processor="nicad6" system="source-code" granularity="functions" threshold="0%" minlines="10" maxlines="2500"/>
+<cloneinfo npcs="670211" npairs="18514133"/>
+<runinfo ncompares="520637852" cputime="79652400"/>
+<classinfo nclasses="9590"/>
+
+</clones>

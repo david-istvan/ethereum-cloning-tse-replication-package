@@ -1,0 +1,12 @@
+<clones>
+<systeminfo processor="nicad6" system="source-code" granularity="functions" threshold="0%" minlines="10" maxlines="2500"/>
+<cloneinfo npcs="670211" npairs="18514133"/>
+<runinfo ncompares="520637852" cputime="79652400"/>
+<classinfo nclasses="9590"/>
+
+<class classid="1" nclones="46" nlines="11" similarity="100">
+<source file="systems/source-code/61/61064912b20c0cc0af50384c0f17f148f4857f96.sol" startline="87" endline="102" pcid="2"></source>
+<source file="systems/source-code/44/44671765322ff2cd5b21223280bbcef9d092f430.sol" startline="87" endline="102" pcid="324049"></source>
+</class>
+
+</clones>

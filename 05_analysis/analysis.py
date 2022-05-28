@@ -2,6 +2,8 @@ import argparse
 import os
 import shutil
 from statistics import mean, median, stdev
+import re
+import pickle
 
 import numpy as np
 import pandas as pd
@@ -380,9 +382,91 @@ class Analysis():
         #Same as observation4()
         
     def observation6(self):
+        print('inside observation 6')
+
+        def get_classids(file_path)->int:
+            a = open(file_path).read()
+            b = re.findall('.*?classid="(\d+)".*', a)
+
+            return b
+
+        def extract_code(file_path, classids, save_path):
+            f  = open(file_path).read()
+            
+            save_list = []
+            for i in map(str, classids):
+                p = r'^(<class classid="{}"[\s\S]*?<\/class>)$'.format(i)
+                cs = re.findall(p, f, re.MULTILINE)
+                p = r'^<source[\s\S]*?function[ ]?([\s\S]*?)\([\s\S]*<\/source>$'
+                all_fs = re.findall(p, cs[0], re.MULTILINE)
+                if len(all_fs)==0:
+                    p = r'^<source[\s\S]*?>([\s\S]*?)<\/source>$'
+                    cs = re.findall(p, cs[0], re.MULTILINE)
+                    p = r'[\s\S]*?function[ ]?([\s\S]*?)\([\s\S]*?$'
+                    all_fs = re.findall(p, cs[0], re.MULTILINE)
+                    if len(all_fs)==0:
+                        print('still not caught', cs[0])
+
+                save_list.append(all_fs)
+                print(f'class id {i} done')
+            pickle.dump(save_list, open(save_path, 'wb'))
+
+        def extract_functions_ids(config):
+            original_paths = ['type-1', 'type-2', 'type-2c', 'type-3-1', 'type-3-2', 'type-3-2c']
+            print('extr')
+            os.makedirs('duplicates/code-filtered', exist_ok=True)
+            os.makedirs('duplicates/function-ids', exist_ok=True)
+            for filepath in original_paths:
+                print(f'starting {filepath}')
+                classids = get_classids('duplicates/final/'+filepath+".xml")
+                print(f'classsids {len(classids)}')
+                complete_file_path = 'data/{}/withsource/{}'.format(config, filepath+'.xml')
+                save_path_pickle = 'duplicates/function-ids/{}'.format(filepath+'.p')
+                extract_code(complete_file_path, classids, save_path_pickle)
+            
+                save_path_txt = open('duplicates/function-ids/{}'.format(filepath+'.txt'), 'w')
+                functions = pickle.load(open(save_path_pickle, 'rb'))
+
+                for f in functions:
+                    save_path_txt.write(f[0]+'\n') 
+
+                print(len(classids), len(functions))
+
+        def get_top_function_ids(path):
+            original_paths = ['type-1', 'type-2', 'type-2c', 'type-3-1', 'type-3-2', 'type-3-2c']
+
+            save_path = open(f'{path}/function-ids/all-ids.txt', 'w')
+            for file in original_paths:
+                # ids = file.read().split('\n')
+                file_data = open(f'{path}/function-ids/{file}.txt').read()
+                # print(f'{file}', file_data)
+                save_path.write(file_data)
+            save_path.flush()
+
+            top20_functions = pd.Series(open(f'{path}/function-ids/all-ids.txt', 'r').read().split('\n')[:-1]).value_counts()[:20]
+
+            print(top20_functions.to_latex())
+            top20_path = open(f'{path}/function-ids/top20.txt', 'w')
+            
+            [top20_path.write(f'{x}\n') for x in top20_functions.index]
+            return top20_functions
+
+        try:
+            os.chdir('data')
+        except FileNotFoundError:
+            raise FileNotFoundError("You need to place data folder at the same location as analysis.py")
+        # use this folder for testing purposes
+        # os.chdir('observation6-test-data')
+
+        extract_functions_ids('macro')
+        get_top_function_ids('duplicates')
+
+        # go back to parent dir
+        os.chdir('../')
         pass
 
     def observation7(self):
+        # Same as observation 6
         pass
     
     def observation8(self):
