@@ -1,9 +1,11 @@
 import argparse
 import os
+from pprint import pformat
 import shutil
 from statistics import mean, median, stdev
 import re
 import pickle
+from typing import Collection
 
 import numpy as np
 import pandas as pd
@@ -735,11 +737,37 @@ class Analysis():
             'Percentage ratio: {}%.'.format(round((len(uniqueContractsWithIdenticalOZBlock)/len(unique_contracts))*100, 2))
         ]
         
-        self.printTextReport(12, report)
+        self.printTextReport(122, report)
+
+    def observation12b(self):
+        df = pd.read_csv('../03_clones/rq3/type-1_functions.csv')
+        df['endline_x'] = df['endline_x'].apply( lambda x: int(x.replace('"', '')))
+        df['startline_x'] = df['startline_x'].apply( lambda x: int(x.replace('"', '')))
+        df['diff'] = df['endline_x'] - df['startline_x'] + 1
+
+        reports = []
+            
+        for i in range(11):
+            df = df[df['diff'] >= i]
+
+            uniqueContractsWithIdenticalOZBlock = (df[df['startline_y'].notnull()].drop_duplicates(subset=['filename_x']))
+            unique_contracts = df.drop_duplicates(subset=['filename_x'])
+            
+            report = (
+                f'Min number of function lines considered: {i}',
+                'Total number of contracts: {}.'.format(len(unique_contracts)),
+                'Number of distinct contracts with an OpenZeppelin record associated: {}.'.format(len(uniqueContractsWithIdenticalOZBlock)),
+                'Percentage ratio: {}%.'.format(round((len(uniqueContractsWithIdenticalOZBlock)/len(unique_contracts))*100, 2))
+            )
+
+            reports.append(report)
+        
+        self.printTextReport('12b', reports)
         
     def observation13(self):
         df = pd.read_csv('../03_clones/rq3/type-1.csv') 
-        all_corpus_contracts = pd.read_csv('../03_clones/rq3/corpus_contracts.csv')
+
+        all_corpus_contracts = pd.read_csv('../03_clones/rq3/corpus_functions.csv')
 
         openZeppelinRecords = (df[df['filename_y'].notnull()]).drop_duplicates(subset=['filename_x', 'startline_x', 'endline_x'])
         
@@ -751,9 +779,36 @@ class Analysis():
         
         self.printTextReport(13, report)
 
+    def observation13b(self):
+        df = pd.read_csv('../03_clones/rq3/type-1_functions.csv') 
+        df['endline_x'] = df['endline_x'].apply( lambda x: int(x.replace('"', '')))
+        df['startline_x'] = df['startline_x'].apply( lambda x: int(x.replace('"', '')))
+        df['diff'] = df['endline_x'] - df['startline_x'] + 1
+
+        all_corpus_contracts = pd.read_csv('../03_clones/rq3/corpus_functions.csv')
+        all_corpus_contracts['endline'] = all_corpus_contracts['endline'].apply( lambda x: int(x.replace('"', '')))
+        all_corpus_contracts['startline'] = all_corpus_contracts['startline'].apply( lambda x: int(x.replace('"', '')))
+        all_corpus_contracts['diff'] = all_corpus_contracts['endline'] - all_corpus_contracts['startline'] + 1
+
+        reports = []
+        for i in range(11):
+            df = df[df['diff'] >= i]
+
+            all_corpus_contracts = all_corpus_contracts[all_corpus_contracts['diff'] >= i]
+            openZeppelinRecords = (df[df['filename_y'].notnull()]).drop_duplicates(subset=['filename_x', 'startline_x', 'endline_x'])
+
+            report = (f'Min number of lines considered: {i}', 
+                'Total number of code blocks: {}.'.format(len(all_corpus_contracts)),
+                'Number of distinct OpenZeppelin records: {}.'.format(len(openZeppelinRecords)),
+                'Percentage ratio: {}%.'.format(round((len(openZeppelinRecords)/len(all_corpus_contracts))*100, 2)))
+           
+            reports.append(report)
+        
+        self.printTextReport('13b', reports)
 
     def observation14(self):
         df = pd.read_csv('../03_clones/rq3/type-1.csv') 
+
         ozFiles = df.filename_y.apply(lambda x: x.replace('"','').split('/')[-1] if not pd.isna(x) else x)
         
         totalOZFiles = ozFiles.value_counts().sum()
@@ -770,27 +825,82 @@ class Analysis():
             ('Cumulative 80%', ozCounts.head(ozCounts[ozCounts.cumulativePerc > 80].index[0]), ''),
             ('First 20', ozCounts.head(int(len(ozCounts)*0.2)), '')
         ]
+
+        print(ozCounts.head(10).to_latex())
         
         self.printHtmlReport(14, report)
 
+    def observation14b(self):
+        df = pd.read_csv('../03_clones/rq3/type-1_functions.csv') 
+
+        df['endline_x'] = df['endline_x'].apply( lambda x: int(x.replace('"', '')))
+        df['startline_x'] = df['startline_x'].apply( lambda x: int(x.replace('"', '')))
+        df['diff'] = df['endline_x'] - df['startline_x'] + 1
+
+        reports = []
+
+        from collections import namedtuple
+        report_with_cutoff = namedtuple('REPORT_WITH_CUTOFF', ('min_lines', 'report'))
+
+        for i in range(11):
+            df = df[df['diff'] >= i]
+
+            ozFiles = df.function_id_y
+            
+            totalOZFiles = ozFiles.value_counts().sum()
+            uniqueOZFileNames = len(ozFiles.unique())
+            
+            ozCounts = ozFiles.value_counts().rename_axis('functions').reset_index(name='count')
+            
+            ozCounts['cumulativeSum'] = ozCounts['count'].cumsum()
+            ozCounts['perc'] = round((ozCounts['count']/totalOZFiles)*100, 2)
+            ozCounts['cumulativePerc'] = round((ozCounts['cumulativeSum']/totalOZFiles)*100, 2)
+
+            report = [
+                ('Head 10', ozCounts.head(10), ''),
+                ('Cumulative 80%', ozCounts.head(ozCounts[ozCounts.cumulativePerc > 80].index[0]), ''),
+                ('First 20', ozCounts.head(int(len(ozCounts)*0.2)), '')
+            ]
+
+            reports.append(report_with_cutoff(i, report))
+        
+        self.printHtmlReport('14b', reports, functions=True)
     
     ########################## HELPER METHODS ##########################            
     def savefig(self, observationNumber):
         plt.gcf().tight_layout()
         plt.savefig('{}/observation{}.pdf'.format(resultsPath, observationNumber))
             
-    def printTextReport(self, observationNumber, reports):
+    def printTextReport(self, observationNumber, reports:list):
         f = open('{}/observation{}.txt'.format(resultsPath, observationNumber), 'w')
-        for r in reports:
-            f.write(r+'\n')
+        reports = pformat(reports)
+        f.write(reports)
         f.close()
         
-    def printHtmlReport(self, observationNumber, reports):
+    def printHtmlReport(self, observationNumber, reports:list, functions=False):
         f = open('{}/observation{}.html'.format(resultsPath, observationNumber), 'w')
-        for title, df, comment in reports:
-            f.write('<h2>{}</h2>'.format(title))
-            f.write(df.to_html())
-            f.write('<p>{}</p>'.format(comment))
+        if functions:
+            for cutoff_report in reports:
+                cutoff = cutoff_report.min_lines
+                report = cutoff_report.report
+                f.write(f'<h1> Min_lines: {cutoff}</h1>')
+                f.write('<div style="display:flex">')
+                for title, df, comment in report:
+                    f.write('<div style="margin-right:20px">')
+                    f.write('<h2>{}</h2>'.format(title))
+                    f.write(df.to_html())
+                    f.write('<p>{}</p>'.format(comment))
+                    f.write('</div>')
+                f.write('</div>')
+        else:
+            f.write('<div style="display:flex">')
+            for title, df, comment in reports:
+                f.write('<div style="margin-right:20px">')
+                f.write('<h2>{}</h2>'.format(title))
+                f.write(df.to_html())
+                f.write('<p>{}</p>'.format(comment))
+                f.write('</div>')
+            f.write('</div>')
         f.close()
 
     def runAll(self):
