@@ -384,24 +384,32 @@ class Analysis():
         #Same as observation4()
         
     def observation6(self):
+        dataPath = '../03_clones/data/duplicates/function-ids/'
         resultsPath = '../06_results'
         resultsFileAll = 'observation06-all-ids.txt'
         resultsFileTop20 = 'observation06-function-ids-top20.txt'
 
         original_paths = ['type-1', 'type-2', 'type-2c', 'type-3-1', 'type-3-2', 'type-3-2c']
 
-        save_path = open(f'{resultsPath}/{resultsFileAll}', 'w')
+        save_path = open(f'{dataPath}/{resultsFileAll}', 'w')
         for file in original_paths:
-            file_data = open(f'../03_clones/data/duplicates/function-ids/{file}.txt').read()
+            file_data = open(f'{dataPath}/{file}.txt').read()
             save_path.write(file_data)
         save_path.flush()
 
-        top20_functions = pd.Series(open(f'{resultsPath}/{resultsFileAll}', 'r').read().split('\n')[:-1]).value_counts()[:20]
-
-        print(top20_functions.to_latex())
-        top20_path = open(f'{resultsPath}/{resultsFileTop20}', 'w')
+        allFunctions = pd.Series(open(f'{dataPath}/{resultsFileAll}', 'r').read().split('\n')[:-1]).value_counts().to_frame()
+        allFunctions = allFunctions.reset_index(level=0)
+        allFunctions.columns = ['functionID', 'count']
         
-        [top20_path.write(f'{x}\n') for x in top20_functions]
+        report = [
+            ('All functions', allFunctions, '')
+        ]
+        self.printHtmlReport('06', report)
+        
+        report = [
+            ('Top 20 functions', allFunctions[:20], '')
+        ]
+        self.printHtmlReport('06b', report)
 
     def observation7(self):
         # Same as observation 6
