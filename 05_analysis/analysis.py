@@ -386,7 +386,7 @@ class Analysis():
         #Same as observation4()
         
     def observation6(self):
-        dataPath = '../03_clones/data/duplicates/function-ids/'
+        dataPath = '../03_clones/duplicates/function-ids/'
         resultsPath = '../06_results'
         resultsFileAll = 'all-ids.csv'
         resultsFileTop20 = 'observation06-function-ids-top20.csv'
