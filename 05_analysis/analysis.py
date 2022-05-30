@@ -1,5 +1,7 @@
 import argparse
+from bdb import set_trace
 import os
+from hashlib import sha256
 from pprint import pformat
 import shutil
 from statistics import mean, median, stdev
@@ -386,30 +388,142 @@ class Analysis():
     def observation6(self):
         dataPath = '../03_clones/data/duplicates/function-ids/'
         resultsPath = '../06_results'
-        resultsFileAll = 'observation06-all-ids.txt'
-        resultsFileTop20 = 'observation06-function-ids-top20.txt'
+        resultsFileAll = 'all-ids.csv'
+        resultsFileTop20 = 'observation06-function-ids-top20.csv'
 
         original_paths = ['type-1', 'type-2', 'type-2c', 'type-3-1', 'type-3-2', 'type-3-2c']
 
         save_path = open(f'{dataPath}/{resultsFileAll}', 'w')
-        for file in original_paths:
-            file_data = open(f'{dataPath}/{file}.txt').read()
-            save_path.write(file_data)
-        save_path.flush()
+        dfs = []
 
-        allFunctions = pd.Series(open(f'{dataPath}/{resultsFileAll}', 'r').read().split('\n')[:-1]).value_counts().to_frame()
-        allFunctions = allFunctions.reset_index(level=0)
-        allFunctions.columns = ['functionID', 'count']
-        
+        for file in original_paths:
+            df = pickle.load(open(f'{dataPath}/{file}.p', 'rb'))
+            dfs.append(df)
+        final_df = pd.concat(dfs, ignore_index=True)
+
+
+        # THIS IS THE EXTRA NORMALIZATION STEP: which might not be necessary
+        def normalize_func_signatures(id):
+            pa = r'([\s\S]*?)\(([\s\S]*?)\)([\s\S]*)'
+            matches = re.match(pa, id, re.MULTILINE)
+            matches = [g.strip() for g in matches.groups()]
+
+            def ident(x):
+                return x.strip()
+                
+            def params(x):
+                x = set([y.strip() for y in x.split(',')])
+                return x
+
+            def return_types(x):
+                tre = re.compile(r"""[\s,]*(~@|[\[\]{}()'`~^@]|"(?:[\\].|[^\\"])*"?|;.*|[^\s\[\]{}()'"`@,;]+)""");
+                tokens = [t for t in re.findall(tre, x)]
+
+                ret_seq = []
+                def read_sequence(tokens, pointer, ret_seq, seq_start='(', seq_end=')'):
+                    if pointer >= len(tokens):
+                        return pointer, ret_seq
+
+                    prev = ret_seq.pop() if len(ret_seq)>0 else ''
+                    while tokens[pointer] != seq_end:
+                        if tokens[pointer] == seq_start:
+                            prev+=seq_start
+                            pointer +=1
+                        else:
+                            nested_read = []
+                            pointer, nested_read = reader(tokens, pointer, nested_read)
+                            prev += ' '.join(nested_read)
+
+                    prev += seq_end
+                    ret_seq.append(prev)
+                    return reader(tokens, pointer+1, ret_seq)
+
+                def read_atom(tokens, pointer, ret_seq):
+                    if pointer >= len(tokens):
+                        return pointer, ret_seq
+
+                    if tokens[pointer] == 'public':
+                        # skip public: solidity functions are public by default
+                        return reader(tokens, pointer+1, ret_seq)
+                    ret_seq.append(tokens[pointer])
+                    return reader(tokens, pointer+1, ret_seq)
+
+                def reader(tokens, pointer, ret_seq):
+                    if pointer >= len(tokens):
+                        return pointer, ret_seq
+                    elif tokens[pointer] == '(':
+                        pointer, ret_seq = read_sequence(tokens, pointer, ret_seq, '(', ')')
+                    elif tokens[pointer] == '[':
+                        pointer, ret_seq = read_sequence(tokens, pointer, ret_seq, '[', ']')
+                    elif tokens[pointer] == ')':
+                        return pointer, ret_seq
+                    elif tokens[pointer] == ']':
+                        return pointer, ret_seq
+                    else:
+                        pointer, ret_seq = read_atom(tokens, pointer, ret_seq)
+                    return pointer, ret_seq
+
+                pointer, ret_seq = reader(tokens, 0, ret_seq)
+                return set(ret_seq)
+
+            return f'{ident(matches[0])}({str(params(matches[1]))}) {str(return_types(matches[2]))}'
+
+        new_ids = final_df.ids.apply(normalize_func_signatures)
+        # SKIP THIS LINE TO REMOVE FUNCTION SIGNATURE NORMALIZATION
+        final_df['ids'] = new_ids.apply(lambda x:x.replace('{', '').replace('}','').replace("'", ''))
+
+        all_functions = final_df.groupby(['ids']).count().sort_values(by='type', ascending=False).reset_index()[['ids','type']]
+        all_functions.columns = ['functionID', 'count']
+        pd.set_option('max_colwidth', 1000)
         report = [
-            ('All functions', allFunctions, '')
+            ('All functions', all_functions, '')
         ]
         self.printHtmlReport('06', report)
         
         report = [
-            ('Top 20 functions', allFunctions[:20], '')
+            ('Top 20 functions', all_functions[:20], '')
         ]
+
         self.printHtmlReport('06b', report)
+
+        # def extract_code(clone_type, file_path, classids, save_path):
+        #     f  = open(file_path).read()
+        #     save_list:list[tuple] = []
+        #     for count, i in enumerate(map(str, classids)):
+        #         p = r'^(<class classid="{}"[\s\S]*?<\/class>)$'.format(i)
+        #         cs = re.findall(p, f, re.MULTILINE)
+        #         p = r'^<source[\s\S]*?>([\s\S]*?)<\/source>$'
+        #         cs = re.findall(p, cs[0], re.MULTILINE)
+        #         p = r'[\s\S]*?function[ ]?([\s\S]*?)\{[\s\S]*\}'
+        #         all_fs = re.findall(p, cs[0], re.MULTILINE)
+        #         if len(all_fs)==0:
+        #             print('still not caught', cs[0])
+        #         else:
+        #             func = (sha256(all_fs[0].strip().encode()).hexdigest(), all_fs[0], clone_type) 
+        #         save_list.append(func)
+        #         print(f'class id {i} done, total count {count}')
+            
+        #     df = pd.DataFrame(save_list)
+        #     df.columns = ['hash', 'ids', 'type']
+        #     pickle.dump(df, open(save_path, 'wb'))
+
+        # def extract_functions_ids(config):
+        #     original_paths = ['type-1', 'type-2', 'type-2c', 'type-3-1', 'type-3-2', 'type-3-2c']
+        #     print('extr')
+        #     os.makedirs('duplicates/code-filtered', exist_ok=True)
+        #     os.makedirs('duplicates/function-ids', exist_ok=True)
+        #     for filepath in original_paths:
+        #         print(f'starting {filepath}')
+        #         classids = get_classids('duplicates/final/'+filepath+".xml")
+        #         print(f'classsids {len(classids)}')
+        #         complete_file_path = 'data/{}/withsource/{}'.format(config, filepath+'.xml')
+        #         save_path_pickle = 'duplicates/function-ids/{}'.format(filepath+'.p')
+        #         extract_code(filepath, complete_file_path, classids, save_path_pickle)
+            
+        #         save_path_txt = open('duplicates/function-ids/{}'.format(filepath+'.csv'), 'w')
+        #         df = pickle.load(open(save_path_pickle, 'rb'))
+        #         print('saving file', save_path_txt)
+        #         df.to_csv(save_path_txt)
 
     def observation7(self):
         # Same as observation 6
