@@ -15,7 +15,6 @@ import seaborn as sns
 from matplotlib import pyplot as plt, ticker
 from numpy import sqrt, std
 from scipy import stats
-from scipy.ndimage.filters import gaussian_filter
 
 from cliffsDelta import cliffsDelta
 
@@ -897,7 +896,7 @@ class Analysis():
         f.close()
         
     def printHtmlReport(self, observationNumber, reports:list, functions=False):
-        f = open('{}/observation{}.html'.format(resultsPath, observationNumber), 'w', encoding="utf-8")
+        f = open('{}/observation{}.html'.format(resultsPath, observationNumber), 'w', encoding='utf-8')
         if functions:
             for cutoff_report in reports:
                 cutoff = cutoff_report.min_lines
