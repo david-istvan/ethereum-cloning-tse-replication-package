@@ -1,5 +1,7 @@
 import argparse
+from bdb import set_trace
 import os
+from hashlib import sha256
 from pprint import pformat
 import shutil
 from statistics import mean, median, stdev
@@ -386,29 +388,102 @@ class Analysis():
     def observation6(self):
         dataPath = '../03_clones/data/duplicates/function-ids/'
         resultsPath = '../06_results'
-        resultsFileAll = 'observation06-all-ids.txt'
-        resultsFileTop20 = 'observation06-function-ids-top20.txt'
+        resultsFileAll = 'all-ids.csv'
+        resultsFileTop20 = 'observation06-function-ids-top20.csv'
 
         original_paths = ['type-1', 'type-2', 'type-2c', 'type-3-1', 'type-3-2', 'type-3-2c']
 
         save_path = open(f'{dataPath}/{resultsFileAll}', 'w')
-        for file in original_paths:
-            file_data = open(f'{dataPath}/{file}.txt').read()
-            save_path.write(file_data)
-        save_path.flush()
+        dfs = []
 
-        allFunctions = pd.Series(open(f'{dataPath}/{resultsFileAll}', 'r').read().split('\n')[:-1]).value_counts().to_frame()
-        allFunctions = allFunctions.reset_index(level=0)
-        allFunctions.columns = ['functionID', 'count']
-        
+        for file in original_paths:
+            df = pickle.load(open(f'{dataPath}/{file}.p', 'rb'))
+            dfs.append(df)
+        final_df = pd.concat(dfs, ignore_index=True)
+
+
+        # THIS IS THE EXTRA NORMALIZATION STEP: which might not be necessary
+        def normalize_func_signatures(id):
+            pa = r'([\s\S]*?)\(([\s\S]*?)\)([\s\S]*)'
+            matches = re.match(pa, id, re.MULTILINE)
+            matches = [g.strip() for g in matches.groups()]
+
+            def ident(x):
+                return x.strip()
+                
+            def params(x):
+                x = set([y.strip() for y in x.split(',')])
+                return x
+
+            def return_types(x):
+                tre = re.compile(r"""[\s,]*(~@|[\[\]{}()'`~^@]|"(?:[\\].|[^\\"])*"?|;.*|[^\s\[\]{}()'"`@,;]+)""");
+                tokens = [t for t in re.findall(tre, x)]
+
+                ret_seq = []
+                def read_sequence(tokens, pointer, ret_seq, seq_start='(', seq_end=')'):
+                    if pointer >= len(tokens):
+                        return pointer, ret_seq
+
+                    prev = ret_seq.pop() if len(ret_seq)>0 else ''
+                    while tokens[pointer] != seq_end:
+                        if tokens[pointer] == seq_start:
+                            prev+=seq_start
+                            pointer +=1
+                        else:
+                            nested_read = []
+                            pointer, nested_read = reader(tokens, pointer, nested_read)
+                            prev += ' '.join(nested_read)
+
+                    prev += seq_end
+                    ret_seq.append(prev)
+                    return reader(tokens, pointer+1, ret_seq)
+
+                def read_atom(tokens, pointer, ret_seq):
+                    if pointer >= len(tokens):
+                        return pointer, ret_seq
+
+                    if tokens[pointer] == 'public':
+                        # skip public: solidity functions are public by default
+                        return reader(tokens, pointer+1, ret_seq)
+                    ret_seq.append(tokens[pointer])
+                    return reader(tokens, pointer+1, ret_seq)
+
+                def reader(tokens, pointer, ret_seq):
+                    if pointer >= len(tokens):
+                        return pointer, ret_seq
+                    elif tokens[pointer] == '(':
+                        pointer, ret_seq = read_sequence(tokens, pointer, ret_seq, '(', ')')
+                    elif tokens[pointer] == '[':
+                        pointer, ret_seq = read_sequence(tokens, pointer, ret_seq, '[', ']')
+                    elif tokens[pointer] == ')':
+                        return pointer, ret_seq
+                    elif tokens[pointer] == ']':
+                        return pointer, ret_seq
+                    else:
+                        pointer, ret_seq = read_atom(tokens, pointer, ret_seq)
+                    return pointer, ret_seq
+
+                pointer, ret_seq = reader(tokens, 0, ret_seq)
+                return set(ret_seq)
+
+            return f'{ident(matches[0])}({str(params(matches[1]))}) {str(return_types(matches[2]))}'
+
+        new_ids = final_df.ids.apply(normalize_func_signatures)
+        # SKIP THIS LINE TO REMOVE FUNCTION SIGNATURE NORMALIZATION
+        final_df['ids'] = new_ids.apply(lambda x:x.replace('{', '').replace('}','').replace("'", ''))
+
+        all_functions = final_df.groupby(['ids']).count().sort_values(by='type', ascending=False).reset_index()[['ids','type']]
+        all_functions.columns = ['functionID', 'count']
+        pd.set_option('max_colwidth', 1000)
         report = [
-            ('All functions', allFunctions, '')
+            ('All functions', all_functions, '')
         ]
         self.printHtmlReport('06', report)
         
         report = [
-            ('Top 20 functions', allFunctions[:20], '')
+            ('Top 20 functions', all_functions[:20], '')
         ]
+
         self.printHtmlReport('06b', report)
 
     def observation7(self):

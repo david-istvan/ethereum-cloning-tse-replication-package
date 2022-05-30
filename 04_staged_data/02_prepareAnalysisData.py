@@ -9,6 +9,7 @@ import time
 from datetime import datetime
 from matplotlib import pyplot as plt
 
+from hashlib import sha256
 
 dataToPrepare = ['Observation6'] #['RQ1', 'RQ2', 'RQ3', 'Observation3', 'Observation8', 'Observation9']
 
@@ -137,26 +138,26 @@ def prepareObservation6():
 
         return b
 
-    def extract_code(file_path, classids, save_path):
-        f  = open(file_path, encoding="utf-8").read()
-        
-        save_list = []
-        for i in map(str, classids):
+    def extract_code(clone_type, file_path, classids, save_path):
+        f  = open(file_path).read()
+        save_list:list[tuple] = []
+        for count, i in enumerate(map(str, classids)):
             p = r'^(<class classid="{}"[\s\S]*?<\/class>)$'.format(i)
             cs = re.findall(p, f, re.MULTILINE)
-            p = r'^<source[\s\S]*?function[ ]?([\s\S]*?)\([\s\S]*<\/source>$'
+            p = r'^<source[\s\S]*?>([\s\S]*?)<\/source>$'
+            cs = re.findall(p, cs[0], re.MULTILINE)
+            p = r'[\s\S]*?function[ ]?([\s\S]*?)\{[\s\S]*\}'
             all_fs = re.findall(p, cs[0], re.MULTILINE)
             if len(all_fs)==0:
-                p = r'^<source[\s\S]*?>([\s\S]*?)<\/source>$'
-                cs = re.findall(p, cs[0], re.MULTILINE)
-                p = r'[\s\S]*?function[ ]?([\s\S]*?)\([\s\S]*?$'
-                all_fs = re.findall(p, cs[0], re.MULTILINE)
-                if len(all_fs)==0:
-                    print('still not caught', cs[0])
-
-            save_list.append(all_fs)
-            print(f'class id {i} done')
-        pickle.dump(save_list, open(save_path, 'wb'))
+                print('still not caught', cs[0])
+            else:
+                func = (sha256(all_fs[0].strip().encode()).hexdigest(), all_fs[0], clone_type) 
+            save_list.append(func)
+            print(f'class id {i} done, total count {count}')
+        
+        df = pd.DataFrame(save_list)
+        df.columns = ['hash', 'ids', 'type']
+        pickle.dump(df, open(save_path, 'wb'))
 
     def extract_functions_ids(config):
         original_paths = ['type-1', 'type-2', 'type-2c', 'type-3-1', 'type-3-2', 'type-3-2c']
@@ -169,15 +170,13 @@ def prepareObservation6():
             print(f'classsids {len(classids)}')
             complete_file_path = 'data/{}/withsource/{}'.format(config, filepath+'.xml')
             save_path_pickle = 'duplicates/function-ids/{}'.format(filepath+'.p')
-            extract_code(complete_file_path, classids, save_path_pickle)
+            extract_code(filepath, complete_file_path, classids, save_path_pickle)
         
-            save_path_txt = open('duplicates/function-ids/{}'.format(filepath+'.txt'), 'w')
-            functions = pickle.load(open(save_path_pickle, 'rb'))
+            save_path_txt = open('duplicates/function-ids/{}'.format(filepath+'.csv'), 'w')
+            df = pickle.load(open(save_path_pickle, 'rb'))
+            print('saving file', save_path_txt)
+            df.to_csv(save_path_txt)
 
-            for f in functions:
-                save_path_txt.write(f[0]+'\n') 
-
-            print(len(classids), len(functions))
     
     try:
         os.chdir('../03_clones/data')
