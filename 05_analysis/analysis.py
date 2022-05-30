@@ -486,45 +486,6 @@ class Analysis():
 
         self.printHtmlReport('06b', report)
 
-        # def extract_code(clone_type, file_path, classids, save_path):
-        #     f  = open(file_path).read()
-        #     save_list:list[tuple] = []
-        #     for count, i in enumerate(map(str, classids)):
-        #         p = r'^(<class classid="{}"[\s\S]*?<\/class>)$'.format(i)
-        #         cs = re.findall(p, f, re.MULTILINE)
-        #         p = r'^<source[\s\S]*?>([\s\S]*?)<\/source>$'
-        #         cs = re.findall(p, cs[0], re.MULTILINE)
-        #         p = r'[\s\S]*?function[ ]?([\s\S]*?)\{[\s\S]*\}'
-        #         all_fs = re.findall(p, cs[0], re.MULTILINE)
-        #         if len(all_fs)==0:
-        #             print('still not caught', cs[0])
-        #         else:
-        #             func = (sha256(all_fs[0].strip().encode()).hexdigest(), all_fs[0], clone_type) 
-        #         save_list.append(func)
-        #         print(f'class id {i} done, total count {count}')
-            
-        #     df = pd.DataFrame(save_list)
-        #     df.columns = ['hash', 'ids', 'type']
-        #     pickle.dump(df, open(save_path, 'wb'))
-
-        # def extract_functions_ids(config):
-        #     original_paths = ['type-1', 'type-2', 'type-2c', 'type-3-1', 'type-3-2', 'type-3-2c']
-        #     print('extr')
-        #     os.makedirs('duplicates/code-filtered', exist_ok=True)
-        #     os.makedirs('duplicates/function-ids', exist_ok=True)
-        #     for filepath in original_paths:
-        #         print(f'starting {filepath}')
-        #         classids = get_classids('duplicates/final/'+filepath+".xml")
-        #         print(f'classsids {len(classids)}')
-        #         complete_file_path = 'data/{}/withsource/{}'.format(config, filepath+'.xml')
-        #         save_path_pickle = 'duplicates/function-ids/{}'.format(filepath+'.p')
-        #         extract_code(filepath, complete_file_path, classids, save_path_pickle)
-            
-        #         save_path_txt = open('duplicates/function-ids/{}'.format(filepath+'.csv'), 'w')
-        #         df = pickle.load(open(save_path_pickle, 'rb'))
-        #         print('saving file', save_path_txt)
-        #         df.to_csv(save_path_txt)
-
     def observation7(self):
         # Same as observation 6
         pass
