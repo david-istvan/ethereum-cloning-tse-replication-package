@@ -11,7 +11,6 @@ from typing import Collection
 
 import numpy as np
 import pandas as pd
-import seaborn as sns
 from matplotlib import pyplot as plt, ticker
 from numpy import sqrt, std
 from scipy import stats
