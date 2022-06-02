@@ -1,0 +1,601 @@
+,hash,ids,type
+0,3216adc80d1ffc78d278c28d1ae257873deb9fc65b730203dc662a4d3903e619,"getExpectedRates( KyberNetwork network, ERC20[] srcs, ERC20[] dests, uint[] qty )
+        public view returns(uint[], uint[])
+    ",type-3-2c
+1,05728c3d5bc4e608a03c39ee732329b128f4746f1acd04c6bbca1729364da8bb,"getTokensAmount(uint256 _value, uint8 _currentPhase) internal returns (uint256) ",type-3-2c
+2,f79eb8446cf2c2ba58f993442df4fb57ce49877fa72ee4c8368cbb974b06e5fc,claimTokens(address _token) public onlyEscapeHatchCaller ,type-3-2c
+3,5f00e1735fd3a0528cc8010ec11076e8df00f1451c2b1e46b964955b13f23edc,"transferFrom(address _from, address _to, uint256 _value) public returns (bool) ",type-3-2c
+4,9a33981e03a53aa9c85fd255e8a29520c8f66618de51389ddeb33c505ac561d6,"decreaseApproval(address _spender, uint _subtractedValue) public returns (bool) ",type-3-2c
+5,672d222830a90e26f7b01ae269b30b51850fb71d17c8bbefaf6f22131e4dcf9c,"transferFrom(address _from, address _to, uint256 _value) returns (bool success) ",type-3-2c
+6,9b1aefe840b9d13acd268e4fffe2fd236081b6699456704645f1850c5cf12ebb,"transfer(address _to, uint256 _value) returns (bool success) ",type-3-2c
+7,672d222830a90e26f7b01ae269b30b51850fb71d17c8bbefaf6f22131e4dcf9c,"transferFrom(address _from, address _to, uint256 _value) returns (bool success) ",type-3-2c
+8,14ea3366c731ffdc3ba3a22238b2686a9e61e021c7f7cb794d04e9455c7b2b12,"decreaseApproval (address _spender, uint _subtractedValue) public returns (bool success) ",type-3-2c
+9,08f27ffa0de6982bf9082362649122ed5b544e335abbcf1629406286320972da,"transferFrom(
+        address _from,
+        address _to,
+        uint256 _amount
+    )
+    public
+    isTradable
+    returns (bool success) ",type-3-2c
+10,dbfe451b4c67136e62e5b962d819e4013e85c69ce5c0c242b8d0324e5312badc,"getConfirmations(uint transactionId)
+        public
+        constant
+        returns (address[] _confirmations)
+    ",type-3-2c
+11,e0a12a13c250e30583d71767863ae9c2b004e0da99ef008b4873105c8dd8e8ce,"getTransactionIds(uint from, uint to, bool pending, bool executed)
+        public
+        constant
+        returns (uint[] _transactionIds)
+    ",type-3-2c
+12,6d85afd5d97a911cd7e71d7cfdcb7c20fd7a4ab62a47c5ae9b63124d16b744d2,"recover(bytes32 hash, bytes sig) public pure returns (address) ",type-3-2c
+13,9f70a5e28d5250e8d2e0a100cc00a3a924a76216b2b5578bde1087226798be69,calculateDevCut (uint256 _price) public view returns (uint256 _devCut) ,type-3-2c
+14,d43a3baafc48122b92d39dca9d20cd18df836f4ab9b5d858c18ece5f066ed2ab,tokensOf (address _owner) public view returns (uint256[] _tokenIds) ,type-3-2c
+15,cefc072f35b7c58e8a67d527225f9aa8f75b9ad2f90d18dd2a2b39f3784607c0,revoke(ERC20Basic token) public onlyOwner ,type-3-2c
+16,ecde6b3355eaabaf67924663cfab5e9bda4d2ed388da35771721f718c44c001d,"transfer(address _to, uint _value, bytes _data) public ",type-3-2c
+17,8bda7ede29c0aa37a9cba866046fb4985ad70a6519e8e8b8d1fbb8d6233ef481,"transfer(address _to, uint256 _value) public returns (bool success) ",type-3-2c
+18,8a2421d5a2fdd21d98ee3d63a5aaa88eb001b1c75ed557596736bf7b289e27a7,purchase(uint256 _tokenId) public payable ,type-3-2c
+19,84fd8e15c05b044cb1b20b5e3a046a69c0c3f1f0b00390966a94694bbc62bdbc,tokensOfOwner(address _owner) public view returns(uint256[] ownerTokens) ,type-3-2c
+20,c3580076922b6022c296e69f1e5afd8000f1e1c34924478c30030cb02126312e,"executeTransaction(uint transactionId)
+        public
+        ownerExists(msg.sender)
+        confirmed(transactionId, msg.sender)
+        notExecuted(transactionId)
+    ",type-3-2c
+21,8bda7ede29c0aa37a9cba866046fb4985ad70a6519e8e8b8d1fbb8d6233ef481,"transfer(address _to, uint256 _value) public returns (bool success) ",type-3-2c
+22,b5960c5861c65f8afae3675a7bb31feaaadd6ce91f0e94228f4c418d4a1efefe,"approve(address _spender, uint256 _amount) public returns (bool success) ",type-3-2c
+23,5c1f7a91cc14ebe58f57251fde610776826b5a23162e8975a0484ce707068e00,"destroyTokens(address _owner, uint _amount
+    ) onlyController public returns (bool) ",type-3-2c
+24,87186d1c0570ca4bfc506b339fdbe110bd64e92ffb84c3c3ec42d734590ce8bc,refundAll(uint256 numToRefund) onlyOwner ,type-3-2c
+25,c2ddb427291acbbb26d8d558cd02d501a134f9aa9b52caef954ca671d694989a,"nodeExists(LinkedList storage self, uint256 _node)
+        public
+        view returns (bool)
+    ",type-3-2c
+26,804239e4a17a3847e012075058c425ef677ef428ffdeb82c23547361996298df,sizeOf(LinkedList storage self) public view returns (uint256 numElements) ,type-3-2c
+27,8faf56e819ccdd3d827ea1a0cbf52f3e7953dd191cd2031a592f2d270d06798c,"insert(LinkedList storage self, uint256 _node, uint256 _new, bool _direction) internal returns (bool) ",type-3-2c
+28,a966eab3bed0b91756de6ebcd98e5a7b0403c281e630c55166a3bdc3ab132589,hatchMorties(address ref) public,type-3-2c
+29,ea958f8405d4b2e7db7b3f78f7daf7d12f17f2a69b26b409de837403686992f6,sellMorties() public,type-3-2c
+30,7e7db5747a838babe4216f0306ec13afebed280cb2212d2cf957eeb1409cfd93,"transfer(address _to, uint256 _amount)
+        public
+
+        returns (bool) ",type-3-2c
+31,5c585efd4daf7dab8f0240cb449271522a47c706342735c5805a8d0d2c83d8e2,"giveBirth(uint256 _matronId)
+        external
+        whenNotPaused
+        returns(uint256)
+    ",type-3-2c
+32,f16dcda6f8dfc6cd70ecf5f5f6dabb4d6323ae80bc86a26c236ee74841bcd32d,"createDefaultZodiac(uint256 _matronId, uint256 _sireId, uint256 _genes, address _owner, uint256 _time, uint256 _cooldownIndex) external onlyCOO ",type-3-2c
+33,7e87918727a56570462aefe3f7f9191a2869c2a384ce736cb9d16cf8b4641b9c,"kill () public
+",type-3-2c
+34,4ddc927b074290a8eddbe5aa19b899e41c1c38f4a4c3da8e3221729e0da111d8,buyTokens(address _beneficiary) public payable ,type-3-2c
+35,acf2675c589959948079671e3545dbcb4b68245be99a0a577e4d2f28ae1f924e,"batchTransfer(address[] _receivers, uint256 _value) public  whenNotPaused returns (bool) ",type-3-2c
+36,b8ecf7fedf81822d4f7e8e32f059457cb5dc289b7f85444bfbbdf640e5be7454,"RealEstateCouponToken()
+    ",type-3-2c
+37,dd623be823dc0d98d3a08749f4c1256c2a57f1777647afe54f9d762044e7f9e2,"initOne(
+        string _name,
+        string _symbol,
+        uint8 _decimals,
+        uint256 _icoDuration,
+        uint256 _auctionDuration,
+        address _artist,
+        address _trivial,
+        bytes32 _descriptionHash
+    )
+    onlyInState(State.BeforeInitOne)
+    ",type-3-2c
+38,ff994ee2e546a6b20a68e4763d6f63936dcbcb636c84241598a5b2f8e54caf95,"register(address key, SSPType sspType, uint16 publisherFee, address recordOwner) onlyDaoOrOwner ",type-3-2c
+39,ef6e2db31eaf6f3c6112b51dd7c1c01e1921f301131bce9f86b22f3c6cca22df,"getAllSSP() constant returns(address[] addresses, SSPType[] sspTypes, uint16[] publisherFees, uint256[2][] karmas, address[] recordOwners) ",type-3-2c
+40,b9f987b3dd09377000e287ecbd101337763e4c2c9165ee0f9efd6029998553f4,"transferFrom(address _from, address _to, uint256 _value) public returns (bool success) ",type-3-2c
+41,7ad87a52a537dd9015d1af19a3a2d1f8ab9a4428606a5f1d0a9fee782256a0fe,"transfer(address _to, uint256 _value) public ",type-3-2c
+42,8691a7808de47d4fddf0921f20b9a8559c71d609fc84623f667e570161f26dc8,"executeTransaction(uint transactionId)
+        public
+        notExecuted(transactionId)
+    ",type-3-2c
+43,602efb701bdf30f540980e3b62a93dd27f350e1570e181cec0ff0e23b8593cac,"getCoinAge(address _address, uint _now) internal returns (uint _coinAge) ",type-3-2c
+44,32932f653412963db961e7ccbebace26f8517fedede39f1fe4e31c15fc7dfcba,"purchaseCountry(uint256 _tokenId) public 
+    payable
+    isNotContract(msg.sender)
+  ",type-3-2c
+45,9100feb0d9b72681fc73ac1b65ef55d7f766a434894bce2e6fe6b9bb294a91cb,"removeTokenFrom(address _from, uint256 _tokenId) internal ",type-3-2c
+46,4dbf3eeffea3dcd80934fcba317b6489f0ba6e84e26e4e58ab6137dfd065db7b,getTombByOwner(address _owner) external view returns(uint[]) ,type-3-2c
+47,9735c7578d38ad35446b5fe3df690f4db563100a4be3a9ff5e8755f06e05af86,getTokens() payable canDistr onlyWhitelist public ,type-3-2c
+48,4f5c582744a62fa92ae519f20e0ec571f6198ddd7e648ceabe615d865149a141,HEDGECRYPTOFUND() ,type-3-2c
+49,03c5935931ca5ac9983981f95ed181c3a10429c90e5ee8685de67f17aa0c8dce,"transferToContract(address _to, uint _value, bytes _data) private returns (bool success) ",type-3-2c
+50,2afe869c26192133abd7244e5e47effc62005989e1eb2573dd72dc0af805883f,preSale3() public ,type-3-2c
+51,7bd71ca1c720c4e0eb13220bb411155ade24f6235c0a401c7f181153baf3982e,EOSBetSlots() public ,type-3-2c
+52,419d746343988e357082294484cf1d39b35b2d432c9f95fa1aedd028348f042c,"refundToOwner (uint256 amountOfEth, uint256 GR) onlyOwner ",type-3-2c
+53,6b3de62e52c710379f995eb3604c5ece4d58c5d7a639712f885b177baa80ac51,"claimFor(CSCStorage storage self, address user) internal ",type-3-2c
+54,880c89def18099d7238ba114f2791cb782e142463c11ee31e6d118566b448739,cancelSellingToken(address _tokenAddress)  public returns(bool _result),type-3-2c
+55,8a37d90a9ae559a82a48b93d862e5b50699d7314db1f51ad7dd36719054efe4a,"_createItem23(string _name, address _owner, uint256 _price) private ",type-3-2c
+56,f60968e39e61f0c643e3d9c0333392cb41a3f086468e3bd81f7e2f010a9e77a1,() payable ,type-3-2c
+57,8551781c99e35cc58d8cea12a575d19f1afba46e17f6e2af0702c5b972f6b37d,"SwapToken(
+        string _buyerTokenName,
+        string _buyerSymbol,
+        uint8 _buyerDecimals,
+        string _issuerTokenName,
+        string _issuerSymbol,
+        uint8 _issuerDecimals,
+        address _collectionFunds,
+        uint _startBlock,
+        uint _endBlock
+        ) ",type-3-2c
+58,74c3965c0a5e6a458418e7af7c435387b265642bbce2592557ee544ae02d29ef,"create(uint256 baseUnits)
+        external
+        whenNotPaused()
+        requireNonZero(baseUnits)
+        requireMultiple(baseUnits)
+    ",type-3-2c
+59,1a0d59ea376e74d98dfe4e0f9b4454deef6abdbac96298f54a1a37b1f6299a03,AAACoin() ,type-3-2c
+60,b1fa198ab7e7cf0a374624f8f248c4d10a4c872645638d92bbfe678ecc6d5bc7,"transferFrom(address _from, address _to, uint256 _value)
+        public
+        returns (bool)
+    ",type-3-2c
+61,59788ca904464394130bf6e10f7bb83c64470c53aa92137f647b9b334534b254,"transfer(address _to, uint256 _value)
+    ",type-3-2c
+62,85359a4625a6760ecce45b005054d5ffb788babccb25f6b0c40be2d4dbab0649,finalize() external ,type-3-2c
+63,0bf5faf05604e5bbd14101f42c25b3f3faba22b578b6803716bddfd2e4c73bed,upgrade(uint256 value) public ,type-3-2c
+64,8a2421d5a2fdd21d98ee3d63a5aaa88eb001b1c75ed557596736bf7b289e27a7,purchase(uint256 _tokenId) public payable ,type-3-2c
+65,63b7555a84b596723de89f6557fdc958bebba2c063bcd6f50796e9e740f36fd8,_0xLitecoinToken() public onlyOwner,type-3-2c
+66,2af93699cfaccc8202d1a06c7e308c7ad95f90d4dc389bcad69020d4299fc532,_startNewMiningEpoch() internal ,type-3-2c
+67,a6bcaf803c3d5837e52ac3aa18cdd933c1c64203347ecd32e9396de7db8fa328,claim_bounty(),type-3-2c
+68,c39183fa4a7bcc8712b24eee25cad47c06beb7aa0bcf12ee34beb1c25f56b5b0,safeWithdrawal() afterDeadline ,type-3-2c
+69,b4f95485d2db24738e3d24b0aaa330548d8b115a2f996825a33eb527fa8c624d,getTimebasedBonusRate() internal constant returns (uint256) ,type-3-2c
+70,89e679f3b940bb44d13bff950b3eaa83113a407d618c3218e0d0590b4b0aaeab,"transferFrom(address _from, address _to, uint _value) external returns (bool) ",type-3-2c
+71,6e5870179dbea82b4972d53c7979567cbdcc776c854f38e91338ccd2f47d5cac,"_transfer(address _from, address _to, uint _value) internal ",type-3-2c
+72,05d8715ffefaa3281af6d7fc286d5ad56edb89e963c2addd6635580d9987fedf,getNextPrice (uint256 _price) private view returns (uint256 _nextPrice) ,type-3-2c
+73,08307751363510c02a9a22b888f1548fe5bbd55c76cb7ce3642408dd21e3de45,"exerciseCall(
+        uint amount,
+        uint expiration,
+        uint strike
+    ) public ",type-3-2c
+74,a04d6a9f3a286b028ebcda8466bedcf6ff3cda5579ce27df4f10c785d858d29c,"transfer( address _to, uint _value) returns (bool success) ",type-3-2c
+75,4a0026be52a0f0aa7b45d2cc3142cd199abf691a19983fb23a1cf8162881ebb1,"transferFrom( address _from, address _to, uint _value) returns (bool success) ",type-3-2c
+76,cc27535e0589862a4f78961e11eff67887a6f0b867c773ce8c5e0ef949a4bc3f,"addTokenToApprove(ERC20 token, uint minimalRecordResolution, uint maxPerBlockImbalance, uint maxTotalImbalance) public onlyOperator ",type-3-2c
+77,b37f9e06162f7de33dc4c5b68c5ad0eb2abf5d7ea9b4258187c897e50f8fc6b7,_toLower(string str) internal pure returns (string)  ,type-3-2c
+78,bda1dee84512e441e533133fdb7541f7324f009ece641e68e2eba1008f9aeb17,"transfer(address _to, uint256 _value)public returns(bool) ",type-3-2c
+79,a50d351827f1f89cb56564d7f73a58b6a6385b7f8aac9dfdcc28ddd88241f37a,"add( address holder, uint amount ) onlyOwner public
+  ",type-3-2c
+80,94c88d94870c968ce0dcc95dc5fb29a69d4a4ff9987a3b6a387cb1df9b305ba0,"burnTokens(address _owner) public
+        onlyCrowdsaleManager
+    ",type-3-2c
+81,c7faa7c8be8006906584c2f75bb21603b2ef02277868c24c994c0b30218883a4,purchaseDigitalArtSellingItem(uint256 _tokenId) public payable ,type-3-2c
+82,bbc3447a0f05111d55c15d0394103f6e7f27058d493c36cb3f73c1eb5e916e63,issueToken(address recipient) payable inSale ,type-3-2c
+83,f60968e39e61f0c643e3d9c0333392cb41a3f086468e3bd81f7e2f010a9e77a1,() payable ,type-3-2c
+84,49a7000549c254507b47201a54385e06aa550fe22f3e340b3fdc8b922b04c75c,withdrawForeignTokens(address _tokenContract) returns (bool) ,type-3-2c
+85,615ec04ed0768a5b6c6456623dc90d92686e50a87f6951d9ebd89e6b03c2de89,unlockSecret() private returns(bool),type-3-2c
+86,1989d6013a31d770044d2aa15d4939a91ed445ce594fec9665abb66c724e0ca2,"transfer(address _to, uint256 _amount) returns (bool success) ",type-3-2c
+87,d4d1308505b6f2feffde9a662c67ef11bf8c8e4545cae576543b6dde401d4795,"drawTertiaryAWinners(uint numToProcess) public payable
+        onlyBy(owner)
+        atState(SweepsStates.DRAWING_TERTIARY_A_WINNERS)
+    ",type-3-2c
+88,5f00e1735fd3a0528cc8010ec11076e8df00f1451c2b1e46b964955b13f23edc,"transferFrom(address _from, address _to, uint256 _value) public returns (bool) ",type-3-2c
+89,de0ea459db3f837cf65c0f4b22372f6df75738fd6864ef3d7b018ffb5a31aad3,issue() public  ,type-3-2c
+90,368dd9b3f096fe635c00c2683374e34b8955f7b69b60f5aa78a16ca95f5fa971,burn (uint256 _burntAmount) public returns (bool success) ,type-3-2c
+91,b31a59bde11cfdb7d682774cafe2c1132af83ff299d707ba9c8775faa8cae62a,claimTokens(address _token) public onlyOwner ,type-3-2c
+92,f50c525eff206c42d74f16f23aab3796316a50e7daf11c5d9d010a3242a2c568,start5Phase2020() external onlyOwner ,type-3-2c
+93,80c60f28d8db416a7c619ce7567e77f9599c5b06f0d4de8cece4a636be124625,"assignGenesisAddresses(address[] _address) public returns (bool success)
+    ",type-3-2c
+94,32516f496a1bed01cfa3936d7c3320b8496d1b2109a929b2657de9ad5a0f4908,"batchTransfer(address[] _receivers, uint256 _value) public whenNotPaused returns (bool) ",type-3-2c
+95,07396e4b456ec3161a179d2df6964892a0a09bca8dee164a62f8002236988da0,createTokens() payable external ,type-3-2c
+96,99df27e52fa693bc6c5f52812a85e81b2906673657d154af2844d61dd3bfdee6,"Crowdsale(uint256 _startTime, uint256 _endTime, uint256 _rate, address _wallet, PickToken _token) public ",type-3-2c
+97,598bdf9b5fdcde492de432aeef97fc2c07a1a5d0d872b131bcce91976f33f48f,"createPromoScene(address _owner, string _name, uint[] _stars, uint256 _price) public onlyCOO ",type-3-2c
+98,b5c3d01ec4ce51c106ac8cfd1368b0fdeaeada14058730c9a5428009a56c96da,buyWithBonus(address inviter) validSale payable ,type-3-2c
+99,9b9a3d090165d01d7e099cd0b73164530be04c3a022a4a99965da41b8b75aa0a,"tokenGrant(address _holder, uint256 _grantId) constant returns (address granter, uint256 value, uint256 vested, uint64 start, uint64 cliff, uint64 vesting, bool revokable, bool burnsOnRevoke) ",type-3-2c
+100,74e5b8ebace8b7004b038d71a9baaf00dbf0b5b80d4bd2d2cdba7193f6fb80a0,toSCL(uint256 _wei) returns (uint256 amount) ,type-3-2c
+101,3ed04eaaf6fa878a95e3a70f11eae88838066f598d8f827951b7eda326b65f65,"transferFrom(address from, address to, uint256 amount) external returns (bool) ",type-3-2c
+102,6d462011622e550aedd97e388e9eb18609daeaa2409ad65f0e6f9942df92abe9,"assignBountyAddresses(address[] _address) isOwner public returns (bool success)
+    ",type-3-2c
+103,6e468a6638b08a501fb219f2c926992fa819439e87e1fcc4d935754ee90ce156,"claimTokens(address _token, address _to) public onlyOwner ",type-3-2c
+104,a2852a9517fcb8219f5677eca8fa9da0e53ce6b6f376c41a67fdb7bfc6b19636,"transferFrom(address _from, address _to, uint256 _value) public notFrozen returns (bool success) ",type-3-2c
+105,1724ff6f4e91027b11227010a2c1ba25bcd4d782c98f1c0bb21cb273d7efb37c,"purchaseHeroForEth(uint uniqueHeroID) public payable returns (uint, uint) ",type-3-2c
+106,ac8a739e88b536bad2483880eb60f905a9926f4bb3f88e38ad57b53e708560e1,"spend(address _to, uint256 _value) public returns (bool success) ",type-3-2c
+107,009cbcc0c5a77329be9e23dff0aeeac8cf3b3c68fa7da6e22b8191ffcaa4a325,"getGameSettings() external view returns (
+        uint _checkpointLevel,
+        uint _breakevenLevel,
+        uint _jackpotLevel,
+        uint _dungeonDifficulty,
+        uint _monsterHealth,
+        uint _monsterStrength,
+        uint _monsterFleeTime,
+        uint _entranceFee,
+        uint _reviveFee
+    ) ",type-3-2c
+108,804cc9b13a91e40dd0929928cf0546a8a42ef987d88a82180f2e95cc8baf208c,vestedAmount() public constant returns (uint256) ,type-3-2c
+109,33ff57d5f45f99151b2478f7f222f054b1cdff71c4037b9c1547c6d1fb9b938c,"transfer (address _to, uint256 _value)
+  public returns (bool success) ",type-3-2c
+110,25e129077ba7504230e42ae1eb117081fe3783eb5bd01063b400b5d8cea60825,claim() payable ,type-3-2c
+111,c575cc28d81762d6c7270dc980da2a196f7661fc8845da462faa2dfbbf91120f,"getTranscoder(
+        address _transcoder
+    )
+        public
+        view
+        returns (uint256 lastRewardRound, uint256 rewardCut, uint256 feeShare, uint256 pricePerSegment, uint256 pendingRewardCut, uint256 pendingFeeShare, uint256 pendingPricePerSegment)
+    ",type-3-2c
+112,d98386c2c963f70956cdeb516f55c6c387578213383dd1075ecab54fc4c1ae26,buyTokens() public payable whenNotPaused ,type-3-2c
+113,3caa8bf820ec4c2e21e36132dc6e81beb80b8edad7d3119c02117db4731a133e,"transfer(address _to, uint256 _value, bytes _data, string _custom_fallback) canTrans public returns (bool success) ",type-3-2c
+114,5f00e1735fd3a0528cc8010ec11076e8df00f1451c2b1e46b964955b13f23edc,"transferFrom(address _from, address _to, uint256 _value) public returns (bool) ",type-3-2c
+115,92cdf514d69f48de5b7f34e72485357d0055daf2e2828b35703dbfa70f277080,"updateCar(uint256 _id,
+                        bytes32 _name,
+                        uint256 _s_price,
+                        uint256 _earning,
+                        uint256 _o_earning,
+                        uint16 _brand,
+                        uint8 _ctype,
+                        uint8 _spd,
+                        uint8 _acc,
+                        uint8 _dur,
+                        uint8 _hndl)
+                        onlyOwner public ",type-3-2c
+116,3cc0a25a23eae58624b21bf8f5090d4f491cccc7ed96685deeb2c9bf71d4421a,Crowdsale() ,type-3-2c
+117,b9beab5c0c5edf30f2ed268ce571722b365d6e20f8f816fbdd4e9906a97c8b34,"getCompetitionValues(string gameID, uint8 competitionIndex) constant returns (
+		uint128 jackpot,
+		uint88 price,
+		uint32 version,
+		uint8 numPastBlocks,
+		uint64 switchBlockNumber,
+		uint32 numPlayers,
+		uint32[] rewardsDistribution,
+		uint8 houseDivider,
+		uint16 lag,
+		uint64 endTime,
+		uint32 verificationWaitTime,
+		uint8 _competitionIndex
+	)",type-3-2c
+118,641a53b9010033454f2a9ddd625512724a33bbc5e868aa759d73b7d275b4d058,"relay(
+      bytes16 _tradeID,
+      address _seller,
+      address _buyer,
+      uint256 _value,
+      uint16 _fee,
+      uint128 _maximumGasPrice,
+      uint8 _v,
+      bytes32 _r,
+      bytes32 _s,
+      uint8 _actionByte,
+      uint128 _additionalGas
+    ) private returns (bool) ",type-3-2c
+119,ad738ec06c46b88efe60f8ada59ed8047f6baa63457e0cba5cdf2960095b3977,"getAngel(uint64 _angelId) constant public returns(uint64 angelId, uint8 angelCardSeriesId, uint16 battlePower, uint8 aura, uint16 experience, uint price, uint64 createdTime, uint64 lastBattleTime, uint64 lastVsBattleTime, uint16 lastBattleResult, address owner) ",type-3-2c
+120,53dabd811cefeea7fedb3e14273f56d3fc83b70e9d6b57a06c8412447a1693d3,"initialize(
+        address _att,
+        address _attController,
+        uint _startTime,
+        uint _endTime,
+        address _destEthFoundation,
+        address _destTokensAngel
+    ) public onlyOwner ",type-3-2c
+121,dbbbae3b1e525ad16b105350a865ec52569b0d9fcfdfeb0c137edd67612ea2af,purchase(string _candy_id) public payable ,type-3-2c
+122,796ddf5a672337856a5672fe4a73941053005b3b71edc4a8534935f772542bad,"ObirumCrowdsale(uint256 _startTime, uint256 _endTime, address _wallet, address _token, address _owner)  public ",type-3-2c
+123,5ee6edf3995a26606faa4346362d47c3511fddd91c656594fa2f080d99037728,stage() constant returns (Stage) ,type-3-2c
+124,0d091d6e3a4350fe4fee03ac55ba6a4b9a5d8e2bc192c6d77d67ffac7a9a6303,"_transfer(address _from, address _to, uint256 _value) internal returns (bool success) ",type-3-2c
+125,4e47b11eb97b20b00cd007a528e0dd365d38fe83ac481ade4c1436968bd62ff7,endSale() ,type-3-2c
+126,5c42be0087692c5439d5e7fe9ca56b38d172b0f5237f3635417deddad0b06fa8,burnTokens (uint256 _value) public returns (bool success) ,type-3-2c
+127,8cbfca0b776dfe0dfb9482840176a1e2bcdd73c1e5ea988deb84e1daedc4eaaf,buyToken(uint _tokenId) public payable ,type-3-2c
+128,b9f987b3dd09377000e287ecbd101337763e4c2c9165ee0f9efd6029998553f4,"transferFrom(address _from, address _to, uint256 _value) public returns (bool success) ",type-3-2c
+129,fe22d62cfbd59d272fd7ced1661038188a2c6ec6d203384201c5f26b465188ab,"handleBet(uint _hGame) public payable 
+        ",type-3-2c
+130,5f00e1735fd3a0528cc8010ec11076e8df00f1451c2b1e46b964955b13f23edc,"transferFrom(address _from, address _to, uint256 _value) public returns (bool) ",type-3-2c
+131,b4b209b9a5ee6e7a38abe8c888f919a8db821d854bc2dc8c4d46d1c194527086,getNotApprovedProposals() public view returns(uint[]) ,type-3-2c
+132,5c6f0ef6c806fbd94837e357d234ffbb1964e6440917fbca2f7da3fe7413f74b,"KeyTokenSale(uint startTime_, address destFoundation_) ",type-3-2c
+133,fe1c5584e27d3a3a55571d9f4ea5319ca940fa77368cb95fd200c42ffee64441,"getBattleCardsInfo(uint256 cardId) external constant returns (
+    uint256 baseCoinCost,
+    uint256 coinCostIncreaseHalf,
+    uint256 ethCost, 
+    uint256 attackValue,
+    uint256 defenseValue,
+    uint256 coinStealingCapacity,
+    uint256 platCost,
+    bool  unitSellable
+  ) ",type-3-2c
+134,7207e38c1479eda54127a56f4a6ec7ad4d47c9e5b7d6630540a5e8b3a5b34432,"getInvestorsTokens(address _address, uint256 _type) public constant returns(uint256) ",type-3-2c
+135,aaec2be48e8c07041b84e45e2df83f440bd977291a58d9814e241752629dae77,"concat(string _s1, string _s2) internal pure returns (string) ",type-3-2c
+136,e214581230ae3f340eca89e33be07e3a0f11ff2c91c5b58f8d75d5400d53cb36,"getCurrentDiscountRate()
+    private
+    constant
+    returns (uint256 currentDiscountRate)
+    ",type-3-2c
+137,a1bda6c0247395a3a8d30b9721aaf2933a594a0de1bc35dcffad98622a7021e4,buyDrangon() public payable ,type-3-2c
+138,69e721ba72199e93608234a3a44486eeebb47939b47dd8264efd16e1a67afee9,"tokenEmission(address _reciever, uint256 _amount) external isManagerOrOwner isEmissionOn returns ( bool returnVal )
+	",type-3-2c
+139,e004cd62aa91d43c5480c4d28a456fe2b5bb99c8d2e9d79f0f3ff162fc8d60c4,initialize(DSToken eos) auth ,type-3-2c
+140,4e1a4892cf5899ee04f26a49e9e182a1238c184cf94ff20ea711b3dd9d0def97,"transferPet(address _from, address _to, uint64 _petId) onlySERAPHIM public returns(ResultCode) ",type-3-2c
+141,f8c87c14ad3e5cd82d0d1a55fab134d542380dbfcac3cb5223f58d0ce21ec468,"getPet(uint _petId) constant public returns(uint petId, uint8 petCardSeriesId, string name, uint8 luck, uint16 auraRed, uint16 auraBlue, uint16 auraYellow, uint64 lastTrainingTime, uint64 lastBreedingTime, address owner) ",type-3-2c
+142,68f3ce5da6a9cea24409231a6aad1e077319e594b37f3f110ad1c96c72794ec8,makeTokens() payable  ,type-3-2c
+143,5f026b9e4df5c47461c1d993e4ffc1676ba9e134ed9ec325d2b70e6fe51e4e4c,"setFreezeForFounding(uint256 _time, address _address, uint256 _tokens) onlyOwner public ",type-3-2c
+144,1daef0521f25ecacd2984f62d4eb552d483816fdb0ce88e721614471ec8dd604,"TokenCampaign(
+    address _tokenAddress,
+    address _dteamAddress1,
+    address _dteamAddress2,
+    address _dteamAddress3,
+    address _dteamAddress4,
+    address _rteamAddress,
+    address _r2Address,
+    address _mmAddress,
+    address _trusteeAddress,
+    address _opAddress,
+    address _reserveAddress)
+  ",type-3-2c
+145,babf9e81c0a8d122f24bc01215ce0b49992fc83b510b2c19760938412f5fd6fc,"getLotteryByID(uint32 _id) public view returns (
+		string  nameLottery,
+		uint32 countCombinations,
+		uint32 dateStopBuy,
+		uint32 minStake,
+		uint32 winCombination,
+		uint32 betsCount,
+		uint256 betsSumIn,
+		uint256 feeValue,
+		Status status,
+		bool isFreezing
+	)",type-3-2c
+146,9173493cb41d8d03c723ee7a7536d74f9e65374664d0fd87ae18162566d9a6fd,"getTokenByID(uint256 _id) public view returns ( 
+			uint256 price,
+			uint256 payment,
+			uint32 combination,
+			uint32 dateBuy,
+			uint32 idLottery,
+			address ownerToken,
+			bool payout
+	)",type-3-2c
+147,b68e2cac2988611f148cbe863d625f9b30addaaa63237bf57490fb8fbaff0211,getProofOfStakeReward(address _address) internal view returns (uint) ,type-3-2c
+148,8a2421d5a2fdd21d98ee3d63a5aaa88eb001b1c75ed557596736bf7b289e27a7,purchase(uint256 _tokenId) public payable ,type-3-2c
+149,5f00e1735fd3a0528cc8010ec11076e8df00f1451c2b1e46b964955b13f23edc,"transferFrom(address _from, address _to, uint256 _value) public returns (bool) ",type-3-2c
+150,79d98f772d5ed81790eef1c53c626b011b0e99a7904aedb8066c393f3de41efb,buy() payable public,type-3-2c
+151,67dbf5218ac61a5884450b9a25884ca024a022bd2869384bb84f2a13c84698d9,"init (
+                   address _rge,
+                   address _rgxa, address _rgxb, address _rgxd,
+                   address _rgx20, address _rgx15, address _rgx12,
+                   address _rgx9, address _rgx8, address _rgx7, address _rgx6, address _rgx5, address _rgx4, address _rgx3
+                   ) onlyBy(owner) public ",type-3-2c
+152,b9f987b3dd09377000e287ecbd101337763e4c2c9165ee0f9efd6029998553f4,"transferFrom(address _from, address _to, uint256 _value) public returns (bool success) ",type-3-2c
+153,23f797afc9e48dfa3e0d09592b462d67d4e06ae2698b283cf31f3765f38e0491,sell(uint256 amount) public ,type-3-2c
+154,24531db179df76fb6bc0b58f5d9f25d1fd1d934b77481a5ef329c826786f126d,"Campaign(
+        uint _startFundingTime,
+        uint _endFundingTime,
+        uint _maximumFunding,
+        address _vaultAddress,
+        address _tokenAddress
+
+    ) ",type-3-2c
+155,773b77e251387e56f53329d35e0a7d99a3d8e7a1e798a1d7d6f84f858960eb5e,STARTMETADOLLAR() ,type-3-2c
+156,e2f0048f44cf27f35ff8daf9debe16bc60d1abab5a8b9fdd443428373fbdbd4f,getHealthCitizens(uint _cityId) public view returns(uint) ,type-3-2c
+157,31e6fe2cdf30d24891646037974ebf57643f1a41b729084b952021e1135e6690,"quickAuditEthCredited(uint _charityIdx) public constant returns (uint _fiatCollected,
+                                                                            uint _fiatToEthNotProcessed,
+                                                                            uint _fiatToEthProcessed,
+                                                                            uint _fiatToEthPricePerEth,
+                                                                            uint _fiatToEthCreditedSzabo,
+                                                                            uint _fiatToEthAfterFeesSzabo,
+                                                                            uint _ethDonatedSzabo,
+                                                                            uint _ethDonatedAfterFeesSzabo,
+                                                                            uint _totalEthCreditedSzabo,
+                                                                            int _quickDiscrepancy) ",type-3-2c
+158,7d34c79d1f6a0af3efbed03e4c1a88b35e6965de3d139784eded5933f1b6cdec,"quickAuditFiatDelivered(uint _charityIdx) public constant returns (uint _totalEthCreditedSzabo,
+                                                                              uint _ethNotProcessedSzabo,
+                                                                              uint _processedEthCreditedSzabo,
+                                                                              uint _ethToFiatPricePerEth,
+                                                                              uint _ethToFiatCreditedFiat,
+                                                                              uint _ethToFiatNotProcessed,
+                                                                              uint _ethToFiatProcessed,
+                                                                              uint _fiatDelivered,
+                                                                              int _quickDiscrepancy) ",type-3-2c
+159,3ddfcac1fca67992e9c5bc650643b4490fa19daeb13771bc0cf5cee7788ddcec,DivisibleForeverRose() public ,type-3-2c
+160,b01d84a6ad1515b28f731927d8781bd5ed7ef45a93e5c624e23c38d65449e365,"getIslandBattleStats(uint256 _island_id) public view returns (
+        uint256 id,
+        uint256 attacks_won,
+        uint256 attacks_lost,
+        uint256 defenses_won,
+        uint256 defenses_lost,
+        uint256 treasury_stolen,
+        uint256 treasury_lost,
+        uint256 attack_cooldown,
+        uint256 defense_cooldown
+    ) ",type-3-2c
+161,cdf69abbbc2062f4b7ca09b6106b461e61c9d5cd76ef63a6cf867ed867876d15,getCanAttackMonsterIds() public view returns(uint[]) ,type-3-2c
+162,bdca14ac33a0922d432e2a52339f5263c42483832a0bca04ee643e29be3d6dda,"_calResultReturnIsWin(uint  _playerBetInfoOfIndex,uint _realOdd) private returns(bool _isWin)",type-3-2c
+163,06c7cdfca7be6fbc01c8a853ce971f176dc2374237fbbc4ed08325a5a4d58b0e, failUserRefund(uint _playNo) public returns (bool _result) ,type-3-2c
+164,b615343eb64c9653a1d9aa174fd25262a1a3869883968c1349d41b9890144a2d,TessrX() public ,type-3-2c
+165,6efdf9f620ef3a304f89b619ea5f2035e72b5eecdc3fd5079941f7db44040eb1,"claimDonations(address[2] tokenUser,uint[8] tokenEthDMWCPNonce,uint8 v,bytes32[2] rs) external onlyAdmin ",type-3-2c
+166,7823091b693348117d9a4de223d3329ce9f57652d8123b69cfdee3394417049d,"purchaseCarAdv(uint256 _cardId, string _text, string _link) public payable ",type-3-2c
+167,36b8c4a8f0655350ffad5432b327f0de0c3019c3ab43dd1a50d41555ce0b721a,purchaseMakeCard(uint256 _cardId) public payable ,type-3-2c
+168,3cd6920c0d3fcb296af13c94637f42674e4f7c78945446c4cd1d665d2db30bfa,tokensOfOwner(address _owner) external view returns(uint256[] ownerTokens) ,type-3-2c
+169,9659f24e737b0f5f8828f90de42ccb5da51b5cb3ac74dd8c23f830c7cae3f133,GCAP(),type-3-2c
+170,afba148805ed560f168cf43368ed79b3fa6c64e2d411b0b375194a82b3c779d0,"buyItem(string _itemName, uint256 _amount) public payable ",type-3-2c
+171,85806d466dc3365c0c43b00319617c3464702f4cda1f3e0fd1ccf23c1e8b0b13,"GraphGrailAiTokenPreSale(
+        uint _hardCapUSD,
+        uint _softCapUSD,
+        address _token,
+        address _beneficiary,
+        uint _totalTokens,
+        uint _priceETH,
+        uint _purchaseLimitUSD,
+
+        uint _startTime,
+        uint _duration
+    ) ",type-3-2c
+172,2086fcb55cd4cc1f76c28d84cddd0b57e6fde76928b702bc0ce8089eaa0f4e23,"TransferValidation(address sender, address recipient, uint256 amount) private view returns (bool success) ",type-3-2c
+173,cad8162daa47bbdc149201cf24a7b646c4d08cebe3bb3d7d59d134803c28c8e3,collectTokens() public onlyOwner ,type-3-2c
+174,09465165afc6bbb6295f76e43aa19fbfb9438e4d595c09a90b312e4c153eda66,purchaseCompany(uint _companyId) public payable ,type-3-2c
+175,be7365866d52cef98607ead1bb5e88ed74e968e70d54a4369dfc0b2bdba0a35a,"transferManager() onlyOwner Initialize clientManagerInit 
+    ",type-3-2c
+176,c81cf81f202be6438281d45ae81172d00a21334dd5bf7fdb2c92b0502b1f8966,"getLoanState(uint index) constant returns (uint interest, uint punitoryInterest, uint interestTimestamp,
+        uint paid, uint dueTime, Status status, uint lenderBalance, address approvedTransfer, bool approved) ",type-3-2c
+177,7e88ca9fea5fef1b65a4371ce20b4c26fc9bad642a50ea34338432778e032071,migrate(uint256 _value) external ,type-3-2c
+178,d7b756861a13d4f2765624df7a72e11d191eba1650a03f84596d68c8017b63ff,"Info() constant returns (uint tb, uint bc, uint fbp, uint rc, uint rb, uint rt, uint rf, uint rd, uint mc, uint rew) ",type-3-2c
+179,853ad2c8a5abcb87915325eba8497d4f043b8383896f411335622452b0a52d7a,"engine(string _coinSymbol, string _toAddress, address _returnAddress) internal returns(uint conversionID) ",type-3-2c
+180,1fb807db5665bc23d41b017f100124fa882d20714baadf3a3c8df2de52d5a0af,"DETreturnTransaction(address _from, uint _value) private ",type-3-2c
+181,bf839e976a213a4091d58a2c7192c23c55bf9aa27831574b497752a76b6f8637,unlockDevTokenSupply() onlyOwner public ,type-3-2c
+182,8a2421d5a2fdd21d98ee3d63a5aaa88eb001b1c75ed557596736bf7b289e27a7,purchase(uint256 _tokenId) public payable ,type-3-2c
+183,f52047f61e6e7dd9a1330fbd1d541e0964e9bba24ba8c1e244e083204bd81c7c,"TokenTrader (
+        address _asset,
+        uint256 _exchFee,
+        address _exchange,
+        uint256 _buyPrice,
+        uint256 _sellPrice,
+        uint256 _units,
+        bool    _buysTokens,
+        bool    _sellsTokens
+    ) 
+    ",type-3-2c
+184,1b94e55b2c7fa1e63d7d0cd166b3205931d9f309e3e8b785a24666bfad29dee6,"transfer(address _to, uint256 _value) public returns (bool) ",type-3-2c
+185,7060cfa2825767996cbc62be6404944800f953977d3354479e8e018591f0a0d8,"Crowdsale(uint256 _startTime, uint256 _endTime, uint256 _rate, address _wallet, address _token) public ",type-3-2c
+186,10a624ad0710e54ddca575d2cf28df284b6b56bd576e9d65bb004084b0884520,"DatariusICO(
+                          address _Company,
+                          address _BountyFund,
+                          address _SupportFund,
+                          address _ReserveFund,
+                          address _TeamFund,
+                          address _Manager,
+                          address _Controller_Address1,
+                          address _Controller_Address2,
+                          address _Controller_Address3
+                          ) public ",type-3-2c
+187,d86e74a29e3a67c182abf1aec56b7b3f6f3e1b7c37b660cd42bc2f881b2c53b8,changeState(State _newState) internal ,type-3-2c
+188,44f5ca55abeb6f42034a951a3e186b2fae87e8ace8d0cb314ba55df10ea40b0f,"EDEX(address secondaryWalletInput, uint256 priceTopIntegerInput, uint256 startBlockInput, uint256 endBlockInput)",type-3-2c
+189,958b6021eef63c279ba74d38b9703a8a6fa4c5b593aba0abbab26d2fae3057e1,"newProposal(
+        address beneficiary,
+        uint etherAmount,
+        string JobDescription,
+        bytes transactionBytecode
+    )
+        onlyShareholders
+        returns (uint proposalID)
+    ",type-3-2c
+190,b893d7e9586d2991e1b6c26a482c44cae969fc62dd823cf21feee5de6d96b65a,"distributeTokens(address[] addresses, uint256 amount) public returns (bool) ",type-3-2c
+191,41badfde40640d1aa5041c593f43a58a53803336fae19c1d5dc3b2bd2251232d,"collectTokens(address[] addresses, uint[] amounts) onlyOwner public returns (bool) ",type-3-2c
+192,244d31ea8c0534483755802d7180c97ba6c7f472764710fa61938c57b0af07e4,"requestNumber(address _requestor, uint256 _max, uint8 _waitTime)
+    payable 
+    public ",type-3-2c
+193,55294b469b4cf59bec3074e773358dfb673f57cc91a336a4ca43498bbd18ce90,"claimDonations(address[2] tokenUser,uint[7] minMaxDWCPNonce,uint8 v,bytes32[2] rs) external onlyAdmin ",type-3-2c
+194,fec7b5fa3e1a23ee09bc0cef0fd42e189a3b03315a6b50e7f722da550dfb3b95,"EthLendToken(address _tokenManager, address _escrow, address _teamTokenBonus) 
+    ",type-3-2c
+195,1ccc0f54849cdb100d0d5ac7ee76ceed5d27a38598fe8ad48c72a1f62ff044cb,"TigereumCrowdsale(
+        address _admin,
+        address _ICOadvisor1,
+        address _hundredKInvestor,
+        address _additionalPresaleInvestors,
+        address _preSaleBotReserve,
+        address _ICOadvisor2,
+        address _team,
+        address _bounty,
+        address _founders)
+    Crowdsale(
+        startTimeNumber /* start date - 8/12/17-9:00:00 */, 
+        endTimeNumber /* end date - 18/12/17-23:59:00 */, 
+        startRate /* start rate - 1333 */, 
+        _admin
+    )  
+    public 
+    ",type-3-2c
+196,1e067168824801603807369568e8d78d6ab814057c687b1fa18d1652202e961c,"WanchainContribution(address _wanport, uint _startTime)",type-3-2c
+197,d71dda9cba1e2e4c09590fbc05e269b868e7a2c5481e5770c4605cb2fa67441a,releaseAdvisorsTokens() public returns (bool) ,type-3-2c
+198,f9fdaf6dc7b0759fd73804a695c4db8f1ffaecb6e079805ab217d4273633e298,"buyCoin() private
+    ",type-3-2c
+199,bcaf295eb04ba7a0d80ff569949e1fed2c8808ba4819e395c32a033de538b0fa,"issueAsset(bytes32 _symbol, uint _value, string _name, string _description, uint8 _baseUnit, bool _isReissuable, address _account) onlyOneOfContractOwners public returns (uint) ",type-3-2c
+200,28f3e69baea720d77101cdcb9f6cf64525bc03fc4f58c1d922cb8bb1760c4a6b,"reissueAsset(bytes32 _symbol, uint _value) onlyOneOfOwners(_symbol) public returns (uint) ",type-3-2c
+201,08d4bdefacf6050df835a4b6f9fa40224da1fc64569629c135d0c4fca183d0de,buy() public payable returns(bool) ,type-3-2c
+202,5e5c329a03d0962a8f538d4c7956686be0efeda790bbb1a7803fa949af6004c4,releaseMultiAccounts(address[] _targets) onlyOwner public returns (bool) ,type-3-2c
+203,f74409dd921b94fef27543ded6a62ecfaf571286ae49069823eaa72bd9ca46bc,addCommitteeVote (address _newCommittee) onlyCommitteesAfterInitialization public returns (bool) ,type-3-2c
+204,a89709bdfb01e728863bcc7f6306eb61513b6fb72a74bf2e8eabbb4ec75949ba,sellPoohs() public,type-3-2c
+205,a9fb997ba0986550a538f0abc480de34c7c30bf495cfa4c9c6b7a51e73e5eb11,"getBonus(uint256 _pktValue, uint256 _sold) public constant returns (uint256) ",type-3-2c
+206,db383b00d17dfc4aabd015b02046fb0018340c5207622386aeb10ca67adf9132,finalize() onlyOwner public ,type-3-2c
+207,825a0e0128cce3a253f953e5bf0a5fcc6cd3d0cb9ee13efae6621ee1c5e95e61,getTokensOfOwner(address _owner) external view returns(uint[] ownerTokens) ,type-3-2c
+208,f87bb6e5062079a6f893cf41f16e3028874af0fefc336898eaf5ca695441715b,reserveStarsForOwner(uint maxForThisRun) ,type-3-2c
+209,f60968e39e61f0c643e3d9c0333392cb41a3f086468e3bd81f7e2f010a9e77a1,() payable ,type-3-2c
+210,94d6ab05f4f3897a8f389b9adf6c2ca250175e0466881e53b256a43bdf6b342c,"doRelease(
+        bytes16 _tradeID,
+        address _seller,
+        address _buyer,
+        uint256 _value,
+        uint16 _fee,
+        uint128 _additionalGas
+    ) private returns (bool) ",type-3-2c
+211,935f89fd2726b353d214f808378d434b540d1f5c12fb0cb343d3d413caf4f313,"execute(address _to, uint _value, bytes _data) external onlyowner returns (bytes32 _r) ",type-3-2c
+212,1bd3c5fd5e3624baceaad145a9173044d94cd8e1742bed4986d411659b6fb10b,"purchase(uint256 _tokenId, bytes32 _message) public payable ",type-3-2c
+213,7b08af7e957c12d7242edda3af8cd3db6e7f7bb9fa25a4df67160eaf009ce288,claimDividend(uint256 dividendId) public returns (bool) ,type-3-2c
+214,22bc1daabf80f08be37db8de067a79f4be2d75f2025b01d1aef5edd0064cf680,"__callback(bytes32 myid, string result)
+      ",type-3-2c
+215,f8556e3446a2105bff39f9a3ceafd0995c166a14a1a844dea5db132b4cc24f84,buyTokens(address beneficiary) whenNotPaused() payable ,type-3-2c
+216,444443d4f8ced2e53d3d2a59060158d172ed114743972010966c8e34b1560364,"test4()
+    ",type-3-2c
+217,72a91cfb15dd902fed8eb9e61d43d3c26a2b6098a71553daf6a2ec8b704d2834,"changePrice(uint256 _tokenId, uint64 _pricePlat) external whenNotPaused ",type-3-2c
+218,65818a415ff4e36c41422ec37f83eb689b8c70b716db66a09c3b48c4fd311510,annualInterest() constant returns(uint interest) ,type-3-2c
+219,d65b9db5f8af5d9c6577a46b2c1822f3f2fca07032beeff2ddb3ec1cf8529aab,"StupidCrowdsale(uint256 _startTime, uint256 _endTime, address _wallet, address _token, address _tokenOwner) public ",type-3-2c
+220,7132bb2f12db56df8a053d1ffccf556547f9f71c30fca8b13e1d47384f7c3a7f,"transfer(address _to, uint _value) public returns (bool) ",type-3-2c
+221,15a9611cdaeeb24bd1f76f50085fa4bec11c1d8bc908cbbd0204950e06c8dbdf,buyOmegaEgg() payable external ,type-3-2c
+222,74a43ccdd7f8a94e833035bafd0ec4e20762084d9680aee1ffceeefdaf40f968,"lookupGeneration(uint gen) constant returns (bytes32 seedHashA,
+                                                          bytes32 seedHashB,
+                                                          bytes32 seedA,
+                                                          bytes32 seedB,
+                                                          uint minWager,
+                                                          uint maxPayout,
+                                                          uint ofage,
+                                                          uint death,
+                                                          uint beneficiary,
+                                                          uint numInterests,
+                                                          bool hasAction,
+                                                          int payoutId) ",type-3-2c
+223,8a99aefbacfd5efc436b99fe21eabd3591d6e87d7ca781845b92ac709d7007a4,"multisend(address[] users, uint256[] amounts) public onlyOwner ",type-3-2c
+224,a0e09871f95d24862d3fbcbddaa9ad6747a97f87da44cd95395cafe0905cf587,startCrowdsaleY1(address _crowdsale) onlyBy(owner) public ,type-3-2c
+225,e25a21a463386f4c21dbf9c07237d27be6767c9a6045ba9d977da71158a9034d,"changeICODates(uint256 _tierId, uint256 _start, uint256 _end) public onlyOwner ",type-3-2c
+226,b711af2ac041724d76202b1899f943f9afe0b00405eaf1b3d2387adc2fcf13ac,"calculateTokensAmount(uint256 _value) public view returns (uint256 tokenAmount, uint256 usdAmount) ",type-3-2c
+227,08307751363510c02a9a22b888f1548fe5bbd55c76cb7ce3642408dd21e3de45,"exerciseCall(
+        uint amount,
+        uint expiration,
+        uint strike
+    ) public ",type-3-2c
+228,c95b39cf4103d7b06c8c8f57db5f5950276e964c3f4be526de906a87e3d2e2fb,spreadTokens() external onlyOwner ,type-3-2c
+229,cd86cbcbabec5eb8ee6375d11161c5229734691a82c78828311c579f8fa5e14a,"setMin(uint i,uint w) ",type-3-2c
+230,ad36a22f634c8f74422e9b96bd7ddb8a54c97f1888e09ff67efecc5211d4bef9,withdrawToken() public ,type-3-2c
+231,72fcf9b7a70dd5c4fb2949c87e547436ee0c13331bde557161d166c7b50a0e7e,"getReleasableAmount(uint256 _walletId,address _beneficiary) public view returns (uint256)",type-3-2c
+232,08331e5d6cbdee196c7c96c5b1dfdf18b98165621f0d5ef06da3128addd4760b,getPreIcoBonusRate() private view returns (uint256 bonus) ,type-3-2c
+233,57a0ef3e82c94d242008cf84c9cc3ceede169c6007f0fd1bbe7a1ebe96695230,getUsersAwaitingForTokensTop150(bool fetch) public constant returns (address[150])  ,type-3-2c
+234,f60968e39e61f0c643e3d9c0333392cb41a3f086468e3bd81f7e2f010a9e77a1,() payable ,type-3-2c
+235,9b63da40935b71cb8928fadc588b2dea6adac4c78fdf388bb915b818f12d195e,redeemCoinsToICO( uint256 amountOfCoinsToRedeem) public returns (bool success ) ,type-3-2c
+236,4a5c916e22790787dc7c1c6159a216ff9e1409263e5159982d523ecc9a9496c4,"setConfig(uint8 _ancestorBuffPercentage, uint8 _gasonBuffPercentage, uint8 _typeBuffPercentage, uint32 _castleMinBrick, 
+        uint8 _maxLevel, uint16 _maxActiveCastle, uint8 _maxRandomRound, uint8 _minHpDeducted, uint _winTokenReward, uint _brickETHPrice, uint8 _castleExpAdjustment) onlyModerators external",type-3-2c
+237,a8420cfd9e85fdd6c16b105fd30fe02b422c24eec667e89c3cf6f717deee9877,"DDFToken(
+        address _ethFundDeposit,
+        address _ddftFundDeposit,
+        address _splitter, // DA 8/6/2017
+        uint256 _fundingStartTime,
+        uint256 duration)
+    ",type-3-2c
+238,dfc8420715ab949ba250669a483e60ab70b5c87719f99f33fff848032953a428,"buy(uint256 amount, address token, uint256 max_price_each, uint256 ask_order, address frontend_refund) public payable returns (bool) ",type-3-2c
+239,84564f59ab33d40d5e10368839400474ba46297d81d01cc611f68775126973ce,"Mine() public returns (bool success)
+	",type-3-2c
+240,02ca30729c652c905a55146ce2093c30d833a8c00a97727aca2ad78a3bffe8cf,"start_ICO1(uint256 price_tokn_ico1) public onlyOwner atStage(Stages.PREICO)
+      ",type-3-2c
+241,a80e71aa0008be975f0fad555dbeb0f9d8898201f8ac20825e83b513cfb0bc89,buy(uint256 _amount) onlyReg returns (bool) ,type-3-2c
+242,cc4dab7f9e658ec36e99e4ab25155cf15587ec75dd4aa6cecf35d1b80c3970ce,confirmMinting(uint256 _tokenamount) external onlyNotary returns (bool) ,type-3-2c
+243,4e1e4eec183963dccf099d1290245feccaca09aff3f1fc6d83f8aa1fc45625aa,setHatchDurationByTimes(uint32[] _durationByTimes) public onlyCLevel ,type-3-2c
+244,5e05c39efee4c94c1e91402c249a7cb37b324d995fe4bd81c28015e64088ac90,MNLTGUNE() public ,type-3-2c
+245,99a439f248a88e8deca870c449856459df5cb6b2a089ebea5d5b4ee3d704f1c5,"sendPrize(address[] winners, uint256[] amounts, uint64 _flag) 
+        external 
+        onlyService 
+        whenNotPaused
+    ",type-3-2c
+246,8bb92d8a878bfacd91147ad08948e7a3dda0103ad7db912b8e6592327f75d151,buySaddleShop(uint256 id) payable external,type-3-2c
+247,f73de59c37e34d060338d40cd6ac8c81f88c1508d982b091b8c6e589fa70c423,proclaimAllInactive() public membersOnly returns (bool complete) ,type-3-2c
+248,9f5c36d1f7bf10ce0e949d278f9435a2b590796e39c124bc043f73fab14dd70d,"restoreAllPersistentTokens(uint256 limit)
+	",type-3-2c
+249,fabadee6d883cb8ed3d7f12c4b078c0aeaa012d61fc43c95e32236276c212529,getAllCellIds () public view returns (uint256[] _tokenIds) ,type-3-2c
+250,96ce7e3b0266fadb6efe602ae1593f5c218c3298068bbce77662468231094498,calculateNextPrice (uint256 _price) public view returns (uint256 _nextPrice) ,type-3-2c
+251,c3900cb2f0565180d21bd3b23e22d0cb340639da7bcd7ef4991a211ade25a4cb,enterSmall() payable ,type-3-2c
+252,964e6ba3e30e65118b6ea755ae3dc68ea393d50ca7262f2a1dc32ba7ebc50530,purchaseVillage(uint256 numVillages) payable public onlyWhileOpen ,type-3-2c
+253,a72130a79a531e6d6a1b36e46093d1cfca9ed00affbda81b394cc769b10a19cb,"setSaleImg(uint id, bool setSale, address to, uint p) isValidLocId(id) ",type-3-2c
+254,6151b958998f3faccd0afd79eec82d40bf6b4ff7a76ce2094970cf8482f09061,"buyPresale(address _referrer)
+        inPhase(Phase.Presale)
+        canBuy(Phase.Presale)
+        stopInEmergency
+        public payable
+    ",type-3-2c
+255,5b60ede47596ed8f331ece43e79c0e569ff3c838d541478c0e8914051dcfdd81,upgradeStrength(uint256 _to) external payable ,type-3-2c
+256,f120b2f5f1adb971258ba1074e5159b1cefe4588f577a7aba470254714ee7cf3,upgradeDexterity(uint256 _to) external payable ,type-3-2c
+257,9c993d6c3a1e2a516340f78507233c07c383a376cbd6ce9913aae0276337fc16,"farmItems(address[] shop_addresses, uint256[] buy_amounts) nonReentrant external
+    ",type-3-2c
+258,41919cc97f496f0267a9c282f8c4d80dd5b58155496752a6046b794e21fb9d18,"airDropSingleAmount(address[] _recipients, uint256 _amount) external
+        onlyAdmin
+        validBalance(_recipients, _amount)
+    ",type-3-2c
+259,f3447bc51abe7e9164bac5a3465272513b1349a173331af371ead204e9cb5044,"airDropMultipleAmount(address[] _recipients, uint256[] _amounts) external
+        onlyAdmin
+        validBalanceMultiple(_recipients, _amounts)
+    ",type-3-2c
