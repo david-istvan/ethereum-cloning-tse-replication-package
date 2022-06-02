@@ -2,7 +2,7 @@ import zipfile
 
 dataFolder = '../01_data'
 
-zippedFileNames = ['clonedata/03_openzeppelin']
+zippedFileNames = ['clonedata/openzeppelin']
 
 
 def getFullPath(fileName):

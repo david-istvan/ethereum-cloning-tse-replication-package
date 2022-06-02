@@ -17,7 +17,7 @@ preparedFolder = f'{dataFolder}/prepared'
 print('---Starting merge---')
 start_time = time.time()
 
-data = pd.read_pickle(f'{clonedataFolder}/02_duplicates/clones.p')
+data = pd.read_pickle(f'{clonedataFolder}/duplicates/clones.p')
 authors = pd.read_json(f'{metadataFolder}/authorinfo.json').transpose()
 transactions = pd.read_json(f'{metadataFolder}/transactioninfo.json', typ='series')
 filelength = pd.read_json(f'{metadataFolder}/filelength.json', typ='series')

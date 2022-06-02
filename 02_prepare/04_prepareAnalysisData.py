@@ -246,9 +246,9 @@ class Preparation():
     Benchmarked execution time: 3.21s.
     """
     def prepareRQ3(self):
-        t1 = pd.read_csv(f'{clonedataFolder}/03_openzeppelin/type-1.csv')
-        t2b = pd.read_csv(f'{clonedataFolder}/03_openzeppelin/type-2b.csv')
-        t2c = pd.read_csv(f'{clonedataFolder}/03_openzeppelin/type-2c.csv')    
+        t1 = pd.read_csv(f'{clonedataFolder}/openzeppelin/type-1.csv')
+        t2b = pd.read_csv(f'{clonedataFolder}/openzeppelin/type-2b.csv')
+        t2c = pd.read_csv(f'{clonedataFolder}/openzeppelin/type-2c.csv')    
         
         data = pd.concat([t1, t2b, t2c])
 
