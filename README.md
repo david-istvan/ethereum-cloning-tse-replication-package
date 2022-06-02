@@ -8,9 +8,9 @@ This paper is an extended replication of the paper [_Code cloning in smart contr
 
 * `/01_data`
   * `/clonedata` – Results of the clone analysis by the [NiCad extension](https://github.com/eff-kay/nicad6) developed for this study.
-    * `01_raw` – Raw results from the analysis.
-    * `02_duplicates` – Cleaned data.
-    * `03_openzeppelin.zip` – OpenZeppelin data. Requires unzipping into folder `03_openzeppelin`.
+    * `raw` – Raw results from the analysis.
+    * `duplicates` – Cleaned data.
+    * `openzeppelin.zip` – OpenZeppelin data. Requires unzipping into folder `openzeppelin`.
   * `/metadata` – Metadata about the authors, creation date and transactions of the contracts in the corpus.
   * `/prepared` - Prepared data for analysis. Contains potentially long-running scripts.
 * `/02_analysis` - Analysis scripts.
@@ -22,7 +22,7 @@ This paper is an extended replication of the paper [_Code cloning in smart contr
 
 1. Clone this repository.
 2. Install dependencies by running `pip install -r requirements.txt` in the root folder.
-3. Extract `/01_data/clonedata/03_openzeppelin.zip` into folder `/01_data/clonedata/03_openzeppelin`, or run `python 01_unzip.py` in the `02_prepare` folder.
+3. Extract `/01_data/clonedata/openzeppelin.zip` into folder `/01_data/clonedata/openzeppelin`, or run `python 01_unzip.py` in the `02_prepare` folder.
 4. Run `python analysis.py` in the `/03_analysis` folder.
    1. Run `python analysis.py -o [observationId]` to run the analysis of a specific observation.
    2. Use the `-s` flag to stash the folder of the previous analyses.
