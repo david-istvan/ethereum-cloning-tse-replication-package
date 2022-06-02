@@ -6,7 +6,7 @@ import time
 
 """
 Merges metadata with clone data.
-Benchmarked run-time: 31.6s.
+Benchmarked execution time: 31.6s.
 """
 
 dataFolder = '../01_data'
