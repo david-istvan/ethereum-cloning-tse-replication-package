@@ -22,7 +22,17 @@ This paper is an extended replication of the paper [_Code cloning in smart contr
 
 1. Clone this repository.
 2. Install dependencies by running `pip install -r requirements.txt` in the root folder.
-3. Extract `/01_data/clonedata/03_openzeppelin.zip` into folder `/01_data/clonedata/03_openzeppelin.zip`, or run `python 01_unzip.py` in the `02_prepare` folder.
+3. Extract `/01_data/clonedata/03_openzeppelin.zip` into folder `/01_data/clonedata/03_openzeppelin`, or run `python 01_unzip.py` in the `02_prepare` folder.
 4. Run `python analysis.py` in the `/03_analysis` folder.
    1. Run `python analysis.py -o [observationId]` to run the analysis of a specific observation.
    2. Use the `-s` flag to stash the folder of the previous analyses.
+
+### Reproduction of the prepared data (`/01_data/prepared`)
+
+The prepared data is used in the analyses. The prepared data is included in this replication package in folder `/01_data/prepared`, but it can be reproduced from the raw data by following the steps below.
+
+1. Run `python 03_mergeMetadata.py` in the `/02_prepare` folder.
+2. Run `python 04_prepareAnalysisData.py` in the `/02_prepare` folder.
+   1. Run `python 04_prepareAnalysisData.py -p [RQ or observation ID]` to prepare data for a specific RQ or observation.
+
+Some preparation steps can take up to hours to complete. Please find the benchmarked execution times commented in the source code.
