@@ -1,0 +1,10 @@
+[OVERALL] Median of rank percentage: 33.33.
+[OVERALL] Median of rank: 7.
+[TYPE-1] Median of rank percentage: 33.33.
+[TYPE-1] Median of rank: 7.
+[TYPE-2C] Median of rank percentage: 9.09.
+[TYPE-2C] Median of rank: 1.
+[TYPE-3] Median of rank percentage: 54.55.
+[TYPE-3] Median of rank: 8.
+[TYPE-3B] Median of rank percentage: 27.39.
+[TYPE-3B] Median of rank: 5.0.

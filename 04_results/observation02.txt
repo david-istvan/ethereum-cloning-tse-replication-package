@@ -1,0 +1,4 @@
+Number of clusters: 13144.
+Sum of clones: 80361.
+Cumulative clone percentage at 2.07% cumulative cluster percentage: 50.0317
+Cumulative clone percentage at 20% cumulative cluster percentage: 71.8632
