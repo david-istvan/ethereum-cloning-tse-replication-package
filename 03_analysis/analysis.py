@@ -366,7 +366,7 @@ class Analysis():
         pass
         
     def observation6(self):
-        path = f'{dataPath}/clonedata/02_duplicates/function-ids/'
+        path = f'{dataPath}/clonedata/duplicates/function-ids/'
         resultsFileAll = 'all-ids.csv'
         resultsFileTop20 = 'observation06-function-ids-top20.csv'
 
@@ -729,7 +729,7 @@ class Analysis():
         self.observation12b()
     
     def observation12a(self):
-        data = pd.read_csv(f'{dataPath}/clonedata/03_openzeppelin/type-1.csv')
+        data = pd.read_csv(f'{dataPath}/clonedata/openzeppelin/type-1.csv')
 
         uniqueContractsWithIdenticalOZBlock = (data[data['startline_y'].notnull()].drop_duplicates(subset=['filename_x']))
         unique_contracts = data.drop_duplicates(subset=['filename_x'])
@@ -742,7 +742,7 @@ class Analysis():
         self.printTextReport(12, report)
 
     def observation12b(self):
-        data = pd.read_csv(f'{dataPath}/clonedata/03_openzeppelin/type-1_functions.csv')
+        data = pd.read_csv(f'{dataPath}/clonedata/openzeppelin/type-1_functions.csv')
         data['endline_x'] = data['endline_x'].apply( lambda x: int(x.replace('"', '')))
         data['startline_x'] = data['startline_x'].apply( lambda x: int(x.replace('"', '')))
         data['diff'] = data['endline_x'] - data['startline_x'] + 1
@@ -771,8 +771,8 @@ class Analysis():
         self.observation13b()
     
     def observation13a(self):
-        data = pd.read_csv(f'{dataPath}/clonedata/03_openzeppelin/type-1.csv')
-        all_corpus_contracts = pd.read_csv(f'{dataPath}/clonedata/03_openzeppelin/corpus_contracts.csv')
+        data = pd.read_csv(f'{dataPath}/clonedata/openzeppelin/type-1.csv')
+        all_corpus_contracts = pd.read_csv(f'{dataPath}/clonedata/openzeppelin/corpus_contracts.csv')
 
         openZeppelinRecords = (data[data['filename_y'].notnull()]).drop_duplicates(subset=['filename_x', 'startline_x', 'endline_x'])
         
@@ -784,12 +784,12 @@ class Analysis():
         self.printTextReport(13, report)
 
     def observation13b(self):
-        data = pd.read_csv(f'{dataPath}/clonedata/03_openzeppelin/type-1_functions.csv')
+        data = pd.read_csv(f'{dataPath}/clonedata/openzeppelin/type-1_functions.csv')
         data['endline_x'] = data['endline_x'].apply( lambda x: int(x.replace('"', '')))
         data['startline_x'] = data['startline_x'].apply( lambda x: int(x.replace('"', '')))
         data['diff'] = data['endline_x'] - data['startline_x'] + 1
 
-        all_corpus_functions = pd.read_csv(f'{dataPath}/clonedata/03_openzeppelin/corpus_functions.csv')
+        all_corpus_functions = pd.read_csv(f'{dataPath}/clonedata/openzeppelin/corpus_functions.csv')
         all_corpus_functions['endline'] = all_corpus_functions['endline'].apply( lambda x: int(x.replace('"', '')))
         all_corpus_functions['startline'] = all_corpus_functions['startline'].apply( lambda x: int(x.replace('"', '')))
         all_corpus_functions['diff'] = all_corpus_functions['endline'] - all_corpus_functions['startline'] + 1
@@ -817,7 +817,7 @@ class Analysis():
         self.observation14b()
 
     def observation14a(self):
-        data = pd.read_csv(f'{dataPath}/clonedata/03_openzeppelin/type-1.csv')
+        data = pd.read_csv(f'{dataPath}/clonedata/openzeppelin/type-1.csv')
 
         ozFiles = data.filename_y.apply(lambda x: x.replace('"','').split('/')[-1] if not pd.isna(x) else x)
         
@@ -838,7 +838,7 @@ class Analysis():
         self.printHtmlReport(14, report)
 
     def observation14b(self):
-        data = pd.read_csv(f'{dataPath}/clonedata/03_openzeppelin/type-1_functions.csv')
+        data = pd.read_csv(f'{dataPath}/clonedata/openzeppelin/type-1_functions.csv')
 
         data['endline_x'] = data['endline_x'].apply( lambda x: int(x.replace('"', '')))
         data['startline_x'] = data['startline_x'].apply( lambda x: int(x.replace('"', '')))

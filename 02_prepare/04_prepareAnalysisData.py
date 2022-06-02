@@ -12,10 +12,6 @@ from matplotlib import pyplot as plt
 
 from hashlib import sha256
 
-#Checked an OK: RQ1, RQ2, RQ3, Observation8, Observation9
-#To check: Observation3, Observation6
-dataToPrepare = ['RQ3'] #['RQ1', 'RQ2', 'RQ3', 'Observation3', 'Observation6', 'Observation8', 'Observation9']
-
 dataFolder = '../01_data'
 clonedataFolder = f'{dataFolder}/clonedata'
 metadataFolder = f'{dataFolder}/metadata'
@@ -257,7 +253,9 @@ class Preparation():
     def runAll(self):
         print('Preparing data for every RQ and observation.\n')
         #dataToPrepare = ['RQ1', 'RQ2', 'RQ3', 'Observation3', 'Observation6', 'Observation8', 'Observation9']
-        dataToPrepare = ['RQ1', 'Observation8']
+        #Checked an OK: RQ1, RQ2, RQ3, Observation8, Observation9
+        #To check: Observation3, Observation6
+        dataToPrepare = ['RQ1', 'RQ2', 'RQ3', 'Observation8', 'Observation9'] # TODO: include the two other after testing
         for prepId in dataToPrepare:
             self.runOne(prepId)
     
