@@ -1,4 +1,0 @@
-Mann-Whitney between type-1 and others: 1.869984599208986e-127.
-	Effect size: 0.17205108359100502 (small).
-Mann-Whitney between type-1 and type-3: 3.7829847868210353e-110.
-	Effect size: 0.20102001331042418 (small).
