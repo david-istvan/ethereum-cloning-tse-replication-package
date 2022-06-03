@@ -39,56 +39,55 @@ class Preparation():
     Benchmarked execution time: 8720s. (About 2.5h.)
     """    
     def prepareObservation3(self):
-        print("---Starting Observation3---")
-        start_time = time.time()
-        allcontracts = pd.read_json('../02_metadata/authorinfo.json').transpose()
+        start_time_obs3 = time.time()
+        data = pd.read_pickle(f'{preparedFolder}/clonesWithAuthors.p')
+        allcontracts = pd.read_json(f'{metadataFolder}/authorinfo.json').transpose()
+        filelength = pd.read_json(f'{metadataFolder}/filelength.json', typ='series')
         
         #In about 3.5% of contracts, the creation date cannot be retrieved. Those are dropped from the analysis of Observation 3.
         allcontracts = allcontracts.loc[allcontracts['time'] != 0]
         
-        print("---Data read---")
+        print('---Data read---')
         
-        allcontracts['time'] = allcontracts.apply(lambda row: getDate(row.time), axis=1)
-        allcontracts['quarter'] = allcontracts.apply(lambda row: str(row.time.year)+"."+str(row.time.quarter), axis=1)
-        print("---Calculating t1---")
-        allcontracts['t1'] =  allcontracts.apply(lambda row: getNClones(row.name, 'type-1'), axis=1)
-        print("---Execution took %s seconds ---" % (time.time() - start_time))
-        print("---Calculating t2---")
-        allcontracts['t2'] =  allcontracts.apply(lambda row: getNClones(row.name, 'type-2'), axis=1)
-        print("---Execution took %s seconds ---" % (time.time() - start_time))
-        print("---Calculating t2c---")
-        allcontracts['t2c'] =  allcontracts.apply(lambda row: getNClones(row.name, 'type-2c'), axis=1)
-        print("---Execution took %s seconds ---" % (time.time() - start_time))
-        print("---Calculating t3---")
-        allcontracts['t3'] =  allcontracts.apply(lambda row: getNClones(row.name, 'type-3'), axis=1)
-        print("---Execution took %s seconds ---" % (time.time() - start_time))
-        print("---Calculating t32---")
-        allcontracts['t32'] =  allcontracts.apply(lambda row: getNClones(row.name, 'type-3-2'), axis=1)
-        print("---Execution took %s seconds ---" % (time.time() - start_time))
-        print("---Calculating t32c---")
-        allcontracts['t32c'] =  allcontracts.apply(lambda row: getNClones(row.name, 'type-3-2c'), axis=1)
-        print("---Execution took %s seconds ---" % (time.time() - start_time))
+        allcontracts['time'] = allcontracts.apply(lambda row: self.getDate(row.time), axis=1)
+        allcontracts['quarter'] = allcontracts.apply(lambda row: str(row.time.year)+'.'+str(row.time.quarter), axis=1)
+        print('---Calculating type-1---')
+        allcontracts['t1'] =  allcontracts.apply(lambda row: self.getNClones(data, row.name, 'type-1'), axis=1)
+        print('---Execution finished at %s seconds ---' % (time.time() - start_time_obs3))
+        print('---Calculating type-2b---')
+        allcontracts['t2'] =  allcontracts.apply(lambda row: self.getNClones(data, row.name, 'type-2'), axis=1)
+        print('---Execution finished at %s seconds ---' % (time.time() - start_time_obs3))
+        print('---Calculating type-2c---')
+        allcontracts['t2c'] =  allcontracts.apply(lambda row: self.getNClones(data, row.name, 'type-2c'), axis=1)
+        print('---Execution finished at %s seconds ---' % (time.time() - start_time_obs3))
+        print('---Calculating type-3---')
+        allcontracts['t3'] =  allcontracts.apply(lambda row: self.getNClones(data, row.name, 'type-3'), axis=1)
+        print('---Execution finished at %s seconds ---' % (time.time() - start_time_obs3))
+        print('---Calculating type-3b---')
+        allcontracts['t32'] =  allcontracts.apply(lambda row: self.getNClones(data, row.name, 'type-3-2'), axis=1)
+        print('---Execution finished at %s seconds ---' % (time.time() - start_time_obs3))
+        print('---Calculating type-3c---')
+        allcontracts['t32c'] =  allcontracts.apply(lambda row: self.getNClones(data, row.name, 'type-3-2c'), axis=1)
+        print('---Execution finished at %s seconds ---' % (time.time() - start_time_obs3))
         
-        print("---Calculating nclones---")
+        print('---Calculating nclones---')
         allcontracts['nclones'] =  allcontracts.apply(lambda row: row.t1+row.t2+row.t2c+row.t3+row.t32+row.t32c, axis=1)
-        print("---Execution took %s seconds ---" % (time.time() - start_time))
+        print('---Execution finished at %s seconds ---' % (time.time() - start_time_obs3))
         
-        print("---Calculating filelength---")
-        filelength = pd.read_json('../02_metadata/filelength.json', typ='series')
+        print('---Calculating filelength---')
         allcontracts['filelength'] = allcontracts.apply(lambda row: filelength[row.name], axis=1)
-        print("---Execution took %s seconds ---" % (time.time() - start_time))
+        print('---Execution finished at %s seconds ---' % (time.time() - start_time_obs3))
         
         allcontracts = allcontracts.sort_values(by=['time'], ascending=True)
         
-        allcontracts.to_pickle('./data_observation3.p')
-        print("---Execution took %s seconds ---" % (time.time() - start_time))
+        self.toPickle(allcontracts, 'data_observation3.p')
         
     def getDate(self, tstring):
         if(tstring!=0):
             return datetime.strptime(tstring, '%Y-%m-%d %H:%M:%S')
         return tstring
         
-    def getNClones(self, contract, type):
+    def getNClones(self, data, contract, type):
         try:
             df = data[(data['file'].str.contains(contract)) & (data['type'] == type)]
             nclones = len(df)
