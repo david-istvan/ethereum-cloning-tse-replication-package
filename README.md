@@ -8,8 +8,8 @@ This paper is an extended replication of the paper [_Code cloning in smart contr
 
 * `/01_data`
   * `/clonedata` – Results of the clone analysis by the [NiCad extension](https://github.com/eff-kay/nicad6) developed for this study.
-    * `raw` – Raw results from the analysis.
-    * `duplicates` – Cleaned data.
+    * `/raw` – Raw results from the analysis.
+    * `/duplicates` – Cleaned data.
     * `openzeppelin.zip` – OpenZeppelin data. Requires unzipping into folder `openzeppelin`.
   * `/metadata` – Metadata about the authors, creation date and transactions of the contracts in the corpus.
   * `/prepared` - Prepared data for analysis. Contains potentially long-running scripts.
