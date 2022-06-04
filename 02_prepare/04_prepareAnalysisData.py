@@ -168,31 +168,30 @@ class Preparation():
             pickle.dump(df, open(save_path, 'wb'))
 
             
-        def extract_functions_ids(config):
+        def extract_functions_ids():
             print('extr')
             original_paths = ['type-1', 'type-2', 'type-2c', 'type-3-1', 'type-3-2', 'type-3-2c']
-            os.makedirs('duplicates/code-filtered', exist_ok=True)
-            os.makedirs('duplicates/function-ids', exist_ok=True)
+            os.makedirs('clonedata/duplicates/function-ids', exist_ok=True)
             for filepath in original_paths:
                 print(f'starting {filepath}')
-                classids = get_classids('duplicates/final/'+filepath+".xml")
+                classids = get_classids('clonedata/duplicates/final/'+filepath+".xml")
                 print(f'classsids {len(classids)}')
-                complete_file_path = 'data/{}/withsource/{}'.format(config, filepath+'.xml')
-                save_path_pickle = 'duplicates/function-ids/{}'.format(filepath+'.p')
+                complete_file_path = 'clonedata/raw/withsource/{}'.format(filepath+'.xml')
+                save_path_pickle = 'clonedata/duplicates/function-ids/{}'.format(filepath+'.p')
                 extract_code(filepath, complete_file_path, classids, save_path_pickle)
             
-                save_path_txt = open('duplicates/function-ids/{}'.format(filepath+'.csv'), 'w', encoding='utf-8')
+                save_path_txt = open('clonedata/duplicates/function-ids/{}'.format(filepath+'.csv'), 'w', encoding='utf-8')
                 df = pickle.load(open(save_path_pickle, 'rb'))
                 print('saving file', save_path_txt)
                 df.to_csv(save_path_txt)
 
         
         try:
-            os.chdir('../03_clones')
+            os.chdir('../01_data')
         except FileNotFoundError:
-            raise FileNotFoundError("You need to place data folder at the same location as analysis.py")
+            raise FileNotFoundError('No data folder found.')
         
-        extract_functions_ids('macro')
+        extract_functions_ids()
         
     """
     Prepares data for Observation 8
