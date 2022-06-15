@@ -757,8 +757,8 @@ class Analysis():
             
             report.extend(
                 (f'Min number of function lines considered: {i}',
-                'Total number of contracts: {}.'.format(len(unique_contracts)),
-                'Number of distinct contracts with an OpenZeppelin record associated: {}.'.format(len(uniqueContractsWithIdenticalOZBlock)),
+                'Total number of functions: {}.'.format(len(unique_contracts)),
+                'Number of distinct functions with an OpenZeppelin record associated: {}.'.format(len(uniqueContractsWithIdenticalOZBlock)),
                 'Percentage ratio: {}%.'.format(round((len(uniqueContractsWithIdenticalOZBlock)/len(unique_contracts))*100, 2)),
                 '\n')
             )
