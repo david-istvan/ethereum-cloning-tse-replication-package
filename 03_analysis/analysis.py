@@ -853,12 +853,14 @@ class Analysis():
             data = data[data['diff'] >= i]
 
             ozFiles = data.function_id_y
+            data['contracts'] = data.filename_y.apply(lambda x: x.replace('"','').split('/')[-1] if not pd.isna(x) else x)
             
             totalOZFiles = ozFiles.value_counts().sum()
             uniqueOZFileNames = len(ozFiles.unique())
             
-            ozCounts = ozFiles.value_counts().rename_axis('functions').reset_index(name='count')
-            
+            ozCounts = data.groupby(['function_id_y', 'contracts']).size().reset_index().sort_values(by=0, ascending=False) 
+            ozCounts = ozCounts.rename(columns={0:'count'})
+
             ozCounts['cumulativeSum'] = ozCounts['count'].cumsum()
             ozCounts['perc'] = round((ozCounts['count']/totalOZFiles)*100, 2)
             ozCounts['cumulativePerc'] = round((ozCounts['cumulativeSum']/totalOZFiles)*100, 2)
@@ -872,6 +874,41 @@ class Analysis():
             reports.append(report_with_cutoff(i, report))
         
         self.printHtmlReport('14b', reports, functions=True)
+
+    # This just calculates the numbers in 6.3.2#Functionality section
+    def observation14c(self):
+        data = pd.read_csv(f'{dataPath}/clonedata/openzeppelin/type-1_functions.csv')
+
+        data['endline_x'] = data['endline_x'].apply( lambda x: int(x.replace('"', '')))
+        data['startline_x'] = data['startline_x'].apply( lambda x: int(x.replace('"', '')))
+        data['diff'] = data['endline_x'] - data['startline_x'] + 1
+
+        reports = []
+
+        from collections import namedtuple
+        report_with_cutoff = namedtuple('REPORT_WITH_CUTOFF', ('min_lines', 'report'))
+
+        for i in range(11):
+            data = data[data['diff'] >= i]
+
+            ozFiles = data.function_id_y
+            data['contracts'] = data.filename_y.apply(lambda x: x.replace('"','').split('/')[-1] if not pd.isna(x) else x)
+            
+            totalOZFiles = ozFiles.value_counts().sum()
+            uniqueOZFileNames = len(ozFiles.unique())
+            
+            ozCounts = data.groupby(['function_id_y', 'contracts']).size().reset_index().sort_values(by=0, ascending=False) 
+            ozCounts = ozCounts.rename(columns={0:'count'})
+            ozCounts = ozCounts[:100].groupby(['contracts']).size().reset_index().sort_values(by=0, ascending=False)
+            ozCounts = ozCounts.rename(columns={0:'count'})
+
+            report = [
+                ('Category Value counts ', ozCounts, '')
+            ]
+
+            reports.append(report_with_cutoff(i, report))
+        
+        self.printHtmlReport('14c', reports, functions=True)
     
     ########################## HELPER METHODS ##########################            
     def savefig(self, observationNumber):
