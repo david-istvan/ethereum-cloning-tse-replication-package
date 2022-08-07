@@ -51,7 +51,6 @@ The cleaned data is used in the data preparation scripts. The cleaned data is in
 To obtain the corpus of 33,034 smart contracts, please, contact the authors of the original study.
 
 To run the clone analysis, please, refer to the repository of the NiCad extension developed for this study.
-This replication package contains a Docker image with the installed tool. The image can be found in the `/docker` folder.
 
 The image is maintained on [Docker Hub](https://hub.docker.com/repository/docker/faizank/nicad6). The tag corresponding to the image in the `/docker` folder of this replication package can be obtained by running: `docker pull faizank/nicad6:TSE`.
 
@@ -59,7 +58,7 @@ The following process assumes [docker](https://docs.docker.com/get-started/) is 
 
 1. Create a new folder `/systems/source-code` and move the corpus to this folder.
 2. Create a new folder `/output` to store the result of clone analysis.
-3. Execute the analysis by issuing the following command: `docker run --platform linux/x86_64 -v $(pwd)/output:/nicad6/01_data -v $(pwd)/systems:/nicad6/systems faizank/nicad6`. This will generate the output artefacts inside the `output` folder.
+3. Execute the analysis by issuing the following command: `docker run --platform linux/x86_64 -v output:/nicad6/01_data -v systems:/nicad6/systems faizank/nicad6`. This will generate the output artefacts inside the `output` folder.
 4. Move the contents of the `/output` folder to `/01_data` and use the python scripts discussed above for the rest of the replication.
 
 
