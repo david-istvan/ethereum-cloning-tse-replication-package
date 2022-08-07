@@ -17,6 +17,7 @@ This paper is an extended replication of the paper [_Code cloning in smart contr
   - `/prepared` - Prepared data for analysis. Contains potentially long-running scripts.
 - `/02_analysis` - Analysis scripts.
 - `/03_results` - Results.
+- `/docker` - Docker image with NiCad installed in it.
 
 ## Reproduction
 
@@ -57,10 +58,10 @@ The repository of the tool is available at https://github.com/eff-kay/nicad6.
 
 The following process assumes [docker](https://docs.docker.com/get-started/) is installed and working correctly.
 
-1. Create a new folder `systems/source-code` and move the corpus to this folder.
-2. Create a new folder `output` to store the result of clone analysis.
+1. Create a new folder `/systems/source-code` and move the corpus to this folder.
+2. Create a new folder `/output` to store the result of clone analysis.
 3. Execute the analysis by issuing the following command: `docker run --platform linux/x86_64 -v $(pwd)/output:/nicad6/01_data -v $(pwd)/systems:/nicad6/systems faizank/nicad6`. This will generate the output artefacts inside the `output` folder.
-4. Move the contents of the `output` folder to `01_data` and use the python scripts discussed above for the rest of the replication.
+4. Move the contents of the `/output` folder to `/01_data` and use the python scripts discussed above for the rest of the replication.
 
 
 ### Further experimentation with the tool
