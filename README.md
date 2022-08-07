@@ -51,6 +51,8 @@ To obtain the corpus of 33,034 smart contracts, please, contact the authors of t
 
 We have prepared a docker image for this step, that will easily allow you to run Nicad on a corpus of dataset. The image can be found at https://hub.docker.com/repository/docker/faizank/nicad6.
 
+**NOTE:** The rest of the steps assume that you have [docker](https://docs.docker.com/get-started/) installed and working correctly.
+
 Once you have the data, create a new folder `systems/source-code` and move your dataset to this folder. To store the result of cloning, create a new folder called `output`. Then run the following commands
 
 ```
