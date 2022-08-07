@@ -63,4 +63,4 @@ The following process assumes [docker](https://docs.docker.com/get-started/) is 
 
 ### Further experimentation with the tool
 
-To experiment with the tool, issue `docker run --platform linux/x86_64 -v $(pwd)/output:/nicad6/01_data -v $(pwd)/systems:/nicad6/systems -it faizank/nicad6 bash`.
+To experiment with the tool, issue `docker run --platform linux/x86_64 -v /output:/nicad6/01_data -v /systems:/nicad6/systems -it faizank/nicad6 bash`.
