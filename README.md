@@ -49,7 +49,7 @@ The cleaned data is used in the data preparation scripts. The cleaned data is in
 
 To obtain the corpus of 33,034 smart contracts, please, contact the authors of the [original study](https://github.com/SAILResearch/suppmaterial-18-masanari-smart_contract_cloning).
 
-To run the clone analysis, please, refer to the repository of the [NiCad extension](https://github.com/eff-kay/nicad6) developed for this study. A Docker image is maintained on [Docker Hub](https://hub.docker.com/repository/docker/faizank/nicad6). The tag prepared for this replication package can be obtained by running: `docker pull faizank/nicad6:TSE`.
+A Docker image is maintained on [Docker Hub](https://hub.docker.com/repository/docker/faizank/nicad6). The tag prepared for this replication package can be obtained by running: `docker pull faizank/nicad6:TSE`.
 
 The following process assumes [docker](https://docs.docker.com/get-started/) is installed and working correctly.
 
@@ -57,6 +57,8 @@ The following process assumes [docker](https://docs.docker.com/get-started/) is 
 2. Create a new folder `/output` to store the result of clone analysis.
 3. Execute the analysis by issuing the following command: `docker run --platform linux/x86_64 -v output:/nicad6/01_data -v systems:/nicad6/systems faizank/nicad6`. This will generate the output artefacts inside the `output` folder.
 4. Move the contents of the `/output` folder to `/01_data` and use the python scripts discussed above for the rest of the replication.
+
+Should you prefer to build the image from scratch, please, refer to the repository of the [NiCad extension](https://github.com/eff-kay/nicad6) developed for this study.
 
 
 ### Further experimentation with the tool
