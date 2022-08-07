@@ -49,25 +49,20 @@ The cleaned data is used in the data preparation scripts. The cleaned data is in
 
 To obtain the corpus of 33,034 smart contracts, please, contact the authors of the original study.
 
-We have prepared a docker image for this step, that will easily allow you to run Nicad on a corpus of dataset. The image can be found at https://hub.docker.com/repository/docker/faizank/nicad6.
+To run the clone analysis, please, refer to the repository of the NiCad extension developed for this study.
+This replication package contains a Docker image with the installed tool. The image can be found in the `/docker` folder.
 
-**NOTE:** The rest of the steps assume that you have [docker](https://docs.docker.com/get-started/) installed and working correctly.
+The image is maintained at https://hub.docker.com/repository/docker/faizank/nicad6. Pull it by running `docker pull faizank/nicad6:TSE`.
+The repository of the tool is available at https://github.com/eff-kay/nicad6.
 
-Once you have the data, create a new folder `systems/source-code` and move your dataset to this folder. To store the result of cloning, create a new folder called `output`. Then run the following commands
+The following process assumes [docker](https://docs.docker.com/get-started/) is installed and working correctly.
 
-```
-# first pull the image if its not already pulled
-docker pull faizank/nicad6:TSE
-
-# then run the cloning on the source-code, this will generate the output artefacts inside the ouptut folder on your computer
-docker run --platform linux/x86_64 -v $(pwd)/output:/nicad6/01_data -v $(pwd)/systems:/nicad6/systems faizank/nicad6
+1. Create a new folder `systems/source-code` and move the corpus to this folder.
+2. Create a new folder `output` to store the result of clone analysis.
+3. Execute the analysis by issuing the following command: `docker run --platform linux/x86_64 -v $(pwd)/output:/nicad6/01_data -v $(pwd)/systems:/nicad6/systems faizank/nicad6`. This will generate the output artefacts inside the `output` folder.
+4. Move the contents of the `output` folder to `01_data` and use the python scripts discussed above for the rest of the replication.
 
 
-# if you just want to play around within the docker container run the following command
-docker run --platform linux/x86_64 -v $(pwd)/output:/nicad6/01_data -v $(pwd)/systems:/nicad6/systems -it faizank/nicad6 bash
+### Further experimentation with the tool
 
-```
-
-**NOTE :** You have to move the data inside the `output` folder to `01_data`, for the rest of the replication steps to work.
-
-To undersand the details of how the above image was developed and how to modify it, refer to the repository of the [NiCad extension](https://github.com/eff-kay/solidity-nicad) developed for this study.
+To experiment with the tool, issue `docker run --platform linux/x86_64 -v $(pwd)/output:/nicad6/01_data -v $(pwd)/systems:/nicad6/systems -it faizank/nicad6 bash`.
