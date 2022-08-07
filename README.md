@@ -17,7 +17,6 @@ This paper is an extended replication of the paper [_Code cloning in smart contr
   - `/prepared` - Prepared data for analysis. Contains potentially long-running scripts.
 - `/02_analysis` - Analysis scripts.
 - `/03_results` - Results.
-- `/docker` - Docker image with NiCad installed in it.
 
 ## Reproduction
 
