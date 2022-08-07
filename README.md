@@ -49,7 +49,7 @@ The cleaned data is used in the data preparation scripts. The cleaned data is in
 
 To obtain the corpus of 33,034 smart contracts, please, contact the authors of the [original study](https://github.com/SAILResearch/suppmaterial-18-masanari-smart_contract_cloning).
 
-A Docker image is maintained on [Docker Hub](https://hub.docker.com/repository/docker/faizank/nicad6). The tag prepared for this replication package can be obtained by running: `docker pull faizank/nicad6:TSE`.
+A Docker image is maintained on [Docker Hub](https://hub.docker.com/repository/docker/faizank/nicad6) and can be obtained by running: `docker pull faizank/nicad6:TSE`.
 
 The following process assumes [docker](https://docs.docker.com/get-started/) is installed and working correctly, and the image is pulled. You can verify that image by issuing `docker images` from the terminal and see that there is an image named `faizank/nicad6` available in the list.
 
