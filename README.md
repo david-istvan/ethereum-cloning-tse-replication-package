@@ -57,7 +57,7 @@ Once you have the data, create a new folder `systems/source-code` and move your 
 
 ```
 # first pull the image if its not already pulled
-docker pull faizank/nicad6
+docker pull faizank/nicad6:TSE
 
 # then run the cloning on the source-code, this will generate the output artefacts inside the ouptut folder on your computer
 docker run --platform linux/x86_64 -v $(pwd)/output:/nicad6/01_data -v $(pwd)/systems:/nicad6/systems faizank/nicad6
