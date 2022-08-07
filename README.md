@@ -22,6 +22,8 @@ This paper is an extended replication of the paper [_Code cloning in smart contr
 
 ### Reproduction of the analyses
 
+**NOTE:** The following steps have been tested with `python>=3.7 && python<3.10`.
+
 1. Clone this repository.
 2. Install dependencies by running `pip install -r requirements.txt` in the root folder.
 3. Extract `/01_data/clonedata/openzeppelin.zip` into folder `/01_data/clonedata/openzeppelin`, or run `python 01_unzip.py` in the `02_prepare` folder.
@@ -53,13 +55,14 @@ A Docker image is maintained on [Docker Hub](https://hub.docker.com/repository/d
 
 The following process assumes [docker](https://docs.docker.com/get-started/) is installed and working correctly, and the image is pulled. You can verify that image by issuing `docker images` from the terminal and see that there is an image named `faizank/nicad6` available in the list.
 
+**NOTE:** The following steps have been tested with `docker_engine==20.10.17(build==100c701)`
+
 1. Create a new folder `/systems/source-code` and move the corpus to this folder.
 2. Create a new folder `/output` to store the result of clone analysis.
 3. Execute the analysis by issuing the following command: `docker run --platform linux/x86_64 -v output:/nicad6/01_data -v systems:/nicad6/systems faizank/nicad6`. This will generate the output artefacts inside the `output` folder.
 4. Move the contents of the `/output` folder to `/01_data` and use the python scripts discussed above for the rest of the replication.
 
 Should you prefer to build the image from scratch, please, refer to the repository of the [NiCad extension](https://github.com/eff-kay/nicad6) developed for this study.
-
 
 ### Further experimentation with the tool
 
