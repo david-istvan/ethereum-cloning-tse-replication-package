@@ -53,8 +53,7 @@ To obtain the corpus of 33,034 smart contracts, please, contact the authors of t
 To run the clone analysis, please, refer to the repository of the NiCad extension developed for this study.
 This replication package contains a Docker image with the installed tool. The image can be found in the `/docker` folder.
 
-The image is maintained at https://hub.docker.com/repository/docker/faizank/nicad6. Pull it by running `docker pull faizank/nicad6:TSE`.
-The repository of the tool is available at https://github.com/eff-kay/nicad6.
+The image is maintained on [Docker Hub](https://hub.docker.com/repository/docker/faizank/nicad6). The tag corresponding to the image in the `/docker` folder of this replication package can be obtained by running: `docker pull faizank/nicad6:TSE`.
 
 The following process assumes [docker](https://docs.docker.com/get-started/) is installed and working correctly.
 
