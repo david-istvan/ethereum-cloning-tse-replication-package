@@ -49,9 +49,7 @@ The cleaned data is used in the data preparation scripts. The cleaned data is in
 
 To obtain the corpus of 33,034 smart contracts, please, contact the authors of the [original study](https://github.com/SAILResearch/suppmaterial-18-masanari-smart_contract_cloning).
 
-To run the clone analysis, please, refer to the repository of the [NiCad extension](https://github.com/eff-kay/nicad6) developed for this study.
-
-The image is maintained on [Docker Hub](https://hub.docker.com/repository/docker/faizank/nicad6). The tag corresponding tag can be obtained by running: `docker pull faizank/nicad6:TSE`.
+To run the clone analysis, please, refer to the repository of the [NiCad extension](https://github.com/eff-kay/nicad6) developed for this study. A Docker image is maintained on [Docker Hub](https://hub.docker.com/repository/docker/faizank/nicad6). The tag prepared for this replication package can be obtained by running: `docker pull faizank/nicad6:TSE`.
 
 The following process assumes [docker](https://docs.docker.com/get-started/) is installed and working correctly.
 
