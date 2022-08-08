@@ -20,9 +20,9 @@ This paper is an extended replication of the paper [_Code cloning in smart contr
 
 ## Reproduction
 
-### Reproduction of the analyses
+**Requirements:** `python>=3.7 && python<3.10`.
 
-**NOTE:** The following steps have been tested with `python>=3.7 && python<3.10`.
+### Reproduction of the analyses
 
 1. Clone this repository.
 2. Install dependencies by running `pip install -r requirements.txt` in the root folder.
