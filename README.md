@@ -21,7 +21,7 @@ This paper is an extended replication of the paper [_Code cloning in smart contr
 ## Reproduction
 
 The following describes four reproduction scenarios. Any of the scenarios can be executed independently from the others.
-* [Reproduction of the analyses](#reproduction-of-the-analyses): reproduces the analysis results in `/03_results` from the prepared data (`/01_data/prepared`).
+* [Reproduction of the analyses](#reproduction-of-the-analyses): reproduces the analysis results in `/03_results`.
 * [Reproduction of the prepared data](#reproduction-of-the-prepared-data-01_dataprepared): reproduces the prepared data in `/01_data/prepared`.
 * [Reproduction of the cleaned data](#reproduction-of-the-cleaned-data-01_dataclonedataduplicates): reproduces the cleaned data in `/01_data/clonedata/duplicates`.
 * [Reproduction of the raw data](#reproducing-the-clone-analysis-01_dataclonedataraw): reproduces the raw data `/01_data/clonedata/raw` by running the [NiCad extension](https://github.com/eff-kay/nicad6) developed for this study.
@@ -30,7 +30,7 @@ The following describes four reproduction scenarios. Any of the scenarios can be
 
 ### Reproduction of the analyses
 
-Follow the steps below to reproduce the analysis results in `/03_results` from the prepared data (`/01_data/prepared`).
+Follow the steps below to reproduce the analysis results in `/03_results`.
 
 1. Clone this repository.
 2. Install dependencies by running `pip install -r requirements.txt` in the root folder.
