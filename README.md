@@ -26,9 +26,7 @@ The following describes four reproduction scenarios. Any of the scenarios can be
 * [Reproduction of the cleaned data](#reproduction-of-the-cleaned-data-01_dataclonedataduplicates): reproduces the cleaned data in `/01_data/clonedata/duplicates`.
 * [Reproduction of the raw data](#reproducing-the-clone-analysis-01_dataclonedataraw): reproduces the raw data `/01_data/clonedata/raw` by running the [NiCad extension](https://github.com/eff-kay/nicad6) developed for this study.
  
-**Tested with:**
-* `python>=3.7 && python<3.10`
-* Docker Desktop 4.11.1
+**NOTE:** The following steps have been tested with `python>=3.7 && python<3.10`.
 
 ### Reproduction of the analyses
 
