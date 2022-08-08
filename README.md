@@ -20,9 +20,17 @@ This paper is an extended replication of the paper [_Code cloning in smart contr
 
 ## Reproduction
 
+The following describes four reproduction scenarios.
+* [Reproduction of the analyses](#reproduction-of-the-analyses): reproduces the analysis results in `/03_results` from the prepared data (`/01_data/prepared`).
+* [Reproduction of the prepared data](#reproduction-of-the-prepared-data-01_dataprepared): reproduces the prepared data in `/01_data/prepared` from the cleaned data.
+* [Reproduction of the cleaned data](#reproduction-of-the-cleaned-data-01_dataclonedataduplicates): reproduces the cleaned data in `/01_data/clonedata/duplicates` from the raw data (`/01_data/clonedata/raw`).
+* [Reproduction of the raw data](#reproducing-the-clone-analysis-01_dataclonedataraw): reproduces the raw data `/01_data/clonedata/raw` by running the [NiCad extension](https://github.com/eff-kay/nicad6) developed for this study.
+* 
 **Requirements:** `python>=3.7 && python<3.10`.
 
 ### Reproduction of the analyses
+
+Follow the steps below to reproduce the analysis results from the prepared data (`/01_data/prepared`).
 
 1. Clone this repository.
 2. Install dependencies by running `pip install -r requirements.txt` in the root folder.
@@ -33,7 +41,7 @@ This paper is an extended replication of the paper [_Code cloning in smart contr
 
 ### Reproduction of the prepared data (`/01_data/prepared`)
 
-The prepared data is used in the analyses. The prepared data is included in this replication package in folder `/01_data/prepared`, but it can be reproduced from the cleaned data by following the steps below.
+Follow the step below to reproduce the prepared data from the cleaned data (`/01_data/clonedata/duplicates`).
 
 1. Run `python 03_mergeMetadata.py` in the `/02_prepare` folder.
 2. Run `python 04_prepareAnalysisData.py` in the `/02_prepare` folder.
@@ -42,6 +50,8 @@ The prepared data is used in the analyses. The prepared data is included in this
 Some preparation steps can take up to hours to complete. Please find the benchmarked execution times commented in the source code.
 
 ### Reproduction of the cleaned data (`/01_data/clonedata/duplicates`)
+
+Follow the step below to reproduce the cleaned data from the raw data (`/01_data/clonedata/duplicates`).
 
 The cleaned data is used in the data preparation scripts. The cleaned data is included in this replication package in folder `/01_data/clonedata/duplicates`, but it can be reproduced from the raw data by following the steps below.
 
