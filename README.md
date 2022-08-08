@@ -16,22 +16,22 @@ This paper is an extended replication of the paper [_Code cloning in smart contr
   - `/metadata` – Metadata about the authors, creation date and transactions of the contracts in the corpus.
   - `/prepared` - Prepared pickle files for data analysis.
 - `/02_prepare` - Scripts for preparing the data in `/01_data/prepared`. Contains potentially long-running scripts. In such cases, the approximate execution times are reported in the source files.
-- `/03_analysis` - Analysis scripts.
+- `/03_analysis` - Analysis scripts for the automated analysis of data.
 - `/04_results` - Results of the analyses, including charts and numeric results. Some of these results are discussed in the paper in great detail. Every analysis result corresponds to a particular observation in the paper, clearly identified in the name of the generated observation file.
 
 ## Reproduction
 
 The following describes four reproduction scenarios. Any of the scenarios can be executed independently from the others.
-* [Reproduction of the analyses](#reproduction-of-the-analyses): reproduces the analysis results in `/04_results`. The scripts use the prepared data contained in the `/01_data/prepared` folder.
+* [Reproduction of the analyses](#reproduction-of-the-analyses): reproduces the analysis results in `/04_results`, including charts and numeric results. The scripts use the prepared data contained in the `/01_data/prepared` folder.
 * [Reproduction of the prepared data](#reproduction-of-the-prepared-data-01_dataprepared): reproduces the prepared data in `/01_data/prepared` by (i) merging author, transaction and file length metadata into the clone data; and (ii), pre-processing data for analysis and persisting the pre-processed data into pickle files. Some of the pre-processing steps are potentially time-consuming. In such cases, the approximate execution times are reported in the source file.
-* [Reproduction of the cleaned data](#reproduction-of-the-cleaned-data-01_dataclonedataduplicates): reproduces the cleaned data in `/01_data/clonedata/duplicates` from the raw data in `/01_data/clonedata/raw` by bringing the contents of the `.xml` files into a consolidate form.
+* [Reproduction of the cleaned data](#reproduction-of-the-cleaned-data-01_dataclonedataduplicates): reproduces the cleaned data in `/01_data/clonedata/duplicates` from the raw data in `/01_data/clonedata/raw` by bringing the contents of the `.xml` files into a consolidated form.
 * [Reproduction of the raw data](#reproducing-the-clone-analysis-01_dataclonedataraw): reproduces the raw data `/01_data/clonedata/raw` by running the [NiCad extension](https://github.com/eff-kay/nicad6) developed for this study.
  
 **NOTE:** The following steps have been tested with `python>=3.7 && python<3.10`.
 
 ### Reproduction of the analyses
 
-Follow the steps below to reproduce the analysis results in `/04_results`.
+Follow the steps below to reproduce the analysis results in `/04_results`, including charts and numeric results. The scripts use the prepared data contained in the /01_data/prepared folder.
 
 1. Clone this repository.
 2. Install dependencies by running `pip install -r requirements.txt` in the root folder.
@@ -42,7 +42,7 @@ Follow the steps below to reproduce the analysis results in `/04_results`.
 
 ### Reproduction of the prepared data (`/01_data/prepared`)
 
-Follow the steps below to reproduce the prepared data in `/01_data/prepared`.
+Follow the steps below to reproduce the prepared data in `/01_data/prepared` by (i) merging author, transaction and file length metadata into the clone data; and (ii), pre-processing data for analysis and persisting the pre-processed data into pickle files. Some of the pre-processing steps are potentially time-consuming. In such cases, the approximate execution times are reported in the source file.
 
 1. Run `python 03_mergeMetadata.py` in the `/02_prepare` folder.
 2. Run `python 04_prepareAnalysisData.py` in the `/02_prepare` folder.
@@ -52,7 +52,7 @@ Some preparation steps can take up to hours to complete. Please find the benchma
 
 ### Reproduction of the cleaned data (`/01_data/clonedata/duplicates`)
 
-Follow the steps below to reproduce the cleaned data in `/01_data/clonedata/duplicates`.
+Follow the steps below to reproduce the cleaned data in `/01_data/clonedata/duplicates` from the raw data in `/01_data/clonedata/raw` by bringing the contents of the `.xml` files into a consolidated form.
 
 The cleaned data is used in the data preparation scripts. The cleaned data is included in this replication package in folder `/01_data/clonedata/duplicates`, but it can be reproduced from the raw data by following the steps below.
 
