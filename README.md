@@ -14,16 +14,17 @@ This paper is an extended replication of the paper [_Code cloning in smart contr
     - `/duplicates` – Cleaned data.
     - `openzeppelin.zip` – OpenZeppelin data. Requires unzipping into folder `openzeppelin`.
   - `/metadata` – Metadata about the authors, creation date and transactions of the contracts in the corpus.
-  - `/prepared` - Prepared data for analysis. Contains potentially long-running scripts.
-- `/02_analysis` - Analysis scripts.
-- `/03_results` - Results.
+  - `/prepared` - Prepared pickle files for data analysis.
+- `/02_prepare` - Scripts for preparing the data in `/01_data/prepared`. Contains potentially long-running scripts. In such cases, the approximate execution times are reported in the source files.
+- `/03_analysis` - Analysis scripts.
+- `/04_results` - Results of the analyses, including charts and numeric results. Some of these results are discussed in the paper in great detail. Every analysis result corresponds to a particular observation in the paper, clearly identified in the name of the generated observation file.
 
 ## Reproduction
 
 The following describes four reproduction scenarios. Any of the scenarios can be executed independently from the others.
-* [Reproduction of the analyses](#reproduction-of-the-analyses): reproduces the analysis results in `/03_results`.
-* [Reproduction of the prepared data](#reproduction-of-the-prepared-data-01_dataprepared): reproduces the prepared data in `/01_data/prepared`.
-* [Reproduction of the cleaned data](#reproduction-of-the-cleaned-data-01_dataclonedataduplicates): reproduces the cleaned data in `/01_data/clonedata/duplicates`.
+* [Reproduction of the analyses](#reproduction-of-the-analyses): reproduces the analysis results in `/04_results`. The scripts use the prepared data contained in the `/01_data/prepared` folder.
+* [Reproduction of the prepared data](#reproduction-of-the-prepared-data-01_dataprepared): reproduces the prepared data in `/01_data/prepared` by (i) merging author, transaction and file length metadata into the clone data; and (ii), pre-processing data for analysis and persisting the pre-processed data into pickle files. Some of the pre-processing steps are potentially time-consuming. In such cases, the approximate execution times are reported in the source file.
+* [Reproduction of the cleaned data](#reproduction-of-the-cleaned-data-01_dataclonedataduplicates): reproduces the cleaned data in `/01_data/clonedata/duplicates` from the raw data in `/01_data/clonedata/raw` by bringing the contents of the `.xml` files into a consolidate form.
 * [Reproduction of the raw data](#reproducing-the-clone-analysis-01_dataclonedataraw): reproduces the raw data `/01_data/clonedata/raw` by running the [NiCad extension](https://github.com/eff-kay/nicad6) developed for this study.
  
 **NOTE:** The following steps have been tested with `python>=3.7 && python<3.10`.
