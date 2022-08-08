@@ -22,15 +22,15 @@ This paper is an extended replication of the paper [_Code cloning in smart contr
 
 The following describes four reproduction scenarios. Any of the scenarios can be executed independently from the others.
 * [Reproduction of the analyses](#reproduction-of-the-analyses): reproduces the analysis results in `/03_results` from the prepared data (`/01_data/prepared`).
-* [Reproduction of the prepared data](#reproduction-of-the-prepared-data-01_dataprepared): reproduces the prepared data in `/01_data/prepared` from the cleaned data.
-* [Reproduction of the cleaned data](#reproduction-of-the-cleaned-data-01_dataclonedataduplicates): reproduces the cleaned data in `/01_data/clonedata/duplicates` from the raw data (`/01_data/clonedata/raw`).
+* [Reproduction of the prepared data](#reproduction-of-the-prepared-data-01_dataprepared): reproduces the prepared data in `/01_data/prepared`.
+* [Reproduction of the cleaned data](#reproduction-of-the-cleaned-data-01_dataclonedataduplicates): reproduces the cleaned data in `/01_data/clonedata/duplicates`.
 * [Reproduction of the raw data](#reproducing-the-clone-analysis-01_dataclonedataraw): reproduces the raw data `/01_data/clonedata/raw` by running the [NiCad extension](https://github.com/eff-kay/nicad6) developed for this study.
  
 **Requirements:** `python>=3.7 && python<3.10`.
 
 ### Reproduction of the analyses
 
-Follow the steps below to reproduce the analysis results from the prepared data (`/01_data/prepared`).
+Follow the steps below to reproduce the analysis results in `/03_results` from the prepared data (`/01_data/prepared`).
 
 1. Clone this repository.
 2. Install dependencies by running `pip install -r requirements.txt` in the root folder.
@@ -41,7 +41,7 @@ Follow the steps below to reproduce the analysis results from the prepared data 
 
 ### Reproduction of the prepared data (`/01_data/prepared`)
 
-Follow the step below to reproduce the prepared data from the cleaned data (`/01_data/clonedata/duplicates`).
+Follow the steps below to reproduce the prepared data in `/01_data/prepared`.
 
 1. Run `python 03_mergeMetadata.py` in the `/02_prepare` folder.
 2. Run `python 04_prepareAnalysisData.py` in the `/02_prepare` folder.
@@ -51,13 +51,15 @@ Some preparation steps can take up to hours to complete. Please find the benchma
 
 ### Reproduction of the cleaned data (`/01_data/clonedata/duplicates`)
 
-Follow the step below to reproduce the cleaned data from the raw data (`/01_data/clonedata/duplicates`).
+Follow the steps below to reproduce the cleaned data in `/01_data/clonedata/duplicates`.
 
 The cleaned data is used in the data preparation scripts. The cleaned data is included in this replication package in folder `/01_data/clonedata/duplicates`, but it can be reproduced from the raw data by following the steps below.
 
 1. Run `python 02_cleanup.py` in the `/02_prepare` folder.
 
 ### Reproducing the clone analysis (`/01_data/clonedata/raw`)
+
+Follow the steps below to reproduce the raw clone data in `/01_data/clonedata/raw` by running the [NiCad extension](https://github.com/eff-kay/nicad6) developed for this study.
 
 To obtain the corpus of 33,034 smart contracts, please, contact the authors of the [original study](https://github.com/SAILResearch/suppmaterial-18-masanari-smart_contract_cloning).
 
