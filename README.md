@@ -31,7 +31,7 @@ The following describes four reproduction scenarios. Any of the scenarios can be
 
 ### Reproduction of the analyses
 
-Follow the steps below to reproduce the analysis results in `/03_results`.
+Follow the steps below to reproduce the analysis results in `/04_results`.
 
 1. Clone this repository.
 2. Install dependencies by running `pip install -r requirements.txt` in the root folder.
